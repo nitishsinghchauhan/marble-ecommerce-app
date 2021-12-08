@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.watchstoreapp.model.CarttItem
+//import com.example.watchstoreapp.model.CarttItem
 import com.example.watchstoreapp.model.CategoryItem
 import com.example.watchstoreapp.model.ProductItem
 import com.example.watchstoreapp.model.User
@@ -29,8 +29,8 @@ private val db: FirebaseFirestore
     private var _productList = MutableLiveData<ArrayList<ProductItem>>()
     val productList: LiveData<ArrayList<ProductItem>> get() = _productList
 
-    private var _cartList = MutableLiveData<ArrayList<CarttItem>>()
-    val cartList: LiveData<ArrayList<CarttItem>> get() = _cartList
+//    private var _cartList = MutableLiveData<ArrayList<CarttItem>>()
+//    val cartList: LiveData<ArrayList<CarttItem>> get() = _cartList
 
     private var _user = MutableLiveData<User>()
     val user: LiveData<User> get() = _user
@@ -66,34 +66,34 @@ private val db: FirebaseFirestore
         }
 
     }
-    fun getCartItems(){
-        viewModelScope.launch {
-            _cartList.postValue(repository.getCartItems())
-        }
+//    fun getCartItems(){
+//        viewModelScope.launch {
+//            _cartList.postValue(repository.getCartItems())
+//        }
+//
+//    }
 
-    }
-
-    fun addToCart(product:ProductItem){
-        viewModelScope.launch {
-            repository.addToCart(product)
-        }
-    }
+//    fun addToCart(product:ProductItem){
+//        viewModelScope.launch {
+//            repository.addToCart(product)
+//        }
+//    }
 
 //    fun deleteAllCartItems(list: ArrayList<CarttItem>){
 //        viewModelScope.launch {
 //            repository.deleteAllCardItems(list)
 //        }
 //    }
-    suspend fun deleteAllCartItems(list: ArrayList<CarttItem>){
-            repository.deleteAllCardItems(list)
-        }
-    fun deleteCartItem(productId:String){
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.deleteCartItem(productId)
-
-        }
-
-    }
+//    suspend fun deleteAllCartItems(list: ArrayList<CarttItem>){
+//            repository.deleteAllCardItems(list)
+//        }
+//    fun deleteCartItem(productId:String){
+//        viewModelScope.launch(Dispatchers.IO) {
+//            repository.deleteCartItem(productId)
+//
+//        }
+//
+//    }
 
     fun addUser(user: User){
         viewModelScope.launch(Dispatchers.IO) {

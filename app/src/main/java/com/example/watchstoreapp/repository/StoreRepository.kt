@@ -2,7 +2,7 @@ package com.example.watchstoreapp.repository
 
 import android.annotation.SuppressLint
 import android.util.Log
-import com.example.watchstoreapp.model.CarttItem
+//import com.example.watchstoreapp.model.CarttItem
 import com.example.watchstoreapp.model.CategoryItem
 import com.example.watchstoreapp.model.ProductItem
 import com.example.watchstoreapp.model.User
@@ -79,58 +79,58 @@ class StoreRepository @Inject constructor(private val db:FirebaseFirestore){
             .addOnFailureListener { e -> Log.w("Error", "Error writing document", e) }
     }
 
-    suspend fun getCartItems():ArrayList<CarttItem>{
-        var list: ArrayList<CarttItem> = ArrayList()
-
-        db.collection(Constant.CART_TABLE)
-            .get()
-            .addOnSuccessListener { result ->
-                for (document in result) {
-                 val data = document.toObject(CarttItem::class.java)
-                    list.add(data)
-
-                }
-            }
-            .addOnFailureListener { exception ->
-                Log.w("main", "Error getting documents.", exception)
-            }
-
-
-        return list
-    }
-    suspend fun addToCart(product: ProductItem){
-        db.collection(Constant.CART_TABLE)
-            .document(product.id!!)
-            .set(product)
-            .addOnSuccessListener { Log.d("added succesfully", "DocumentSnapshot successfully written!") }
-            .addOnFailureListener { e -> Log.w("Error", "Error writing document", e) }
-    }
-
-    suspend fun deleteAllCardItems(list: ArrayList<CarttItem>){
-        withContext(Dispatchers.IO){
-        val collection = db.collection(Constant.CART_TABLE)
-        Log.i("list",list.size.toString())
-       for (item in list){
-           Log.i("item id",item.id.toString())
-           collection.document(item.id!!).delete()
-               .addOnSuccessListener { Log.d("deleted succesfully", "DocumentSnapshot successfully written!") }
-               .addOnFailureListener { e -> Log.w("Error", "Error writing document", e) }
-       }
-        }
-    }
-
-    suspend fun deleteCartItem(productId:String){
-        withContext(Dispatchers.IO){
-            val collection = db.collection(Constant.CART_TABLE)
-            collection.document(productId).delete()
-                .addOnSuccessListener {
-                    Log.d("Item deleted", "DocumentSnapshot successfully written!")
-
-                }
-                .addOnFailureListener { e -> Log.w("Error", "Error writing document", e) }
-        }
-
-    }
+//    suspend fun getCartItems():ArrayList<CarttItem>{
+//        var list: ArrayList<CarttItem> = ArrayList()
+//
+//        db.collection(Constant.CART_TABLE)
+//            .get()
+//            .addOnSuccessListener { result ->
+//                for (document in result) {
+//                 val data = document.toObject(CarttItem::class.java)
+//                    list.add(data)
+//
+//                }
+//            }
+//            .addOnFailureListener { exception ->
+//                Log.w("main", "Error getting documents.", exception)
+//            }
+//
+//
+//        return list
+//    }
+//    suspend fun addToCart(product: ProductItem){
+//        db.collection(Constant.CART_TABLE)
+//            .document(product.id!!)
+//            .set(product)
+//            .addOnSuccessListener { Log.d("added succesfully", "DocumentSnapshot successfully written!") }
+//            .addOnFailureListener { e -> Log.w("Error", "Error writing document", e) }
+//    }
+//
+//    suspend fun deleteAllCardItems(list: ArrayList<CarttItem>){
+//        withContext(Dispatchers.IO){
+//        val collection = db.collection(Constant.CART_TABLE)
+//        Log.i("list",list.size.toString())
+//       for (item in list){
+//           Log.i("item id",item.id.toString())
+//           collection.document(item.id!!).delete()
+//               .addOnSuccessListener { Log.d("deleted succesfully", "DocumentSnapshot successfully written!") }
+//               .addOnFailureListener { e -> Log.w("Error", "Error writing document", e) }
+//       }
+//        }
+//    }
+//
+//    suspend fun deleteCartItem(productId:String){
+//        withContext(Dispatchers.IO){
+//            val collection = db.collection(Constant.CART_TABLE)
+//            collection.document(productId).delete()
+//                .addOnSuccessListener {
+//                    Log.d("Item deleted", "DocumentSnapshot successfully written!")
+//
+//                }
+//                .addOnFailureListener { e -> Log.w("Error", "Error writing document", e) }
+//        }
+//
+//    }
 
     suspend fun addUser(user: User){
         withContext(Dispatchers.IO){

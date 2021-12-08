@@ -28,7 +28,7 @@ class SuccessFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.gotoHome.setOnClickListener {
-            findNavController().navigate(SuccessFragmentDirections.actionSuccessFragmentToHome())
+//            findNavController().navigate(SuccessFragmentDirections.actionSuccessFragmentToHome())
         }
     }
 }

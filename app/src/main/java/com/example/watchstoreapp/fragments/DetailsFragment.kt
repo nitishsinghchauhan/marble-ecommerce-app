@@ -122,12 +122,12 @@ class DetailsFragment : Fragment() {
             setTextColor()
         }
 
-        binding.addToCart.setOnClickListener {
-            product.quantity = productCount
-            storeViewModel.addToCart(product)
-            Toast.makeText(requireActivity(),"Product added successfully in Cart", Toast.LENGTH_SHORT).show()
-            iBadgeUpdater.updateBadge()
-        }
+//        binding.addToCart.setOnClickListener {
+//            product.quantity = productCount
+//            storeViewModel.addToCart(product)
+//            Toast.makeText(requireActivity(),"Product added successfully in Cart", Toast.LENGTH_SHORT).show()
+//            iBadgeUpdater.updateBadge()
+//        }
 
 
     }

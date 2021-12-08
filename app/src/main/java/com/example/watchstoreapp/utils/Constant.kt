@@ -11,7 +11,7 @@ class Constant {
     companion object{
         const val CATEGORY_TABEL = "productCategory"
         const val PRODUCT_TABEL = "products"
-        const val CART_TABLE = "cart"
+//        const val CART_TABLE = "cart"
         const val USER_TABEL = "users"
         const val MyPREFERENCES = "store_preferences"
 

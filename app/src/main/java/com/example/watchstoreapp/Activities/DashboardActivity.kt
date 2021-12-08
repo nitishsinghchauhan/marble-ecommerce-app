@@ -96,27 +96,27 @@ class DashboardActivity : AppCompatActivity(),INavListener, IBadgeUpdater {
     }
 
     override fun updateBadge() {
-        storeViewModel.getCartItems()
-        GlobalScope.launch(Dispatchers.Main) {
-            delay(800)
-            storeViewModel.cartList.observe(this@DashboardActivity, Observer { list->
-                Log.i("main Activity",list.size.toString())
-                if (list.size>0) {
-                    var badge = bottomNavView.getOrCreateBadge(R.id.cart)
-                    badge.isVisible = true
-                    badge.number = list.size
-                }else{
-                    bottomNavView.removeBadge(R.id.cart)
-                }
-            })
-        }
+//        storeViewModel.getCartItems()
+//        GlobalScope.launch(Dispatchers.Main) {
+//            delay(800)
+//            storeViewModel.cartList.observe(this@DashboardActivity, Observer { list->
+//                Log.i("main Activity",list.size.toString())
+//                if (list.size>0) {
+//                    var badge = bottomNavView.getOrCreateBadge(R.id.cart)
+//                    badge.isVisible = true
+//                    badge.number = list.size
+//                }else{
+//                    bottomNavView.removeBadge(R.id.cart)
+//                }
+//            })
+//        }
 
     }
 //    override fun showHideNavigations(flag: Boolean) {
-//        if (flag){
+//        if (flag) {
 //            //main_app_bar.visibility = View.VISIBLE
 //            bottomNav.visibility = View.VISIBLE
-//        }else{
+//        } else {
 //            //main_app_bar.visibility = View.GONE
 //            bottomNav.visibility = View.GONE
 //        }
