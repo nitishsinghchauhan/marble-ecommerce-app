@@ -135,7 +135,19 @@ class StoreRepository @Inject constructor(private val db:FirebaseFirestore){
     suspend fun addUser(user: User){
         withContext(Dispatchers.IO){
             val collection = db.collection(Constant.USER_TABEL)
-            collection.document(user.email).set(user)
+            collection.document(user.mobile).set(user)
+                .addOnSuccessListener {
+                    Log.d("User added", "DocumentSnapshot successfully written!")
+                }
+                .addOnFailureListener { e -> Log.w("Error", "Error writing document", e) }
+        }
+    }
+
+
+    suspend fun getUserByMobile(user: User){
+        withContext(Dispatchers.IO){
+            val collection = db.collection(Constant.USER_TABEL)
+            collection.document(user.mobile).set(user)
                 .addOnSuccessListener {
                     Log.d("User added", "DocumentSnapshot successfully written!")
                 }

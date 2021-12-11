@@ -5,92 +5,132 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-    <LinearLayout
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical">
+
         <LinearLayout
-                android:id="@+id/profileLL"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="vertical">
-        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/profileLL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            >
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/profileImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/profileImage"
-                android:src="@drawable/profilepic"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:scaleType="fitCenter"
-                app:riv_corner_radius="30dip"
-                app:riv_border_width="2dip"
-                app:riv_border_color="#333333"
-                app:riv_mutate_background="true"
-                app:riv_tile_mode="repeat"
-                app:riv_oval="true"
+                android:src="@drawable/profilepic"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="@dimen/_10sdp">
+                app:riv_border_color="#333333"
+                app:riv_border_width="2dip"
+                app:riv_corner_radius="30dip"
+                app:riv_mutate_background="true"
+                app:riv_oval="true"
+                app:riv_tile_mode="repeat">
 
-        </com.makeramen.roundedimageview.RoundedImageView>
-        <TextView
-                android:id="@+id/emailText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/secondary_dark"
-                android:textStyle="bold"
-                android:text="Ketub4@gmail.com"
-                android:textSize="@dimen/_12ssp"
-                android:fontFamily="@font/montserrat_bolditalic"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/name"
-
-        />
+            </com.makeramen.roundedimageview.RoundedImageView>
         </LinearLayout>
-        <EditText
-            android:id="@+id/etemail"
+        <com.rilixtech.CountryCodePicker
+
+            android:id="@+id/ccp"
+            app:ccp_defaultNameCode="IN"
+
             android:layout_width="wrap_content"
+
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Email"
-            android:fontFamily="@font/montserrat_regular"
-            android:inputType="textEmailAddress"
-           />
+            app:layout_constraintBottom_toBottomOf="@id/etmobilelogin"
+
+            app:layout_constraintRight_toLeftOf="@id/etmobilelogin"
+            app:layout_constraintTop_toTopOf="@id/etmobilelogin" />
 
         <EditText
-            android:id="@+id/mypass"
+            android:id="@+id/etmobilelogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
             android:ems="10"
-            android:hint="PIN"
-            android:maxLength="4"
-             android:inputType="numberPassword"
             android:fontFamily="@font/montserrat_regular"
-         />
+            android:hint="@string/mobile_no"
+            android:inputType="number|phone"
+            app:layout_constraintBottom_toTopOf="@+id/btnOTP"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profileLL"
+            app:layout_constraintVertical_bias="0.217" />
+
         <Button
-            android:id="@+id/btnlogin"
-            android:textAllCaps="false"
-            android:layout_marginTop="10dp"
-            android:textColor="@color/white"
+            android:id="@+id/btnOTPlogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="124dp"
             android:background="@drawable/botton_shape"
             android:fontFamily="@font/montserrat_bold"
+            android:text="Send OTP"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
             android:textSize="@dimen/_14ssp"
-            android:text="Log In"
+            app:layout_constraintBottom_toTopOf="@+id/myotplogin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/etmobilelogin" />
+
+        <EditText
+            android:id="@+id/etotplogin"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:ems="10"
+            android:fontFamily="@font/montserrat_regular"
+            android:hint="Enter OTP"
+            android:inputType="number"
+            android:maxLength="6"
+            app:layout_constraintBottom_toTopOf="@+id/btnlogin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.525"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnOTPlogin"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <Button
+            android:id="@+id/btnlogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/botton_shape"
+            android:fontFamily="@font/montserrat_bold"
+            android:text="Log In"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_14ssp"
+            app:layout_constraintTop_toBottomOf="@+id/etotplogin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_editor_absoluteY="442dp" />
+
         <TextView
             android:id="@+id/createnewac"
-            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/montserrat_bold"
+            android:text="@string/create_new_account"
+            android:textColor="@color/primary_text"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:textColor="@color/secondary_dark"
-            android:fontFamily="@font/montserrat_bold"
-            android:layout_gravity="center"
-            android:text="Create a new Acount!"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnlogin"
+            app:layout_constraintVertical_bias="0.732" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

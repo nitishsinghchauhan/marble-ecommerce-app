@@ -14,22 +14,23 @@ class SharedPreferenceManager(context: Context) {
         try {
             val editor: SharedPreferences.Editor = sharedpreferences.edit()
             editor.putString("userName", user.name)
-            editor.putString("userEmail", user.email)
             editor.putString("userMobile", user.mobile)
+
             editor.commit()
         }catch (e:Exception){
             Log.i("Error", e.printStackTrace().toString())
         }
     }
 
-    fun getUserEmail(): String{
-        return sharedpreferences.getString("userEmail","")!!
+
+
+    fun getUserMobile(): String{
+        return sharedpreferences.getString("userMobile","")!!
     }
 
     fun getUserData():Array<String>{
         val name = sharedpreferences.getString("userName","")!!
-        val email = sharedpreferences.getString("userEmail","")!!
         val mobile = sharedpreferences.getString("userMobile","")!!
-        return arrayOf(name, email, mobile)
+        return arrayOf(name,  mobile)
     }
 }

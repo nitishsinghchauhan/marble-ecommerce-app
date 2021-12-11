@@ -103,19 +103,18 @@ private val db: FirebaseFirestore
     }
 
 
-    fun getUserDetails(email: String, password:String) {
+    fun getUserDetails(mobile: String) {
 
-            Log.i("email",email)
-            Log.i("password",password)
+            Log.i("mobile",mobile)
+
             val collection = db.collection(Constant.USER_TABEL)
-            collection.whereEqualTo("email", email)
-                .whereEqualTo("password", password)
+            collection.whereEqualTo("mobile", mobile)
                 .get()
                 .addOnSuccessListener { documents ->
 
                     if (documents.size()==0){
                         //Log.d("No User", documents.size().toString())
-                        _user.postValue(User("1","1","1","1","1"))
+                        _user.postValue(User("0","0"))
                         //Log.d("No User Dummy Data", documents.size().toString())
                     }
                     for (document in documents) {
