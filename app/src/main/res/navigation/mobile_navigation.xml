@@ -7,7 +7,7 @@
 
     <fragment
             android:id="@+id/home"
-            android:name="com.example.examarble.fragments.HomeFragment"
+            android:name="com.example.watchstoreapp.fragments.HomeFragment"
             android:label="@string/watchStore"
             tools:layout="@layout/fragment_home">
         <action android:id="@+id/action_home_to_detailsFragment" app:destination="@id/detailsFragment"/>
@@ -15,7 +15,7 @@
 
     <fragment
             android:id="@+id/profile"
-            android:name="com.example.examarble.fragments.ProfileFragment"
+            android:name="com.example.watchstoreapp.fragments.ProfileFragment"
             android:label="Profile"
             tools:layout="@layout/fragment_profile"/>
 
@@ -27,7 +27,7 @@
 <!--        <action android:id="@+id/action_cart_to_successFragment" app:destination="@id/successFragment"/>-->
 <!--    </fragment>-->
 
-    <fragment android:id="@+id/detailsFragment" android:name="com.example.examarble.fragments.DetailsFragment"
+    <fragment android:id="@+id/detailsFragment" android:name="com.example.watchstoreapp.fragments.DetailsFragment"
               android:label="Product Details" tools:layout="@layout/fragment_details">
         <argument android:name="productDetails" app:argType="com.example.watchstoreapp.model.ProductItem"/>
         <action android:id="@+id/action_detailsFragment_to_home" app:destination="@id/home"/>
@@ -36,6 +36,6 @@
 <!--              android:label="Payment Successful" tools:layout="@layout/fragment_success">-->
 <!--        <action android:id="@+id/action_successFragment_to_home" app:destination="@id/home"/>-->
 <!--    </fragment>-->
-    <fragment android:id="@+id/search" android:name="com.example.examarble.fragments.SearchFragment"
+    <fragment android:id="@+id/search" android:name="com.example.watchstoreapp.fragments.SearchFragment"
               android:label="Search" tools:layout="@layout/fragment_search"/>
 </navigation>
