@@ -9,6 +9,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.Observer
 import com.example.watchstoreapp.databinding.ActivitySignUpBinding
 import com.example.watchstoreapp.model.User
@@ -51,9 +52,10 @@ class SignUpActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        sharedPreferenceManager = SharedPreferenceManager(this)
+        sharedPreferenceManager = SharedPreferenceManager(applicationContext)
         var ccp: CountryCodePicker = binding.signupForm.ccp
         var edtMobileNumber: EditText = binding.signupForm.etmobilesignup
         ccp.registerPhoneNumberTextView(edtMobileNumber)
@@ -80,16 +82,18 @@ class SignUpActivity : AppCompatActivity() {
             btnOTPsignup.setOnClickListener {
                 // Do some work here
                 phoneNumber= ccp.getFullNumberWithPlus().replace(" ", "")
-                name = binding.signupForm.name.toString()
+                name = binding.signupForm.name.text.toString().trim()
                 Log.d(TAG, "phonenumber=$phoneNumber")
+                Log.d(TAG, "name is =$name")
 
 
                 if (ccp.isValid) {
-
+                    Log.d(TAG,"phone number is valid")
                     checkUser(phoneNumber,name)
 
 
                 } else {
+                    Log.d(TAG,"phone number is not valid")
                     emptymobile()
                     Toast.makeText(
                     this@SignUpActivity,
@@ -152,7 +156,7 @@ class SignUpActivity : AppCompatActivity() {
                     etotpsignup.isEnabled= true
                     btnsignup.isEnabled= true
                     btnsignup.setOnClickListener {
-                        var code: String = etotpsignup.toString().replace(" ", "")
+                        var code: String = etotpsignup.toString().trim()
                         verifyPhoneNumberWithCode(verificationId,code)
                     }
 
@@ -175,6 +179,7 @@ class SignUpActivity : AppCompatActivity() {
         super.onStart()
         // Check if user is signed in (non-null) and update UI accordingly.
 
+
         val currentUser = auth.currentUser
         if (currentUser != null) {
             // User is signed in
@@ -192,7 +197,7 @@ class SignUpActivity : AppCompatActivity() {
             .setPhoneNumber(phoneNumber)       // Phone number to verify
             .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
             .setActivity(this)                 // Activity (for callback binding)
-            .setCallbacks(callbacks)          // OnVerificationStateChangedCallbacks
+            .setCallbacks(callbacks)       // OnVerificationStateChangedCallbacks
             .build()
         PhoneAuthProvider.verifyPhoneNumber(options)
         // [END start_phone_auth]
@@ -230,7 +235,7 @@ class SignUpActivity : AppCompatActivity() {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "signInWithCredential:success")
 
-                    createNewAcount(name,phoneNumber)
+                    createNewAccount(name,phoneNumber)
                     val user = task.result?.user
                     updateUI(user)
 
@@ -267,7 +272,7 @@ class SignUpActivity : AppCompatActivity() {
     }
 
 
-    fun checkUser(mobile: String,name: String) {
+   private fun checkUser(mobile: String,name: String) {
         if (TextUtils.isEmpty(mobile)) {
             binding.signupForm.etmobilesignup.error = "Please Enter Registered mobile"
             binding.signupForm.etmobilesignup.requestFocus()
@@ -279,15 +284,16 @@ class SignUpActivity : AppCompatActivity() {
             return
         }
 
-        progressbar.visibility = View.VISIBLE
+        progressbarsignup.visibility = View.VISIBLE
         storeViewModel.getUserDetails(mobile)
         GlobalScope.launch(Dispatchers.Main) {
             delay(500)
             //if(storeViewModel.user !=null) {
             storeViewModel.user.observe(this@SignUpActivity, Observer { user ->
-                if (user.mobile=="0") {
+                if (user.mobile=="1") {
 
-                    progressbar.visibility = View.GONE
+
+                    progressbarsignup.visibility = View.GONE
                     startPhoneNumberVerification(mobile)
 
 
@@ -317,7 +323,7 @@ class SignUpActivity : AppCompatActivity() {
 
 
 
-    private fun createNewAcount(name: String,mobile:String) {
+    private fun createNewAccount(name: String,mobile:String) {
 
         val user = User(name,mobile)
         storeViewModel.addUser(user)

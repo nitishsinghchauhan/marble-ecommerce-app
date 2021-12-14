@@ -10,6 +10,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.Observer
 import com.example.watchstoreapp.databinding.ActivityLoginBinding
 import com.example.watchstoreapp.utils.SharedPreferenceManager
@@ -48,9 +49,10 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var callbacks: PhoneAuthProvider.OnVerificationStateChangedCallbacks
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        sharedPreferenceManager = SharedPreferenceManager(this)
+        sharedPreferenceManager = SharedPreferenceManager(applicationContext)
         var ccp: CountryCodePicker = binding.loginForm.ccp
         var edtMobileNumber: EditText = binding.loginForm.etmobilelogin
         ccp.registerPhoneNumberTextView(edtMobileNumber)
@@ -135,6 +137,7 @@ class LoginActivity : AppCompatActivity() {
                 // The SMS verification code has been sent to the provided phone number, we
                 // now need to ask the user to enter the code and then construct a credential
                 // by combining the code with a verification ID.
+                progressbarlogin.visibility = View.GONE
                 Log.d(TAG, "onCodeSent:$verificationId")
                 // Save verification ID and resending token so we can use them later
                 storedVerificationId = verificationId
@@ -144,8 +147,11 @@ class LoginActivity : AppCompatActivity() {
                 etotplogin.isEnabled= true
                 btnlogin.isEnabled= true
                 btnlogin.setOnClickListener {
+                    btnlogin.isEnabled= false
+                    progressbarlogin.visibility = View.VISIBLE
                     var code: String = etotplogin.toString().replace(" ", "")
                     verifyPhoneNumberWithCode(verificationId,code)
+                    progressbarlogin.visibility = View.GONE
                 }
 
 
@@ -261,15 +267,15 @@ class LoginActivity : AppCompatActivity() {
             return
         }
 
-        progressbar.visibility = View.VISIBLE
+        progressbarlogin.visibility = View.VISIBLE
         storeViewModel.getUserDetails(mobile)
         GlobalScope.launch(Dispatchers.Main) {
             delay(500)
             //if(storeViewModel.user !=null) {
             storeViewModel.user.observe(this@LoginActivity, Observer { user ->
-                if (user.mobile=="0") {
+                if (user.mobile=="1") {
                     Log.i("Invalid User", "")
-                    progressbar.visibility = View.GONE
+                    progressbarlogin.visibility = View.GONE
                     Toast.makeText(this@LoginActivity, "You have not signed up!!!", Toast.LENGTH_LONG).show()
                     val intent = Intent(baseContext, SignUpActivity::class.java)
                     startActivity(intent)
@@ -278,8 +284,9 @@ class LoginActivity : AppCompatActivity() {
                     Log.i("User Data in Login", user.toString())
                     if (user.mobile != ""){
                         sharedPreferenceManager.addUserData(user)
-                        progressbar.visibility = View.GONE
+
                         startPhoneNumberVerification(mobile)
+                        progressbarlogin.visibility = View.GONE
                     }
 
 

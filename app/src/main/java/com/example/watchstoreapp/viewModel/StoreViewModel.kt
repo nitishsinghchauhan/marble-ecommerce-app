@@ -114,7 +114,7 @@ private val db: FirebaseFirestore
 
                     if (documents.size()==0){
                         //Log.d("No User", documents.size().toString())
-                        _user.postValue(User("0","0"))
+                        _user.postValue(User("1","1"))
                         //Log.d("No User Dummy Data", documents.size().toString())
                     }
                     for (document in documents) {

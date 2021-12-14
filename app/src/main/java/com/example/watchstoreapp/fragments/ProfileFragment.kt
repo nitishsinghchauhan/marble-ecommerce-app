@@ -29,8 +29,8 @@ class ProfileFragment : Fragment() {
         val userData:Array<String> = sharedPreferenceManager.getUserData()
         binding.apply {
             name.text = userData[0]
-            email.text = userData[1]
-            mobile.text = userData[2]
+            email.text = ""
+            mobile.text = userData[1]
         }
 
     }

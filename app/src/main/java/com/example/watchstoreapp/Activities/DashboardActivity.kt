@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
@@ -40,6 +41,7 @@ class DashboardActivity : AppCompatActivity(),INavListener, IBadgeUpdater {
     private val storeViewModel: StoreViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         binding = ActivityDashboardBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.appBarMain.toolbar)
@@ -67,8 +69,8 @@ class DashboardActivity : AppCompatActivity(),INavListener, IBadgeUpdater {
         val navUserMobile = headerView.findViewById<View>(R.id.UserMobile) as TextView
         val userData:Array<String> = sharedPreferenceManager.getUserData()
         navUsername.text = userData[0]
-        navUserEmail.text = userData[1]
-        navUserMobile.text = userData[2]
+        navUserEmail.text = ""
+        navUserMobile.text = userData[1]
     }
 
 
