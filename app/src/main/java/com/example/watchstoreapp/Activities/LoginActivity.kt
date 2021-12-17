@@ -76,7 +76,7 @@ class LoginActivity : AppCompatActivity() {
         btnOTPlogin.setOnClickListener {
             // Do some work here
              var phoneNumber= ccp.getFullNumberWithPlus().replace(" ", "")
-
+            progressbarlogin.visibility=View.VISIBLE
             if (ccp.isValid) {
 
                 checkUser(phoneNumber)
@@ -109,12 +109,14 @@ class LoginActivity : AppCompatActivity() {
                 //     user action.
                 Log.d(TAG, "onVerificationCompleted:$credential")
                 signInWithPhoneAuthCredential(credential)
+
             }
 
             override fun onVerificationFailed(e: FirebaseException) {
                 // This callback is invoked in an invalid request for verification is made,
                 // for instance if the the phone number format is not valid.
                 Log.w(TAG, "onVerificationFailed", e)
+                progressbarlogin.visibility=View.GONE
 
                 if (e is FirebaseAuthInvalidCredentialsException) {
 
@@ -142,16 +144,20 @@ class LoginActivity : AppCompatActivity() {
                 // Save verification ID and resending token so we can use them later
                 storedVerificationId = verificationId
                 resendToken = token
+                etmobilelogin.isEnabled=false
                 etotplogin.visibility= View.VISIBLE
                 btnlogin.visibility= View.VISIBLE
                 etotplogin.isEnabled= true
                 btnlogin.isEnabled= true
+                progressbarlogin.visibility=View.INVISIBLE
                 btnlogin.setOnClickListener {
                     btnlogin.isEnabled= false
-                    progressbarlogin.visibility = View.VISIBLE
-                    var code: String = etotplogin.toString().replace(" ", "")
+
+                    progressbarlogin.visibility=View.VISIBLE
+                    var code: String = etotplogin.text.toString().trim()
+
                     verifyPhoneNumberWithCode(verificationId,code)
-                    progressbarlogin.visibility = View.GONE
+
                 }
 
 
@@ -183,6 +189,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun startPhoneNumberVerification(phoneNumber: String) {
         // [START start_phone_auth]
+
         val options = PhoneAuthOptions.newBuilder(auth)
             .setPhoneNumber(phoneNumber)       // Phone number to verify
             .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
@@ -224,12 +231,14 @@ class LoginActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "signInWithCredential:success")
-
+                    progressbarlogin.visibility=View.GONE
                     val user = task.result?.user
+
                     updateUI(user)
 
                 } else {
                     // Sign in failed, display a message and update the UI
+                    progressbarlogin.visibility=View.GONE
                     Log.w(TAG, "signInWithCredential:failure", task.exception)
                     if (task.exception is FirebaseAuthInvalidCredentialsException) {
                         // The verification code entered was invalid
@@ -267,7 +276,7 @@ class LoginActivity : AppCompatActivity() {
             return
         }
 
-        progressbarlogin.visibility = View.VISIBLE
+
         storeViewModel.getUserDetails(mobile)
         GlobalScope.launch(Dispatchers.Main) {
             delay(500)
@@ -275,7 +284,7 @@ class LoginActivity : AppCompatActivity() {
             storeViewModel.user.observe(this@LoginActivity, Observer { user ->
                 if (user.mobile=="1") {
                     Log.i("Invalid User", "")
-                    progressbarlogin.visibility = View.GONE
+                    progressbarlogin.visibility=View.GONE
                     Toast.makeText(this@LoginActivity, "You have not signed up!!!", Toast.LENGTH_LONG).show()
                     val intent = Intent(baseContext, SignUpActivity::class.java)
                     startActivity(intent)
@@ -286,7 +295,7 @@ class LoginActivity : AppCompatActivity() {
                         sharedPreferenceManager.addUserData(user)
 
                         startPhoneNumberVerification(mobile)
-                        progressbarlogin.visibility = View.GONE
+
                     }
 
 

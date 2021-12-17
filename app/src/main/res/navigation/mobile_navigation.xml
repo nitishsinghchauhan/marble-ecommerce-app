@@ -8,7 +8,7 @@
     <fragment
             android:id="@+id/home"
             android:name="com.example.watchstoreapp.fragments.HomeFragment"
-            android:label="@string/watchStore"
+            android:label=""
             tools:layout="@layout/fragment_home">
         <action android:id="@+id/action_home_to_detailsFragment" app:destination="@id/detailsFragment"/>
     </fragment>
@@ -16,7 +16,7 @@
     <fragment
             android:id="@+id/profile"
             android:name="com.example.watchstoreapp.fragments.ProfileFragment"
-            android:label="Profile"
+            android:label=""
             tools:layout="@layout/fragment_profile"/>
 
 <!--    <fragment-->
@@ -28,7 +28,7 @@
 <!--    </fragment>-->
 
     <fragment android:id="@+id/detailsFragment" android:name="com.example.watchstoreapp.fragments.DetailsFragment"
-              android:label="Product Details" tools:layout="@layout/fragment_details">
+              android:label="" tools:layout="@layout/fragment_details">
         <argument android:name="productDetails" app:argType="com.example.watchstoreapp.model.ProductItem"/>
         <action android:id="@+id/action_detailsFragment_to_home" app:destination="@id/home"/>
     </fragment>
@@ -37,5 +37,5 @@
 <!--        <action android:id="@+id/action_successFragment_to_home" app:destination="@id/home"/>-->
 <!--    </fragment>-->
     <fragment android:id="@+id/search" android:name="com.example.watchstoreapp.fragments.SearchFragment"
-              android:label="Search" tools:layout="@layout/fragment_search"/>
+              android:label="" tools:layout="@layout/fragment_search"/>
 </navigation>

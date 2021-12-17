@@ -23,6 +23,7 @@ import com.google.firebase.ktx.Firebase
 import com.rilixtech.CountryCodePicker
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.activity_sign_up.*
 import kotlinx.android.synthetic.main.signup_form.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -81,6 +82,7 @@ class SignUpActivity : AppCompatActivity() {
 
             btnOTPsignup.setOnClickListener {
                 // Do some work here
+                progressbarsignup.visibility=View.VISIBLE
                 phoneNumber= ccp.getFullNumberWithPlus().replace(" ", "")
                 name = binding.signupForm.name.text.toString().trim()
                 Log.d(TAG, "phonenumber=$phoneNumber")
@@ -125,6 +127,7 @@ class SignUpActivity : AppCompatActivity() {
                     // This callback is invoked in an invalid request for verification is made,
                     // for instance if the the phone number format is not valid.
                     Log.w(TAG, "onVerificationFailed", e)
+                    progressbarsignup.visibility=View.GONE
 
                     if (e is FirebaseAuthInvalidCredentialsException) {
 
@@ -142,7 +145,7 @@ class SignUpActivity : AppCompatActivity() {
                     verificationId: String,
                     token: PhoneAuthProvider.ForceResendingToken
                 ) {
-
+                    progressbarsignup.visibility=View.VISIBLE
                     Toast.makeText(this@SignUpActivity, "OTP sent!", Toast.LENGTH_SHORT).show()
                     // The SMS verification code has been sent to the provided phone number, we
                     // now need to ask the user to enter the code and then construct a credential
@@ -151,12 +154,14 @@ class SignUpActivity : AppCompatActivity() {
                     // Save verification ID and resending token so we can use them later
                     storedVerificationId = verificationId
                     resendToken = token
+                    etmobilesignup.isEnabled=false
                     etotpsignup.visibility= View.VISIBLE
                     btnsignup.visibility= View.VISIBLE
                     etotpsignup.isEnabled= true
                     btnsignup.isEnabled= true
                     btnsignup.setOnClickListener {
-                        var code: String = etotpsignup.toString().trim()
+                        progressbarsignup.visibility=View.VISIBLE
+                        var code: String = etotpsignup.text.toString().trim()
                         verifyPhoneNumberWithCode(verificationId,code)
                     }
 
@@ -193,6 +198,7 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun startPhoneNumberVerification(phoneNumber: String) {
         // [START start_phone_auth]
+
         val options = PhoneAuthOptions.newBuilder(auth)
             .setPhoneNumber(phoneNumber)       // Phone number to verify
             .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
@@ -229,6 +235,7 @@ class SignUpActivity : AppCompatActivity() {
 
     // [START sign_in_with_phone]
     private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
+
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
@@ -236,12 +243,15 @@ class SignUpActivity : AppCompatActivity() {
                     Log.d(TAG, "signInWithCredential:success")
 
                     createNewAccount(name,phoneNumber)
+                    progressbarsignup.visibility=View.GONE
+
                     val user = task.result?.user
                     updateUI(user)
 
 
                 } else {
                     // Sign in failed, display a message and update the UI
+                        progressbarsignup.visibility=View.GONE
                     Log.w(TAG, "signInWithCredential:failure", task.exception)
                     if (task.exception is FirebaseAuthInvalidCredentialsException) {
                         // The verification code entered was invalid
@@ -293,7 +303,7 @@ class SignUpActivity : AppCompatActivity() {
                 if (user.mobile=="1") {
 
 
-                    progressbarsignup.visibility = View.GONE
+
                     startPhoneNumberVerification(mobile)
 
 
@@ -301,7 +311,7 @@ class SignUpActivity : AppCompatActivity() {
                 else {
                     Log.i("User Data in Login", user.toString())
                     if (user.mobile != ""){
-
+                        progressbarsignup.visibility=View.GONE
                         Toast.makeText(this@SignUpActivity, "You have already signed up!!!", Toast.LENGTH_SHORT).show()
                         val intent = Intent(baseContext, LoginActivity::class.java)
                         startActivity(intent)

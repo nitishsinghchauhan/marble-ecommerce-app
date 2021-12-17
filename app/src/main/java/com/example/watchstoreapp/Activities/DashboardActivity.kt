@@ -45,6 +45,7 @@ class DashboardActivity : AppCompatActivity(),INavListener, IBadgeUpdater {
         binding = ActivityDashboardBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.appBarMain.toolbar)
+
         sharedPreferenceManager = SharedPreferenceManager(this)
 
         val drawerLayout: DrawerLayout = binding.drawerLayout
@@ -62,14 +63,13 @@ class DashboardActivity : AppCompatActivity(),INavListener, IBadgeUpdater {
         navView.setupWithNavController(navController)
         bottomNavView.setupWithNavController(navController)
         updateBadge()
-
         val headerView: View = navView.getHeaderView(0)
         val navUsername = headerView.findViewById<View>(R.id.userName) as TextView
-        val navUserEmail = headerView.findViewById<View>(R.id.UserEmail) as TextView
+//        val navUserEmail = headerView.findViewById<View>(R.id.UserEmail) as TextView
         val navUserMobile = headerView.findViewById<View>(R.id.UserMobile) as TextView
         val userData:Array<String> = sharedPreferenceManager.getUserData()
         navUsername.text = userData[0]
-        navUserEmail.text = ""
+//        navUserEmail.text = ""
         navUserMobile.text = userData[1]
     }
 

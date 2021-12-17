@@ -17,6 +17,6 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
-    <style name="Theme.NavigationDrawerExampleNew.AppBarOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+    <style name="Theme.NavigationDrawerExampleNew.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark"/>
     <style name="Theme.NavigationDrawerExampleNew.PopupOverlay" parent="Theme.MaterialComponents.Light"/>
 </resources>

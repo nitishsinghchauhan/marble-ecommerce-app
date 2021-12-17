@@ -12,7 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:background="@drawable/header_bg"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        >
 
     </View>
 
@@ -23,7 +24,7 @@
         android:layout_marginTop="16dp"
         android:fontFamily="@font/montserrat_bold"
         android:gravity="center_horizontal"
-        android:text="Welcome To Examarble!!!"
+        android:text="Welcome To Examarble!"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="25sp"
@@ -33,36 +34,33 @@
         tools:layout_editor_absoluteX="75dp" />
 
     <LinearLayout
-            android:id="@+id/linearlayouruplevel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-             android:layout_below="@+id/header_view"
-           app:layout_constraintTop_toBottomOf="@id/header_view"
+        android:id="@+id/linearlayouruplevel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/header_view"
+        android:orientation="vertical"
 
-            android:orientation="vertical">
+        app:layout_constraintBottom_toTopOf="@id/bottomviewlogin"
+        app:layout_constraintTop_toBottomOf="@id/header_view">
 
         <include
             android:id="@+id/login_form"
             layout="@layout/loginform"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <LinearLayout
-            android:id="@+id/linearLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="bottom">
+            android:layout_height="match_parent"/>
+    </LinearLayout>
 
 
             <View
                 android:id="@+id/bottomviewlogin"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:background="@drawable/bottom_bg" />
-        </LinearLayout>
+                android:background="@drawable/bottom_bg"
+                app:layout_constraintBottom_toBottomOf="parent"
+
+                />
 
 
-    </LinearLayout>
     <ProgressBar
         android:id="@+id/progressbarlogin"
         android:layout_width="wrap_content"
