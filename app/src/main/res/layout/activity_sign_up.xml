@@ -11,6 +11,15 @@
             android:layout_width="match_parent"
             android:layout_height="180dp"
             android:background="@drawable/background"/>
+    <ImageView
+        android:id="@+id/logosigunup"
+        android:layout_width="84dp"
+        android:layout_height="84dp"
+        android:src="@drawable/logoexamarble"
+        app:layout_constraintEnd_toEndOf="@+id/header_view"
+        app:layout_constraintStart_toStartOf="@+id/header_view"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteY="0dp"></ImageView>
 
     <LinearLayout
         android:layout_width="match_parent"
