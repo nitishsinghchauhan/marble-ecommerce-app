@@ -1,10 +1,8 @@
 package com.example.watchstoreapp.fragments
 
+import MySliderImageAdapter
 import android.app.Activity
-import android.content.res.Resources
-import android.os.Build
 import android.os.Bundle
-import android.util.DisplayMetrics
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,23 +10,22 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.watchstoreapp.IBadgeUpdater
 import com.example.watchstoreapp.INavListener
-
-import com.example.watchstoreapp.adapters.CategoryAdapter
-import com.example.watchstoreapp.adapters.ICategoryListener
-import com.example.watchstoreapp.adapters.IProductListener
-import com.example.watchstoreapp.adapters.ProductAdapter
+import com.example.watchstoreapp.R
+import com.example.watchstoreapp.adapters.*
 import com.example.watchstoreapp.databinding.FragmentHomeBinding
 import com.example.watchstoreapp.model.CategoryItem
 import com.example.watchstoreapp.model.ProductItem
+import com.example.watchstoreapp.model.SliderData
 import com.example.watchstoreapp.utils.Constant
 import com.example.watchstoreapp.viewModel.StoreViewModel
-import dagger.hilt.android.AndroidEntryPoint
+import com.smarteist.autoimageslider.SliderView
+import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -80,6 +77,35 @@ class HomeFragment : Fragment(), ICategoryListener, IProductListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
+
+        fun setImageInSlider(images: ArrayList<String>, imageSlider: SliderView) {
+            val adapter = MySliderImageAdapter()
+            adapter.renewItems(images)
+            imageSlider.setSliderAdapter(adapter)
+            imageSlider.isAutoCycle = true
+            imageSlider.startAutoCycle()
+        }
+        val imageSlider = binding.slider
+        val imageList: ArrayList<String> = ArrayList()
+        imageList.add("https://firebasestorage.googleapis.com/v0/b/amazon-1538415571879.appspot.com/o/amazon%2FlandingPage%2Fbanner_2.jpg?alt=media&token=682fdc90-3e02-4f7a-a02b-ddecbd8a2671")
+        imageList.add("https://firebasestorage.googleapis.com/v0/b/amazon-1538415571879.appspot.com/o/amazon%2FlandingPage%2Fbanner-3.jpg?alt=media&token=e14beca9-9a11-4d2f-bcd5-acdb4e39e6cc")
+        imageList.add("https://firebasestorage.googleapis.com/v0/b/amazon-1538415571879.appspot.com/o/amazon%2FlandingPage%2Fbanner-4.jpg?alt=media&token=76003fea-e0e5-4b82-bb31-b8bcafd95092")
+        setImageInSlider(imageList, imageSlider)
+
+
+
+
+
+
+
+
+
+
+
+
+
         setupCategoryRV()
         setupProductRV()
         storeViewModel.getAllCategories()

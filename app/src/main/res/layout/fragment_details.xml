@@ -33,43 +33,53 @@
             android:layout_margin="@dimen/_10sdp"
             android:src="@drawable/fav"
             android:padding="@dimen/_5sdp"
-            android:background="@drawable/rounded_pink_light_shape"
-    />
 
+    />
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardwatchimage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:translationZ="5dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/back">
     <ImageView
             android:id="@+id/watchImage"
-            android:layout_width="@dimen/_150sdp"
-            android:layout_height="@dimen/_250sdp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/back"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:translationZ="10dp"
+            android:elevation="10dp"
             android:src="@drawable/offer"
-            android:layout_marginTop="@dimen/_10sdp"/>
+        android:layout_margin="0dp"
+
+            />
+    </androidx.cardview.widget.CardView>
 
     <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/watchImage"
+            app:layout_constraintTop_toBottomOf="@+id/cardwatchimage"
             android:layout_marginTop="@dimen/_20sdp"
             android:paddingLeft="@dimen/_15sdp"
             android:paddingRight="@dimen/_15sdp"
             android:paddingTop="@dimen/_10sdp"
-            android:paddingBottom="@dimen/_10sdp"
-            android:background="@drawable/rounded_pink_light_shape_no_bottom_redius"
+            android:paddingBottom="15dp"
+            android:background="@drawable/textborder3"
             >
-        <TextView
-                android:id="@+id/title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:text="@string/checkout_exclusive_watches_from_top_brand"
-                android:textSize="@dimen/_16ssp"
-                android:fontFamily="@font/montserrat_bold"
 
-        />
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_bold"
+            android:text="checkout_exclusive_watches_from_top_brand"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_16ssp"
+            android:textStyle="bold"
+
+            />
         <LinearLayout
                 android:id="@+id/ll2"
                 android:layout_width="wrap_content"
@@ -163,17 +173,21 @@
 
             />
         </LinearLayout>
-        <TextView
-                android:id="@+id/desc"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum has been the industry's standard dummy text."
-                android:textSize="@dimen/_14ssp"
-                android:fontFamily="@font/montserrat_regular"
-                android:layout_below="@+id/ll3"
 
-        />
+        <TextView
+            android:id="@+id/desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ll3"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/textborder"
+            android:fontFamily="@font/montserrat_regular"
+            android:textAlignment="center"
+            android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum has been the industry's standard dummy text."
+            android:textColor="@color/black"
+            android:textSize="@dimen/_14ssp"
+
+            />
         <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

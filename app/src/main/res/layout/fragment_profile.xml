@@ -12,17 +12,17 @@
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#ffebee">
+            android:background="@color/primary">
 
         <com.makeramen.roundedimageview.RoundedImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
                 android:id="@+id/profileImage"
                 android:src="@drawable/profilepic"
                 android:scaleType="fitCenter"
                 app:riv_corner_radius="30dip"
                 app:riv_border_width="2dip"
-                app:riv_border_color="#333333"
+                app:riv_border_color="@color/white"
                 app:riv_mutate_background="true"
                 app:riv_tile_mode="repeat"
                 app:riv_oval="true"
@@ -36,43 +36,33 @@
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/secondary_dark"
+                android:textColor="@color/white"
                 android:textStyle="bold"
                 android:text="Ketan Bhangale"
                 android:textSize="@dimen/_16ssp"
-                android:paddingTop="@dimen/_10sdp"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="3dp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@drawable/textborder2"
                 android:fontFamily="@font/montserrat_bold"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/profileImage"
 
         />
-        <TextView
-                android:id="@+id/email"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/secondary_dark"
-                android:textStyle="bold"
-                android:text="Ketub4@gmail.com"
-                android:textSize="@dimen/_12ssp"
-                android:fontFamily="@font/montserrat_bolditalic"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/name"
 
-        />
         <TextView
                 android:id="@+id/mobile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/secondary_dark"
+                android:textColor="@color/white"
                 android:textStyle="bold"
                 android:text="+91-9766597789"
                 android:textSize="@dimen/_12ssp"
                 android:fontFamily="@font/montserrat_bolditalic"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/email"
+                app:layout_constraintTop_toBottomOf="@+id/name"
 
         />
 
@@ -88,196 +78,197 @@
                 android:paddingTop="@dimen/_10sdp"
                 android:paddingBottom="@dimen/_110sdp"
                 android:background="@drawable/rounded_white_shape_radius_30"
+                app:layout_constraintBottom_toBottomOf="parent"
         >
-            <TextView
-                    android:id="@+id/dobTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/primary_text"
-                    android:textStyle="bold"
-                    android:paddingTop="@dimen/_10sdp"
-                    android:text="DOB: "
-                    android:textSize="@dimen/_14ssp"
-                    android:fontFamily="@font/montserrat_regular"
+<!--            <TextView-->
+<!--                    android:id="@+id/dobTitle"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:textColor="@color/primary_text"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:paddingTop="@dimen/_10sdp"-->
+<!--                    android:text="DOB: "-->
+<!--                    android:textSize="@dimen/_14ssp"-->
+<!--                    android:fontFamily="@font/montserrat_regular"-->
 
-            />
-            <TextView
-                    android:id="@+id/dob"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/primary"
-                    android:textStyle="bold"
-                    android:paddingTop="@dimen/_10sdp"
-                    android:text="04/12/1982"
-                    android:textSize="@dimen/_14ssp"
-                    android:fontFamily="@font/montserrat_regular"
-                    android:layout_toRightOf="@+id/dobTitle"
+<!--            />-->
+<!--            <TextView-->
+<!--                    android:id="@+id/dob"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:textColor="@color/primary"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:paddingTop="@dimen/_10sdp"-->
+<!--                    android:text="04/12/1982"-->
+<!--                    android:textSize="@dimen/_14ssp"-->
+<!--                    android:fontFamily="@font/montserrat_regular"-->
+<!--                    android:layout_toRightOf="@+id/dobTitle"-->
 
-            />
+<!--            />-->
 
-            <TextView
-                    android:id="@+id/genderTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/primary_text"
-                    android:textStyle="bold"
-                    android:paddingTop="@dimen/_10sdp"
-                    android:text="Gender: "
-                    android:textSize="@dimen/_14ssp"
-                    android:fontFamily="@font/montserrat_regular"
-                    android:layout_below="@+id/dobTitle"
+<!--            <TextView-->
+<!--                    android:id="@+id/genderTitle"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:textColor="@color/primary_text"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:paddingTop="@dimen/_10sdp"-->
+<!--                    android:text="Gender: "-->
+<!--                    android:textSize="@dimen/_14ssp"-->
+<!--                    android:fontFamily="@font/montserrat_regular"-->
+<!--                    android:layout_below="@+id/dobTitle"-->
 
-            />
-            <TextView
-                    android:id="@+id/gender"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/primary"
-                    android:textStyle="bold"
-                    android:paddingTop="@dimen/_10sdp"
-                    android:text="F"
-                    android:textSize="@dimen/_14ssp"
-                    android:fontFamily="@font/montserrat_regular"
-                    android:layout_toRightOf="@+id/genderTitle"
-                    android:layout_below="@+id/dobTitle"
+<!--            />-->
+<!--            <TextView-->
+<!--                    android:id="@+id/gender"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:textColor="@color/primary"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:paddingTop="@dimen/_10sdp"-->
+<!--                    android:text="F"-->
+<!--                    android:textSize="@dimen/_14ssp"-->
+<!--                    android:fontFamily="@font/montserrat_regular"-->
+<!--                    android:layout_toRightOf="@+id/genderTitle"-->
+<!--                    android:layout_below="@+id/dobTitle"-->
 
-            />
-            <TextView
-                    android:id="@+id/addTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/primary_text"
-                    android:textStyle="bold"
-                    android:paddingTop="@dimen/_10sdp"
-                    android:text="Address:"
-                    android:textSize="@dimen/_14ssp"
-                    android:fontFamily="@font/montserrat_regular"
-                    android:layout_below="@+id/gender"
+<!--            />-->
+<!--            <TextView-->
+<!--                    android:id="@+id/addTitle"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:textColor="@color/primary_text"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:paddingTop="@dimen/_10sdp"-->
+<!--                    android:text="Address:"-->
+<!--                    android:textSize="@dimen/_14ssp"-->
+<!--                    android:fontFamily="@font/montserrat_regular"-->
+<!--                    android:layout_below="@+id/gender"-->
 
-            />
-            <TextView
-                    android:id="@+id/address"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/primary"
-                    android:textStyle="bold"
-                    android:text="B-601, SaiPrasd Apt, Opp badlapur railway station, badlapur west."
-                    android:textSize="@dimen/_14ssp"
-                    android:fontFamily="@font/montserrat_regular"
-                    android:layout_below="@+id/addTitle"
-                    android:paddingBottom="@dimen/_5sdp"
+<!--            />-->
+<!--            <TextView-->
+<!--                    android:id="@+id/address"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:textColor="@color/primary"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:text="B-601, SaiPrasd Apt, Opp badlapur railway station, badlapur west."-->
+<!--                    android:textSize="@dimen/_14ssp"-->
+<!--                    android:fontFamily="@font/montserrat_regular"-->
+<!--                    android:layout_below="@+id/addTitle"-->
+<!--                    android:paddingBottom="@dimen/_5sdp"-->
 
-            />
-            <TextView
-                    android:id="@+id/landmarkTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/primary_text"
-                    android:textStyle="bold"
-                    android:paddingTop="@dimen/_10sdp"
-                    android:text="LandMark:"
-                    android:textSize="@dimen/_14ssp"
-                    android:fontFamily="@font/montserrat_regular"
-                    android:layout_below="@+id/address"
+<!--            />-->
+<!--            <TextView-->
+<!--                    android:id="@+id/landmarkTitle"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:textColor="@color/primary_text"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:paddingTop="@dimen/_10sdp"-->
+<!--                    android:text="LandMark:"-->
+<!--                    android:textSize="@dimen/_14ssp"-->
+<!--                    android:fontFamily="@font/montserrat_regular"-->
+<!--                    android:layout_below="@+id/address"-->
 
-            />
-            <TextView
-                    android:id="@+id/landmark"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/primary"
-                    android:textStyle="bold"
-                    android:text="Behind Sahakar Hotel"
-                    android:textSize="@dimen/_14ssp"
-                    android:fontFamily="@font/montserrat_regular"
-                    android:layout_below="@+id/landmarkTitle"
-                    android:paddingBottom="@dimen/_5sdp"
+<!--            />-->
+<!--            <TextView-->
+<!--                    android:id="@+id/landmark"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:textColor="@color/primary"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:text="Behind Sahakar Hotel"-->
+<!--                    android:textSize="@dimen/_14ssp"-->
+<!--                    android:fontFamily="@font/montserrat_regular"-->
+<!--                    android:layout_below="@+id/landmarkTitle"-->
+<!--                    android:paddingBottom="@dimen/_5sdp"-->
 
-            />
-            <TextView
-                    android:id="@+id/cityTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/primary_text"
-                    android:textStyle="bold"
-                    android:paddingTop="@dimen/_10sdp"
-                    android:text="City: "
-                    android:textSize="@dimen/_14ssp"
-                    android:fontFamily="@font/montserrat_regular"
-                    android:layout_below="@+id/landmark"
+<!--            />-->
+<!--            <TextView-->
+<!--                    android:id="@+id/cityTitle"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:textColor="@color/primary_text"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:paddingTop="@dimen/_10sdp"-->
+<!--                    android:text="City: "-->
+<!--                    android:textSize="@dimen/_14ssp"-->
+<!--                    android:fontFamily="@font/montserrat_regular"-->
+<!--                    android:layout_below="@+id/landmark"-->
 
-            />
-            <TextView
-                    android:id="@+id/city"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/primary"
-                    android:textStyle="bold"
-                    android:paddingTop="@dimen/_10sdp"
-                    android:text="Mumbai"
-                    android:textSize="@dimen/_14ssp"
-                    android:fontFamily="@font/montserrat_regular"
-                    android:layout_toRightOf="@+id/cityTitle"
-                    android:layout_below="@+id/landmark"
+<!--            />-->
+<!--            <TextView-->
+<!--                    android:id="@+id/city"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:textColor="@color/primary"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:paddingTop="@dimen/_10sdp"-->
+<!--                    android:text="Mumbai"-->
+<!--                    android:textSize="@dimen/_14ssp"-->
+<!--                    android:fontFamily="@font/montserrat_regular"-->
+<!--                    android:layout_toRightOf="@+id/cityTitle"-->
+<!--                    android:layout_below="@+id/landmark"-->
 
-            />
+<!--            />-->
 
-            <TextView
-                    android:id="@+id/stateTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/primary_text"
-                    android:textStyle="bold"
-                    android:paddingTop="@dimen/_10sdp"
-                    android:text="State: "
-                    android:textSize="@dimen/_14ssp"
-                    android:layout_marginLeft="@dimen/_30sdp"
-                    android:fontFamily="@font/montserrat_regular"
-                    android:layout_toRightOf="@+id/city"
-                    android:layout_below="@+id/landmark"
+<!--            <TextView-->
+<!--                    android:id="@+id/stateTitle"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:textColor="@color/primary_text"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:paddingTop="@dimen/_10sdp"-->
+<!--                    android:text="State: "-->
+<!--                    android:textSize="@dimen/_14ssp"-->
+<!--                    android:layout_marginLeft="@dimen/_30sdp"-->
+<!--                    android:fontFamily="@font/montserrat_regular"-->
+<!--                    android:layout_toRightOf="@+id/city"-->
+<!--                    android:layout_below="@+id/landmark"-->
 
-            />
-            <TextView
-                    android:id="@+id/state"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/primary"
-                    android:textStyle="bold"
-                    android:paddingTop="@dimen/_10sdp"
-                    android:text="Maharashtra"
-                    android:textSize="@dimen/_14ssp"
-                    android:fontFamily="@font/montserrat_regular"
-                    android:layout_toRightOf="@+id/stateTitle"
-                    android:layout_below="@+id/landmark"
+<!--            />-->
+<!--            <TextView-->
+<!--                    android:id="@+id/state"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:textColor="@color/primary"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:paddingTop="@dimen/_10sdp"-->
+<!--                    android:text="Maharashtra"-->
+<!--                    android:textSize="@dimen/_14ssp"-->
+<!--                    android:fontFamily="@font/montserrat_regular"-->
+<!--                    android:layout_toRightOf="@+id/stateTitle"-->
+<!--                    android:layout_below="@+id/landmark"-->
 
-            />
-            <TextView
-                    android:id="@+id/pincodeTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/primary_text"
-                    android:textStyle="bold"
-                    android:paddingTop="@dimen/_10sdp"
-                    android:text="Pincode: "
-                    android:textSize="@dimen/_14ssp"
-                    android:fontFamily="@font/montserrat_regular"
-                    android:layout_below="@+id/stateTitle"
+<!--            />-->
+<!--            <TextView-->
+<!--                    android:id="@+id/pincodeTitle"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:textColor="@color/primary_text"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:paddingTop="@dimen/_10sdp"-->
+<!--                    android:text="Pincode: "-->
+<!--                    android:textSize="@dimen/_14ssp"-->
+<!--                    android:fontFamily="@font/montserrat_regular"-->
+<!--                    android:layout_below="@+id/stateTitle"-->
 
-            />
-            <TextView
-                    android:id="@+id/pincode"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/primary"
-                    android:textStyle="bold"
-                    android:paddingTop="@dimen/_10sdp"
-                    android:text="421503"
-                    android:textSize="@dimen/_14ssp"
-                    android:fontFamily="@font/montserrat_regular"
-                    android:layout_toRightOf="@+id/pincodeTitle"
-                    android:layout_below="@+id/stateTitle"
+<!--            />-->
+<!--            <TextView-->
+<!--                    android:id="@+id/pincode"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:textColor="@color/primary"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:paddingTop="@dimen/_10sdp"-->
+<!--                    android:text="421503"-->
+<!--                    android:textSize="@dimen/_14ssp"-->
+<!--                    android:fontFamily="@font/montserrat_regular"-->
+<!--                    android:layout_toRightOf="@+id/pincodeTitle"-->
+<!--                    android:layout_below="@+id/stateTitle"-->
 
-            />
+<!--            />-->
 
 
         </RelativeLayout>
