@@ -108,6 +108,8 @@ class HomeFragment : Fragment(), ICategoryListener, IProductListener {
 
         setupCategoryRV()
         setupProductRV()
+
+
         storeViewModel.getAllCategories()
         storeViewModel.getProductByCategory("1")
         //delay(3000)
@@ -159,6 +161,7 @@ class HomeFragment : Fragment(), ICategoryListener, IProductListener {
             layoutManager = GridLayoutManager(requireActivity(), 2)
             hasFixedSize()
             adapter = productAdapter
+            isNestedScrollingEnabled=false
         }
     }
     override fun onCategoryClick(category: CategoryItem) {
@@ -174,7 +177,7 @@ class HomeFragment : Fragment(), ICategoryListener, IProductListener {
             "1",
             "Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum has been the industry's standard dummy text.",
             "7",
-            "https://firebasestorage.googleapis.com/v0/b/watchstore-9974c.appspot.com/o/watchImages%2Foffer.png?alt=media&token=9dd83b1c-d0d4-463a-ac18-ca5739fc3506",
+            "https://firebasestorage.googleapis.com/v0/b/amazon-1538415571879.appspot.com/o/amazon%2FlandingPage%2F320_use1.jpg?alt=media&token=431d06e1-6b47-4442-918d-f9bdc2e478b9",
             "Fossil Men's Golden Watch with Great Discount",
             "70",
             "200",

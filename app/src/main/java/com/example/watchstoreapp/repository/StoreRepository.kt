@@ -72,6 +72,8 @@ class StoreRepository @Inject constructor(private val db:FirebaseFirestore){
         return list
     }
 
+
+
     suspend fun updateFavorite(product:ProductItem){
         val collection = db.collection(Constant.PRODUCT_TABEL)
         collection.document(product.id!!).set(product)

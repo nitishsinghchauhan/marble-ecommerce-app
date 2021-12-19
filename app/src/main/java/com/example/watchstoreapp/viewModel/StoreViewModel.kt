@@ -66,6 +66,8 @@ private val db: FirebaseFirestore
         }
 
     }
+
+
 //    fun getCartItems(){
 //        viewModelScope.launch {
 //            _cartList.postValue(repository.getCartItems())

@@ -21,12 +21,12 @@
         android:layout_marginTop="20dp"
         android:scaleType="centerCrop"
         android:src="@drawable/profilepic"
-        app:riv_border_color="#eeeeee"
+        app:riv_border_color="#ffffff"
         app:riv_border_width="2dip"
         app:riv_corner_radius="30dip"
         app:riv_mutate_background="true"
         app:riv_oval="true"
-        app:riv_tile_mode="repeat">
+        >
 
     </com.makeramen.roundedimageview.RoundedImageView>
 
