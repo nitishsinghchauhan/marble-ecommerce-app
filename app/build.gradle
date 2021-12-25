@@ -95,7 +95,7 @@ dependencies {
     implementation 'com.makeramen:roundedimageview:2.3.0'
 
 
-        compile 'com.github.joielechong:countrycodepicker:2.1.5'
+    implementation 'com.github.joielechong:countrycodepicker:2.1.5'
 
 
 }
