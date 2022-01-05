@@ -128,17 +128,26 @@
 
 
         </LinearLayout>
-        <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/category_rv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:listitem="@layout/category_item"
-                android:layout_marginTop="@dimen/_10sdp"
-                tools:itemCount="4"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ll1"
-                app:layout_constraintRight_toRightOf="parent"
-        />
+        <androidx.compose.ui.platform.ComposeView
+            android:id="@+id/category_cv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ll1"
+            app:layout_constraintRight_toRightOf="parent">
+            </androidx.compose.ui.platform.ComposeView>
+<!--        <androidx.recyclerview.widget.RecyclerView-->
+<!--                android:id="@+id/category_rv"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                tools:listitem="@layout/category_item"-->
+<!--                android:layout_marginTop="@dimen/_10sdp"-->
+<!--                tools:itemCount="4"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/ll1"-->
+<!--                app:layout_constraintRight_toRightOf="parent"-->
+<!--        />-->
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/productList_rv"
                 android:layout_width="match_parent"
@@ -148,7 +157,7 @@
 
                 tools:itemCount="20"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/category_rv"
+                app:layout_constraintTop_toBottomOf="@+id/category_cv"
                 app:layout_constraintRight_toRightOf="parent"
 
         />

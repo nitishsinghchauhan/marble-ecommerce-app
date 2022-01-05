@@ -7,39 +7,63 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.*
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.watchstoreapp.IBadgeUpdater
 import com.example.watchstoreapp.INavListener
 import com.example.watchstoreapp.R
-import com.example.watchstoreapp.adapters.*
+import com.example.watchstoreapp.adapters.ICategoryListener
+import com.example.watchstoreapp.adapters.IProductListener
+import com.example.watchstoreapp.adapters.ProductAdapter
 import com.example.watchstoreapp.databinding.FragmentHomeBinding
-import com.example.watchstoreapp.model.CategoryItem
-import com.example.watchstoreapp.model.ProductItem
-import com.example.watchstoreapp.model.SliderData
+import com.example.watchstoreapp.model.*
 import com.example.watchstoreapp.utils.Constant
 import com.example.watchstoreapp.viewModel.StoreViewModel
 import com.smarteist.autoimageslider.SliderView
-import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.android.synthetic.main.fragment_home.*
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import androidx.compose.material.DropdownMenuItem as DropdownMenuItem1
+import androidx.compose.ui.res.colorResource as colorResource
 
 
 //@AndroidEntryPoint
 class HomeFragment : Fragment(), ICategoryListener, IProductListener {
     lateinit var listener: INavListener
     private val storeViewModel: StoreViewModel by activityViewModels()
-    lateinit var catAdapter: CategoryAdapter
+
+
+    //    lateinit var catAdapter: CategoryAdapter
     lateinit var productAdapter: ProductAdapter
-    lateinit var binding:FragmentHomeBinding
-    lateinit var rv:View
+    lateinit var binding: FragmentHomeBinding
+    lateinit var rv: View
     lateinit var iBadgeUpdater: IBadgeUpdater
     lateinit var offerInstance: ProductItem
     override fun onAttach(activity: Activity) {
@@ -51,12 +75,13 @@ class HomeFragment : Fragment(), ICategoryListener, IProductListener {
             throw ClassCastException(activity.toString() + "error implementing")
         }
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-       //val view = inflater.inflate(R.layout.fragment_home, container, false)
+        //val view = inflater.inflate(R.layout.fragment_home, container, false)
         binding = FragmentHomeBinding.inflate(layoutInflater)
         listener.showHideNavigations(true)
         rv = binding.root
@@ -77,7 +102,16 @@ class HomeFragment : Fragment(), ICategoryListener, IProductListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        storeViewModel.getAllCategories()
+        storeViewModel.getProductByCategory("1")
 
+//        demo list of category
+        val C1 = listOf<CategoryGrand>(
+
+            CategoryGrand("Indian Marbles", listOf(child("Exclusive Indian Marbles"), child("Green Marbles"),child("Makarna White Marbles"))),
+            CategoryGrand("adadfd", listOf(child("cfdssdf"), child("dadfdf"))),
+            CategoryGrand("adadfd", listOf(child("cfdssdf"), child("dadfdf"))),
+        )
 
 
         fun setImageInSlider(images: ArrayList<String>, imageSlider: SliderView) {
@@ -87,6 +121,7 @@ class HomeFragment : Fragment(), ICategoryListener, IProductListener {
             imageSlider.isAutoCycle = true
             imageSlider.startAutoCycle()
         }
+
         val imageSlider = binding.slider
         val imageList: ArrayList<String> = ArrayList()
         imageList.add("https://firebasestorage.googleapis.com/v0/b/amazon-1538415571879.appspot.com/o/amazon%2FlandingPage%2Fbanner_2.jpg?alt=media&token=682fdc90-3e02-4f7a-a02b-ddecbd8a2671")
@@ -96,17 +131,12 @@ class HomeFragment : Fragment(), ICategoryListener, IProductListener {
 
 
 
+        binding.categoryCv.setContent {
+            catmainbox(C1)
+        }
 
 
-
-
-
-
-
-
-
-
-        setupCategoryRV()
+//        setupCategoryRV()
         setupProductRV()
 
 
@@ -115,11 +145,11 @@ class HomeFragment : Fragment(), ICategoryListener, IProductListener {
         //delay(3000)
         GlobalScope.launch(Dispatchers.Main) {
             delay(800)
-            storeViewModel.catList.observe(requireActivity(), Observer { list->
+            storeViewModel.catList.observe(requireActivity(), Observer { list ->
                 Log.i("list size", list.size.toString())
-                catAdapter.updateList(list)
+//                catAdapter.updateList(list)
             })
-            storeViewModel.productList.observe(requireActivity(), Observer { list->
+            storeViewModel.productList.observe(requireActivity(), Observer { list ->
                 Log.i("product list size", list.size.toString())
                 productAdapter.updateList(list)
             })
@@ -130,12 +160,15 @@ class HomeFragment : Fragment(), ICategoryListener, IProductListener {
         iBadgeUpdater.updateBadge()
         createOfferInstance()
         binding.offerButton.setOnClickListener {
-            findNavController().navigate(HomeFragmentDirections.actionHomeToDetailsFragment(offerInstance))
+            findNavController().navigate(
+                HomeFragmentDirections.actionHomeToDetailsFragment(
+                    offerInstance
+                )
+            )
         }
 //        Log.i("binding.categoryRv.visibility",binding.categoryRv.visibility.toString())
 //        Log.i("binding.productListRv.visibility",binding.productListRv.visibility.toString())
     }
-
 
 
 //    override fun onResume() {
@@ -147,23 +180,24 @@ class HomeFragment : Fragment(), ICategoryListener, IProductListener {
 //    }
 
 
-    private fun setupCategoryRV() {
-        catAdapter = CategoryAdapter(this)
-        binding.categoryRv.apply {
-            layoutManager = LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
-            hasFixedSize()
-            adapter = catAdapter
-        }
-    }
+    //    private fun setupCategoryRV() {
+//        catAdapter = CategoryAdapter(this)
+//        binding.categoryRv.apply {
+//            layoutManager = LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
+//            hasFixedSize()
+//            adapter = catAdapter
+//        }
+//    }
     private fun setupProductRV() {
         productAdapter = ProductAdapter(this)
         binding.productListRv.apply {
             layoutManager = GridLayoutManager(requireActivity(), 2)
             hasFixedSize()
             adapter = productAdapter
-            isNestedScrollingEnabled=false
+            isNestedScrollingEnabled = false
         }
     }
+
     override fun onCategoryClick(category: CategoryItem) {
         storeViewModel.getProductByCategory(category.id!!)
     }
@@ -184,7 +218,155 @@ class HomeFragment : Fragment(), ICategoryListener, IProductListener {
             6,
             false,
 
-        )
+            )
     }
 
+
+    @OptIn(ExperimentalAnimationApi::class)
+
+    @Composable
+    fun catmainbox(listgrand:List<CategoryGrand>) {
+        var pexpanded by remember { mutableStateOf(false) }
+        val icon = if (pexpanded)
+            Icons.Filled.KeyboardArrowUp
+        else
+            Icons.Filled.ArrowDropDown
+
+        Column() {
+
+
+            OutlinedButton(
+                onClick = { pexpanded = !pexpanded },
+                modifier = Modifier.fillMaxWidth(),
+                border = BorderStroke(1.dp, color = colorResource(id = R.color.primary)),
+
+                ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(5.dp), horizontalArrangement = Arrangement.SpaceBetween
+                )
+                {
+                    Text(
+                        "SHOP BY CATEGORY",
+                        fontSize = 20.sp,
+                        fontFamily = FontFamily(Font(R.font.whitneymedium)),
+                        fontWeight = FontWeight.SemiBold,
+                        color = colorResource(id = R.color.primary)
+                    )
+                    Icon(
+                        imageVector = icon,
+                        contentDescription = null,
+                        tint = colorResource(id = R.color.primary)
+                    )
+                }
+
+            }
+
+            AnimatedVisibility(
+                visible = pexpanded,
+                enter = fadeIn(
+                    // Overwrites the initial value of alpha to 0.4f for fade in, 0 by default
+                    initialAlpha = 0.4f
+                ),
+                exit = fadeOut(
+                    // Overwrites the default animation with tween
+                    animationSpec = tween(durationMillis = 250)
+                )
+            ) {
+
+            Row(modifier = Modifier
+                .padding(start = 5.dp, top = 5.dp, bottom = 20.dp)
+                .horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(5.dp) ) {
+                listgrand.forEach(){
+                    categoryGrand ->  grandtable(grand = categoryGrand)
+                }
+
+            }
+
+           }
+        }
+    }
+
+    @Composable
+    fun grandtable(grand: CategoryGrand) {
+        var expanded by remember { mutableStateOf(false) }
+        val icon = if (expanded)
+            Icons.Filled.KeyboardArrowUp
+        else
+            Icons.Filled.ArrowDropDown
+            Box(Modifier.wrapContentWidth()) {
+
+
+            Button(
+                onClick = { expanded = !expanded },colors=ButtonDefaults.buttonColors(
+                    colorResource(
+                        id = R.color.primary
+                    )
+                ),
+                modifier = Modifier
+                    .width(180.dp)
+                    .height(48.dp),
+
+               
+                shape = RoundedCornerShape(24.dp),
+
+            ) {
+
+                Text(
+                    grand.gname,
+                    fontSize = 16.sp,
+                    fontFamily = FontFamily(Font(R.font.whitneymedium)),
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White
+                )
+                Icon(
+                    imageVector = icon,
+                    contentDescription = null,
+                    tint = Color.White
+                )
+            }
+
+            DropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false },
+                modifier = Modifier
+                    .wrapContentWidth()
+                    .wrapContentHeight()
+                    .background(Color.White)
+            ) {
+                val color = colorResource(id = R.color.primary)
+                grand.childlist.forEach { child ->
+                    DropdownMenuItem1(onClick = { /*TODO*/ }, modifier = Modifier.drawBehind {
+                        val strokeWidth = 10f
+                        val y = size.height - strokeWidth / 2
+                        drawLine(
+                            color=color,
+                            Offset(60f, y),
+                            Offset(size.width, y),
+                            strokeWidth
+                        )
+                    }) {
+                        Text(
+                            child.cname,
+                            fontSize = 20.sp,
+                            fontFamily = FontFamily(Font(R.font.whitneymedium)),
+                            fontWeight = FontWeight.Normal,
+                            color = colorResource(id = R.color.primary)
+                        )
+
+                    }
+                }
+            }
+
+
+        }
+    }
+
+
+
 }
+
+
+
+
