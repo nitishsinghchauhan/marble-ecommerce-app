@@ -2,11 +2,15 @@ package com.example.watchstoreapp.fragments
 
 import MySliderImageAdapter
 import android.app.Activity
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
@@ -61,6 +65,8 @@ import androidx.compose.ui.res.colorResource as colorResource
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.android.synthetic.main.fragment_home.*
 
 
 @AndroidEntryPoint
@@ -226,6 +232,21 @@ class HomeFragment : Fragment(), ICategoryListener, IProductListener {
         }
 //        Log.i("binding.categoryRv.visibility",binding.categoryRv.visibility.toString())
 //        Log.i("binding.productListRv.visibility",binding.productListRv.visibility.toString())
+        fab1.setOnClickListener {
+            val phoneNumber = "+919082073532"
+            val url = "https://api.whatsapp.com/send?phone=$phoneNumber"
+            try { val sendIntent =Intent(Intent.ACTION_SENDTO,Uri.parse("smsto:"+""+phoneNumber));
+            sendIntent.setPackage("com.whatsapp");
+            startActivity(sendIntent);
+        }
+        catch (e:Exception){
+            e.printStackTrace();
+            Toast.makeText(activity,"Unable to fetch Whatsapp",Toast.LENGTH_LONG).show();
+
+        }
+        }
+
+
     }
 
 
