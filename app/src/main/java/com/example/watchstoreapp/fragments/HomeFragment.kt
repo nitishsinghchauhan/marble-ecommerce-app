@@ -60,10 +60,10 @@ import androidx.compose.material.DropdownMenuItem as DropdownMenuItem1
 import androidx.compose.ui.res.colorResource as colorResource
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 
 
-
-//@AndroidEntryPoint
+@AndroidEntryPoint
 class HomeFragment : Fragment(), ICategoryListener, IProductListener {
     lateinit var listener: INavListener
     private val storeViewModel: StoreViewModel by activityViewModels()
@@ -75,6 +75,7 @@ class HomeFragment : Fragment(), ICategoryListener, IProductListener {
     lateinit var rv: View
     lateinit var iBadgeUpdater: IBadgeUpdater
     lateinit var offerInstance: ProductItem
+    private var prodlivelist= MutableLiveData<ArrayList<ProductItem>>()
     override fun onAttach(activity: Activity) {
         super.onAttach(activity)
         try {
@@ -83,6 +84,26 @@ class HomeFragment : Fragment(), ICategoryListener, IProductListener {
         } catch (e: ClassCastException) {
             throw ClassCastException(activity.toString() + "error implementing")
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        GlobalScope.launch(Dispatchers.Main) {
+            delay(800)
+            storeViewModel.catList.observe(requireActivity(), Observer { list ->
+                Log.i("list size", list.size.toString())
+//                catAdapter.updateList(list)
+            })
+            storeViewModel.productList.observe(requireActivity(), Observer { list ->
+                Log.i("product list size", list.size.toString())
+                prodlivelist.postValue(list)
+                productAdapter.updateList(list)
+
+            })
+
+
+        }
+
     }
 
     override fun onCreateView(
@@ -137,7 +158,47 @@ class HomeFragment : Fragment(), ICategoryListener, IProductListener {
         imageList.add("https://firebasestorage.googleapis.com/v0/b/amazon-1538415571879.appspot.com/o/amazon%2FlandingPage%2Fbanner-3.jpg?alt=media&token=e14beca9-9a11-4d2f-bcd5-acdb4e39e6cc")
         imageList.add("https://firebasestorage.googleapis.com/v0/b/amazon-1538415571879.appspot.com/o/amazon%2FlandingPage%2Fbanner-4.jpg?alt=media&token=76003fea-e0e5-4b82-bb31-b8bcafd95092")
         setImageInSlider(imageList, imageSlider)
-        
+
+
+
+        binding.categoryCv.setContent {
+            val prolist by prodlivelist.observeAsState(emptyList())
+            Column {
+                catmainbox(C1)
+                Text(text = "New Arrivals", fontSize = 16.sp, fontFamily = FontFamily(Font(R.font.montserrat_medium)), color = Color.Black, fontWeight=FontWeight.Bold,modifier = Modifier.padding(top = 18.dp, bottom = 12.dp))
+                if (prolist.isEmpty()) {
+                    CircularProgressIndicator(color = colorResource(id = R.color.primary))
+                } else {
+                    LazyRow(modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight(), horizontalArrangement = Arrangement.spacedBy(8.dp)){items(prolist){pro->productcard(pro = pro)} }
+                }
+
+
+                Text(text = "Trending Now", fontSize = 16.sp, fontFamily = FontFamily(Font(R.font.montserrat_medium)), color = Color.Black,fontWeight=FontWeight.Bold, modifier = Modifier.padding(top = 18.dp, bottom = 12.dp))
+                if (prolist.isEmpty()) {
+                    CircularProgressIndicator(color = colorResource(id = R.color.primary))
+                } else {
+                    LazyRow(modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight(), horizontalArrangement = Arrangement.spacedBy(8.dp)){items(prolist){pro->productcard(pro = pro)} }
+                }
+
+
+                Text(text = "Top Rated Products", fontSize = 16.sp, fontFamily = FontFamily(Font(R.font.montserrat_medium)), color = Color.Black,fontWeight=FontWeight.Bold, modifier = Modifier.padding(top = 18.dp, bottom = 12.dp))
+                if (prolist.isEmpty()) {
+                    CircularProgressIndicator(color = colorResource(id = R.color.primary))
+                } else {
+                    LazyRow(modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight(), horizontalArrangement = Arrangement.spacedBy(8.dp)){items(prolist){pro->productcard(pro = pro)} }
+                }
+                Spacer(modifier = Modifier.height(10.dp))
+
+            }
+
+        }
+
         
         
 
@@ -148,38 +209,10 @@ class HomeFragment : Fragment(), ICategoryListener, IProductListener {
 
 
         //delay(3000)
-        GlobalScope.launch(Dispatchers.Main) {
-            delay(800)
-            storeViewModel.catList.observe(requireActivity(), Observer { list ->
-                Log.i("list size", list.size.toString())
-//                catAdapter.updateList(list)
-            })
-            storeViewModel.productList.observe(requireActivity(), Observer { list ->
-                Log.i("product list size", list.size.toString())
-                productAdapter.updateList(list)
-
-            })
 
 
-        }
 
 
-        binding.categoryCv.setContent {
-            val prolist by storeViewModel.productList.observeAsState(initial = emptyList())
-            Column {
-                catmainbox(C1)
-                Text(text = "New Arrivals", fontSize = 16.sp, fontFamily = FontFamily(Font(R.font.montserrat_medium)), color = Color.Black, modifier = Modifier.padding(top = 18.dp, bottom = 12.dp))
-                if (prolist.isEmpty()) {
-                    CircularProgressIndicator(color = colorResource(id = R.color.primary))
-                } else {
-                    LazyRow(modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentHeight()){items(prolist){pro->productcard(pro = pro)} }
-                }
-
-            }
-            
-        }
         
 
         iBadgeUpdater.updateBadge()
@@ -269,12 +302,13 @@ class HomeFragment : Fragment(), ICategoryListener, IProductListener {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(5.dp), horizontalArrangement = Arrangement.SpaceBetween
+                        .padding(5.dp), horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
                 )
                 {
                     Text(
                         "SHOP BY CATEGORY",
-                        fontSize = 20.sp,
+                        fontSize = 18.sp,
                         fontFamily = FontFamily(Font(R.font.whitneymedium)),
                         fontWeight = FontWeight.SemiBold,
                         color = colorResource(id = R.color.primary)
@@ -374,7 +408,7 @@ class HomeFragment : Fragment(), ICategoryListener, IProductListener {
                     }) {
                         Text(
                             child.cname,
-                            fontSize = 20.sp,
+                            fontSize =16.sp,
                             fontFamily = FontFamily(Font(R.font.whitneymedium)),
                             fontWeight = FontWeight.Normal,
                             color = colorResource(id = R.color.primary)
@@ -393,21 +427,21 @@ class HomeFragment : Fragment(), ICategoryListener, IProductListener {
 
         Card(
             modifier = Modifier
-                .width(216.dp)
+                .width(180.dp)
                 .wrapContentHeight(),
             shape = RoundedCornerShape(8.dp),
             elevation = 5.dp, backgroundColor = Color.White
         ) {
             Column(
                 modifier = Modifier
-                    .height(256.dp)
-                    .width(218.dp)
+                    .height(220.dp)
+                    .width(180.dp)
             ) {
                 CoilImage(
                     imageModel =pro.img,
                     modifier = Modifier
-                        .height(216.dp)
-                        .width(216.dp),contentScale= ContentScale.Crop,alignment=Alignment.Center,
+                        .height(180.dp)
+                        .width(180.dp),contentScale= ContentScale.Crop,alignment=Alignment.Center,
                     // shows a shimmering effect when loading an image.
                     shimmerParams = ShimmerParams(
                         baseColor = Color.White,
@@ -424,8 +458,8 @@ class HomeFragment : Fragment(), ICategoryListener, IProductListener {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(50.dp)
-                        .padding(12.dp), contentAlignment = Alignment.Center
+                        .height(40.dp)
+                        .padding(12.dp), contentAlignment = Alignment.Center,
                 ) {
                     Text(text = pro.name?:"",
                         color = Color.Black,fontWeight=FontWeight.W400,fontFamily = FontFamily(Font(R.font.whitneymedium)),
