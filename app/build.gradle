@@ -10,7 +10,7 @@ plugins {
 }
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
     buildToolsVersion "30.0.3"
 
     defaultConfig {
@@ -123,6 +123,10 @@ dependencies {
 
     // When using a AppCompat theme
     implementation "com.google.accompanist:accompanist-appcompat-theme:0.16.0"
+
+
+    implementation "com.github.skydoves:landscapist-coil:1.4.5"
+    implementation 'androidx.compose.runtime:runtime-livedata:1.0.5'
 
 
 }

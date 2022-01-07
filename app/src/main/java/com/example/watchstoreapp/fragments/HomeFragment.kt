@@ -14,16 +14,20 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -44,6 +48,8 @@ import com.example.watchstoreapp.databinding.FragmentHomeBinding
 import com.example.watchstoreapp.model.*
 import com.example.watchstoreapp.utils.Constant
 import com.example.watchstoreapp.viewModel.StoreViewModel
+import com.skydoves.landscapist.ShimmerParams
+import com.skydoves.landscapist.coil.CoilImage
 import com.smarteist.autoimageslider.SliderView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -52,6 +58,9 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import androidx.compose.material.DropdownMenuItem as DropdownMenuItem1
 import androidx.compose.ui.res.colorResource as colorResource
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.lifecycle.LiveData
+
 
 
 //@AndroidEntryPoint
@@ -102,8 +111,8 @@ class HomeFragment : Fragment(), ICategoryListener, IProductListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        storeViewModel.getAllCategories()
-        storeViewModel.getProductByCategory("1")
+//        storeViewModel.getAllCategories()
+//        storeViewModel.getProductByCategory("1")
 
 //        demo list of category
         val C1 = listOf<CategoryGrand>(
@@ -128,20 +137,16 @@ class HomeFragment : Fragment(), ICategoryListener, IProductListener {
         imageList.add("https://firebasestorage.googleapis.com/v0/b/amazon-1538415571879.appspot.com/o/amazon%2FlandingPage%2Fbanner-3.jpg?alt=media&token=e14beca9-9a11-4d2f-bcd5-acdb4e39e6cc")
         imageList.add("https://firebasestorage.googleapis.com/v0/b/amazon-1538415571879.appspot.com/o/amazon%2FlandingPage%2Fbanner-4.jpg?alt=media&token=76003fea-e0e5-4b82-bb31-b8bcafd95092")
         setImageInSlider(imageList, imageSlider)
-
-
-
-        binding.categoryCv.setContent {
-            catmainbox(C1)
-        }
+        
+        
+        
 
 
 //        setupCategoryRV()
         setupProductRV()
 
 
-        storeViewModel.getAllCategories()
-        storeViewModel.getProductByCategory("1")
+
         //delay(3000)
         GlobalScope.launch(Dispatchers.Main) {
             delay(800)
@@ -152,10 +157,30 @@ class HomeFragment : Fragment(), ICategoryListener, IProductListener {
             storeViewModel.productList.observe(requireActivity(), Observer { list ->
                 Log.i("product list size", list.size.toString())
                 productAdapter.updateList(list)
+
             })
 
 
         }
+
+
+        binding.categoryCv.setContent {
+            val prolist by storeViewModel.productList.observeAsState(initial = emptyList())
+            Column {
+                catmainbox(C1)
+                Text(text = "New Arrivals", fontSize = 16.sp, fontFamily = FontFamily(Font(R.font.montserrat_medium)), color = Color.Black, modifier = Modifier.padding(top = 18.dp, bottom = 12.dp))
+                if (prolist.isEmpty()) {
+                    CircularProgressIndicator(color = colorResource(id = R.color.primary))
+                } else {
+                    LazyRow(modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight()){items(prolist){pro->productcard(pro = pro)} }
+                }
+
+            }
+            
+        }
+        
 
         iBadgeUpdater.updateBadge()
         createOfferInstance()
@@ -360,6 +385,56 @@ class HomeFragment : Fragment(), ICategoryListener, IProductListener {
             }
 
 
+        }
+    }
+
+    @Composable
+    fun productcard(pro:ProductItem) {
+
+        Card(
+            modifier = Modifier
+                .width(216.dp)
+                .wrapContentHeight(),
+            shape = RoundedCornerShape(8.dp),
+            elevation = 5.dp, backgroundColor = Color.White
+        ) {
+            Column(
+                modifier = Modifier
+                    .height(256.dp)
+                    .width(218.dp)
+            ) {
+                CoilImage(
+                    imageModel =pro.img,
+                    modifier = Modifier
+                        .height(216.dp)
+                        .width(216.dp),contentScale= ContentScale.Crop,alignment=Alignment.Center,
+                    // shows a shimmering effect when loading an image.
+                    shimmerParams = ShimmerParams(
+                        baseColor = Color.White,
+                        highlightColor = Color.LightGray,
+                        durationMillis = 350,
+                        dropOff = 0.65f,
+                        tilt = 20f
+                    ),
+                    // shows an error text message when request failed.
+                    failure = {
+                        Text(text = "image request failed.")
+                    })
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(50.dp)
+                        .padding(12.dp), contentAlignment = Alignment.Center
+                ) {
+                    Text(text = pro.name?:"",
+                        color = Color.Black,fontWeight=FontWeight.W400,fontFamily = FontFamily(Font(R.font.whitneymedium)),
+                        fontSize = 14.sp)
+
+                }
+
+
+            }
         }
     }
 
