@@ -11,6 +11,9 @@
             android:label=""
             tools:layout="@layout/fragment_home">
         <action android:id="@+id/action_home_to_detailsFragment" app:destination="@id/detailsFragment"/>
+        <action
+            android:id="@+id/action_home_to_successFragment"
+            app:destination="@id/successFragment" />
     </fragment>
 
     <fragment
@@ -38,4 +41,12 @@
 <!--    </fragment>-->
     <fragment android:id="@+id/search" android:name="com.example.watchstoreapp.fragments.SearchFragment"
               android:label="" tools:layout="@layout/fragment_search"/>
+    <fragment
+        android:id="@+id/successFragment"
+        android:name="com.example.watchstoreapp.fragments.SuccessFragment"
+        android:label="" >
+        <action
+            android:id="@+id/action_successFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+    </fragment>
 </navigation>

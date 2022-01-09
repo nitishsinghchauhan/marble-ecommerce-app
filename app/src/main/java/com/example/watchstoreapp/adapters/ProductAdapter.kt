@@ -7,10 +7,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.watchstoreapp.R
 import com.example.watchstoreapp.databinding.ProductItemBinding
+import com.example.watchstoreapp.fragments.HomeFragment
+import com.example.watchstoreapp.fragments.SuccessFragment
 import com.example.watchstoreapp.model.ProductItem
 
 
-class ProductAdapter(private val listener:IProductListener):RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
+class ProductAdapter(private val listener: SuccessFragment):RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
     private var productList:ArrayList<ProductItem> = ArrayList<ProductItem>()
     class ProductViewHolder(val binding: ProductItemBinding):RecyclerView.ViewHolder(binding.root)
 

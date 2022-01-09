@@ -70,13 +70,13 @@ import kotlinx.android.synthetic.main.fragment_home.*
 
 
 @AndroidEntryPoint
-class HomeFragment : Fragment(), ICategoryListener, IProductListener {
+class HomeFragment : Fragment(), ICategoryListener {
     lateinit var listener: INavListener
     private val storeViewModel: StoreViewModel by activityViewModels()
 
 
     //    lateinit var catAdapter: CategoryAdapter
-    lateinit var productAdapter: ProductAdapter
+//    lateinit var productAdapter: ProductAdapter
     lateinit var binding: FragmentHomeBinding
     lateinit var rv: View
     lateinit var iBadgeUpdater: IBadgeUpdater
@@ -94,7 +94,10 @@ class HomeFragment : Fragment(), ICategoryListener, IProductListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        storeViewModel.getAllCategories()
+        storeViewModel.getProductByCategory("1")
         GlobalScope.launch(Dispatchers.Main) {
+
             delay(800)
             storeViewModel.catList.observe(requireActivity(), Observer { list ->
                 Log.i("list size", list.size.toString())
@@ -103,7 +106,7 @@ class HomeFragment : Fragment(), ICategoryListener, IProductListener {
             storeViewModel.productList.observe(requireActivity(), Observer { list ->
                 Log.i("product list size", list.size.toString())
                 prodlivelist.postValue(list)
-                productAdapter.updateList(list)
+//                productAdapter.updateList(list)
 
             })
 
@@ -173,7 +176,9 @@ class HomeFragment : Fragment(), ICategoryListener, IProductListener {
                 catmainbox(C1)
                 Text(text = "New Arrivals", fontSize = 16.sp, fontFamily = FontFamily(Font(R.font.montserrat_medium)), color = Color.Black, fontWeight=FontWeight.Bold,modifier = Modifier.padding(top = 18.dp, bottom = 12.dp))
                 if (prolist.isEmpty()) {
-                    CircularProgressIndicator(color = colorResource(id = R.color.primary))
+                    Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.TopCenter) {
+                        CircularProgressIndicator(color = colorResource(id = R.color.primary))
+                    }
                 } else {
                     LazyRow(modifier = Modifier
                         .fillMaxWidth()
@@ -181,9 +186,11 @@ class HomeFragment : Fragment(), ICategoryListener, IProductListener {
                 }
 
 
-                Text(text = "Trending Now", fontSize = 16.sp, fontFamily = FontFamily(Font(R.font.montserrat_medium)), color = Color.Black,fontWeight=FontWeight.Bold, modifier = Modifier.padding(top = 18.dp, bottom = 12.dp))
+                Text(text = "Trending Now", fontSize = 16.sp, fontFamily = FontFamily(Font(R.font.montserrat_medium)), color = Color.Black,fontWeight=FontWeight.Bold, modifier = Modifier.padding(top = 28.dp, bottom = 12.dp))
                 if (prolist.isEmpty()) {
-                    CircularProgressIndicator(color = colorResource(id = R.color.primary))
+                    Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.TopCenter) {
+                        CircularProgressIndicator(color = colorResource(id = R.color.primary))
+                    }
                 } else {
                     LazyRow(modifier = Modifier
                         .fillMaxWidth()
@@ -191,9 +198,10 @@ class HomeFragment : Fragment(), ICategoryListener, IProductListener {
                 }
 
 
-                Text(text = "Top Rated Products", fontSize = 16.sp, fontFamily = FontFamily(Font(R.font.montserrat_medium)), color = Color.Black,fontWeight=FontWeight.Bold, modifier = Modifier.padding(top = 18.dp, bottom = 12.dp))
+                Text(text = "Top Rated Products", fontSize = 16.sp, fontFamily = FontFamily(Font(R.font.montserrat_medium)), color = Color.Black,fontWeight=FontWeight.Bold, modifier = Modifier.padding(top = 28.dp, bottom = 12.dp))
                 if (prolist.isEmpty()) {
-                    CircularProgressIndicator(color = colorResource(id = R.color.primary))
+                    Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.TopCenter) {
+                        CircularProgressIndicator(color = colorResource(id = R.color.primary))}
                 } else {
                     LazyRow(modifier = Modifier
                         .fillMaxWidth()
@@ -210,7 +218,7 @@ class HomeFragment : Fragment(), ICategoryListener, IProductListener {
 
 
 //        setupCategoryRV()
-        setupProductRV()
+//        setupProductRV()
 
 
 
@@ -267,23 +275,23 @@ class HomeFragment : Fragment(), ICategoryListener, IProductListener {
 //            adapter = catAdapter
 //        }
 //    }
-    private fun setupProductRV() {
-        productAdapter = ProductAdapter(this)
-        binding.productListRv.apply {
-            layoutManager = GridLayoutManager(requireActivity(), 2)
-            hasFixedSize()
-            adapter = productAdapter
-            isNestedScrollingEnabled = false
-        }
-    }
+//    private fun setupProductRV() {
+//        productAdapter = ProductAdapter(this)
+//        binding.productListRv.apply {
+//            layoutManager = GridLayoutManager(requireActivity(), 2)
+//            hasFixedSize()
+//            adapter = productAdapter
+//            isNestedScrollingEnabled = false
+//        }
+//    }
 
     override fun onCategoryClick(category: CategoryItem) {
         storeViewModel.getProductByCategory(category.id!!)
     }
 
-    override fun onProductItemClicked(product: ProductItem) {
-        findNavController().navigate(HomeFragmentDirections.actionHomeToDetailsFragment(product))
-    }
+//    override fun onProductItemClicked(product: ProductItem) {
+//        findNavController().navigate(HomeFragmentDirections.actionHomeToDetailsFragment(product))
+//    }
 
     private fun createOfferInstance() {
         offerInstance = ProductItem(
@@ -417,7 +425,8 @@ class HomeFragment : Fragment(), ICategoryListener, IProductListener {
             ) {
                 val color = colorResource(id = R.color.primary)
                 grand.childlist.forEach { child ->
-                    DropdownMenuItem1(onClick = { /*TODO*/ }, modifier = Modifier.drawBehind {
+                    DropdownMenuItem1(onClick = { findNavController().navigate(HomeFragmentDirections.actionHomeToSuccessFragment()) }
+                        , modifier = Modifier.drawBehind {
                         val strokeWidth = 10f
                         val y = size.height - strokeWidth / 2
                         drawLine(
@@ -443,6 +452,7 @@ class HomeFragment : Fragment(), ICategoryListener, IProductListener {
         }
     }
 
+    @OptIn(ExperimentalMaterialApi::class)
     @Composable
     fun productcard(pro:ProductItem) {
 
@@ -451,7 +461,9 @@ class HomeFragment : Fragment(), ICategoryListener, IProductListener {
                 .width(180.dp)
                 .wrapContentHeight(),
             shape = RoundedCornerShape(8.dp),
-            elevation = 5.dp, backgroundColor = Color.White
+            elevation = 5.dp, backgroundColor = Color.White, onClick = {(findNavController().navigate(
+                HomeFragmentDirections.actionHomeToDetailsFragment(pro)
+            ))},
         ) {
             Column(
                 modifier = Modifier

@@ -38,15 +38,13 @@ class DashboardActivity : AppCompatActivity(),INavListener, IBadgeUpdater {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityDashboardBinding
     lateinit var bottomNavView: BottomNavigationView
-    private val storeViewModel: StoreViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         binding = ActivityDashboardBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        storeViewModel.getAllCategories()
-        storeViewModel.getProductByCategory("1")
+
 
         setSupportActionBar(binding.appBarMain.toolbar)
 

@@ -1,20 +1,31 @@
 package com.example.watchstoreapp.fragments
 
-import android.app.Activity
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.example.watchstoreapp.IBadgeUpdater
-import com.example.watchstoreapp.INavListener
-import com.example.watchstoreapp.R
-import com.example.watchstoreapp.databinding.FragmentCartBinding
+import androidx.recyclerview.widget.GridLayoutManager
+import com.example.watchstoreapp.adapters.IProductListener
+import com.example.watchstoreapp.adapters.ProductAdapter
 import com.example.watchstoreapp.databinding.FragmentSuccessBinding
+import com.example.watchstoreapp.model.ProductItem
+import com.example.watchstoreapp.viewModel.StoreViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
+//This is basically successfully product fetched fragment after clicking desired category
+@AndroidEntryPoint
+class SuccessFragment : Fragment(), IProductListener {
+    private val storeViewModel: StoreViewModel by activityViewModels()
 
-class SuccessFragment : Fragment() {
+    lateinit var productAdapter: ProductAdapter
 
     lateinit var binding: FragmentSuccessBinding
     override fun onCreateView(
@@ -27,8 +38,31 @@ class SuccessFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.gotoHome.setOnClickListener {
-//            findNavController().navigate(SuccessFragmentDirections.actionSuccessFragmentToHome())
+        setupProductRV()
+        GlobalScope.launch(Dispatchers.Main) {
+            storeViewModel.productList.observe(requireActivity(), Observer { list ->
+                Log.i("product list size", list.size.toString())
+
+                productAdapter.updateList(list)
+
+
+            })
+
+
+        }
+
+
+    }
+    override fun onProductItemClicked(product: ProductItem) {
+        findNavController().navigate(SuccessFragmentDirections.actionSuccessFragmentToDetailsFragment(product))
+    }
+
+    private fun setupProductRV() {
+        productAdapter = ProductAdapter(this)
+        binding.productListRv1.apply {
+            layoutManager = GridLayoutManager(requireActivity(), 2)
+            hasFixedSize()
+            adapter = productAdapter
         }
     }
 }

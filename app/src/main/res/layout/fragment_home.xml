@@ -155,19 +155,19 @@
 <!--                app:layout_constraintTop_toBottomOf="@+id/ll1"-->
 <!--                app:layout_constraintRight_toRightOf="parent"-->
 <!--        />-->
-        <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/productList_rv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:listitem="@layout/product_item"
-                android:layout_marginTop="@dimen/_10sdp"
+<!--        <androidx.recyclerview.widget.RecyclerView-->
+<!--                android:id="@+id/productList_rv"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                tools:listitem="@layout/product_item"-->
+<!--                android:layout_marginTop="@dimen/_10sdp"-->
 
-                tools:itemCount="20"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/category_cv"
-                app:layout_constraintRight_toRightOf="parent"
+<!--                tools:itemCount="20"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/category_cv"-->
+<!--                app:layout_constraintRight_toRightOf="parent"-->
 
-        />
+<!--        />-->
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
