@@ -23,6 +23,7 @@ import com.example.watchstoreapp.utils.SharedPreferenceManager
 import com.example.watchstoreapp.viewModel.StoreViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_dashboard.view.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
