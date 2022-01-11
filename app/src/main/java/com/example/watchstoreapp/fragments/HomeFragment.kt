@@ -331,13 +331,13 @@ class HomeFragment : Fragment(), ICategoryListener {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(5.dp), horizontalArrangement = Arrangement.SpaceBetween,
+                        .padding(3.dp), horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 )
                 {
                     Text(
                         "SHOP BY CATEGORY",
-                        fontSize = 18.sp,
+                        fontSize = 16.sp,
                         fontFamily = FontFamily(Font(R.font.whitneymedium)),
                         fontWeight = FontWeight.SemiBold,
                         color = colorResource(id = R.color.primary)
@@ -394,16 +394,16 @@ class HomeFragment : Fragment(), ICategoryListener {
                 ),
                 modifier = Modifier
                     .width(180.dp)
-                    .height(48.dp),
+                    .height(40.dp),
 
                
-                shape = RoundedCornerShape(24.dp),
+                shape = RoundedCornerShape(8.dp),
 
             ) {
 
                 Text(
                     grand.gname,
-                    fontSize = 16.sp,
+                    fontSize = 14.sp,
                     fontFamily = FontFamily(Font(R.font.whitneymedium)),
                     fontWeight = FontWeight.Bold,
                     color = Color.White
@@ -427,7 +427,7 @@ class HomeFragment : Fragment(), ICategoryListener {
                 grand.childlist.forEach { child ->
                     DropdownMenuItem1(onClick = { findNavController().navigate(HomeFragmentDirections.actionHomeToSuccessFragment()) }
                         , modifier = Modifier.drawBehind {
-                        val strokeWidth = 10f
+                        val strokeWidth = 5f
                         val y = size.height - strokeWidth / 2
                         drawLine(
                             color=color,
@@ -438,10 +438,10 @@ class HomeFragment : Fragment(), ICategoryListener {
                     }) {
                         Text(
                             child.cname,
-                            fontSize =16.sp,
+                            fontSize =14.sp,
                             fontFamily = FontFamily(Font(R.font.whitneymedium)),
                             fontWeight = FontWeight.Normal,
-                            color = colorResource(id = R.color.primary)
+                            color = colorResource(id = R.color.secondary_text)
                         )
 
                     }
@@ -458,7 +458,7 @@ class HomeFragment : Fragment(), ICategoryListener {
 
         Card(
             modifier = Modifier
-                .width(180.dp)
+                .width(150.dp)
                 .wrapContentHeight(),
             shape = RoundedCornerShape(8.dp),
             elevation = 5.dp, backgroundColor = Color.White, onClick = {(findNavController().navigate(
@@ -467,14 +467,14 @@ class HomeFragment : Fragment(), ICategoryListener {
         ) {
             Column(
                 modifier = Modifier
-                    .height(220.dp)
-                    .width(180.dp)
+                    .height(185.dp)
+                    .width(150.dp)
             ) {
                 CoilImage(
                     imageModel =pro.img,
                     modifier = Modifier
-                        .height(180.dp)
-                        .width(180.dp),contentScale= ContentScale.Crop,alignment=Alignment.Center,
+                        .height(150.dp)
+                        .width(150.dp),contentScale= ContentScale.Crop,alignment=Alignment.Center,
                     // shows a shimmering effect when loading an image.
                     shimmerParams = ShimmerParams(
                         baseColor = Color.White,
@@ -492,7 +492,7 @@ class HomeFragment : Fragment(), ICategoryListener {
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(40.dp)
-                        .padding(12.dp), contentAlignment = Alignment.Center,
+                        .padding(8.dp), contentAlignment = Alignment.Center,
                 ) {
                     Text(text = pro.name?:"",
                         color = Color.Black,fontWeight=FontWeight.W400,fontFamily = FontFamily(Font(R.font.whitneymedium)),
