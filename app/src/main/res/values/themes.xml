@@ -13,10 +13,13 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
     <style name="Theme.NavigationDrawerExampleNew.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
-    <style name="Theme.NavigationDrawerExampleNew.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark"/>
-    <style name="Theme.NavigationDrawerExampleNew.PopupOverlay" parent="Theme.MaterialComponents.Light"/>
+
+    <style name="Theme.NavigationDrawerExampleNew.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark" />
+
+    <style name="Theme.NavigationDrawerExampleNew.PopupOverlay" parent="Theme.MaterialComponents.Light" />
 </resources>

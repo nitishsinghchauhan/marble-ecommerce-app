@@ -29,4 +29,5 @@
     <string name="add_to_cart">Add to Cart</string>
     <string name="success_message">Thanks for Placing the Order. Order Placed Successfully. Keep Shopping!!!</string>
     <string name="watchStore">Home</string>
+    <string name="title_activity_category">CategoryActivity</string>
 </resources>

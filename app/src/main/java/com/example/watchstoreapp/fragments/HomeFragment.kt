@@ -20,6 +20,7 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -63,6 +64,11 @@ import kotlinx.coroutines.launch
 import androidx.compose.material.DropdownMenuItem as DropdownMenuItem1
 import androidx.compose.ui.res.colorResource as colorResource
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.blur
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -147,10 +153,10 @@ class HomeFragment : Fragment(), ICategoryListener {
 //        demo list of category
         val C1 = listOf<CategoryGrand>(
 
-            CategoryGrand("Indian Marbles", listOf(child("Exclusive Indian Marbles"), child("Green Marbles"),child("Makarna White Marbles"))),
-            CategoryGrand("adadfd", listOf(child("cfdssdf"), child("dadfdf"))),
-            CategoryGrand("adadfd", listOf(child("cfdssdf"), child("dadfdf"))),
-        )
+            CategoryGrand("Indian Marbles","https://firebasestorage.googleapis.com/v0/b/amazon-1538415571879.appspot.com/o/amazon%2FlandingPage%2F320_use1.jpg?alt=media&token=431d06e1-6b47-4442-918d-f9bdc2e478b9" ),
+            CategoryGrand("Indian Marbles","https://firebasestorage.googleapis.com/v0/b/amazon-1538415571879.appspot.com/o/amazon%2FlandingPage%2F320_use1.jpg?alt=media&token=431d06e1-6b47-4442-918d-f9bdc2e478b9" ),
+             CategoryGrand("Indian Marbles","https://firebasestorage.googleapis.com/v0/b/amazon-1538415571879.appspot.com/o/amazon%2FlandingPage%2F320_use1.jpg?alt=media&token=431d06e1-6b47-4442-918d-f9bdc2e478b9" ),
+         )
 
 
         fun setImageInSlider(images: ArrayList<String>, imageSlider: SliderView) {
@@ -173,7 +179,7 @@ class HomeFragment : Fragment(), ICategoryListener {
         binding.categoryCv.setContent {
             val prolist by prodlivelist.observeAsState(emptyList())
             Column {
-                catmainbox(C1)
+               catbox(C1)
                 Text(text = "New Arrivals", fontSize = 16.sp, fontFamily = FontFamily(Font(R.font.montserrat_medium)), color = Color.Black, fontWeight=FontWeight.Bold,modifier = Modifier.padding(top = 18.dp, bottom = 12.dp))
                 if (prolist.isEmpty()) {
                     Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.TopCenter) {
@@ -309,148 +315,148 @@ class HomeFragment : Fragment(), ICategoryListener {
     }
 
 
-    @OptIn(ExperimentalAnimationApi::class)
-
-    @Composable
-    fun catmainbox(listgrand:List<CategoryGrand>) {
-        var pexpanded by remember { mutableStateOf(false) }
-        val icon = if (pexpanded)
-            Icons.Filled.KeyboardArrowUp
-        else
-            Icons.Filled.ArrowDropDown
-
-        Column() {
-
-
-            OutlinedButton(
-                onClick = { pexpanded = !pexpanded },
-                modifier = Modifier.fillMaxWidth(),
-                border = BorderStroke(1.dp, color = colorResource(id = R.color.primary)),
-
-                ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(3.dp), horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                )
-                {
-                    Text(
-                        "SHOP BY CATEGORY",
-                        fontSize = 16.sp,
-                        fontFamily = FontFamily(Font(R.font.whitneymedium)),
-                        fontWeight = FontWeight.SemiBold,
-                        color = colorResource(id = R.color.primary)
-                    )
-                    Icon(
-                        imageVector = icon,
-                        contentDescription = null,
-                        tint = colorResource(id = R.color.primary)
-                    )
-                }
-
-            }
-
-            AnimatedVisibility(
-                visible = pexpanded,
-                enter = fadeIn(
-                    // Overwrites the initial value of alpha to 0.4f for fade in, 0 by default
-                    initialAlpha = 0.4f
-                ),
-                exit = fadeOut(
-                    // Overwrites the default animation with tween
-                    animationSpec = tween(durationMillis = 250)
-                )
-            ) {
-
-            Row(modifier = Modifier
-                .padding(start = 5.dp, top = 5.dp, bottom = 20.dp)
-                .horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(5.dp) ) {
-                listgrand.forEach(){
-                    categoryGrand ->  grandtable(grand = categoryGrand)
-                }
-
-            }
-
-           }
-        }
-    }
-
-    @Composable
-    fun grandtable(grand: CategoryGrand) {
-        var expanded by remember { mutableStateOf(false) }
-        val icon = if (expanded)
-            Icons.Filled.KeyboardArrowUp
-        else
-            Icons.Filled.ArrowDropDown
-            Box(Modifier.wrapContentWidth()) {
-
-
-            Button(
-                onClick = { expanded = !expanded },colors=ButtonDefaults.buttonColors(
-                    colorResource(
-                        id = R.color.primary
-                    )
-                ),
-                modifier = Modifier
-                    .width(180.dp)
-                    .height(40.dp),
-
-               
-                shape = RoundedCornerShape(8.dp),
-
-            ) {
-
-                Text(
-                    grand.gname,
-                    fontSize = 14.sp,
-                    fontFamily = FontFamily(Font(R.font.whitneymedium)),
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White
-                )
-                Icon(
-                    imageVector = icon,
-                    contentDescription = null,
-                    tint = Color.White
-                )
-            }
-
-            DropdownMenu(
-                expanded = expanded,
-                onDismissRequest = { expanded = false },
-                modifier = Modifier
-                    .wrapContentWidth()
-                    .wrapContentHeight()
-                    .background(Color.White)
-            ) {
-                val color = colorResource(id = R.color.primary)
-                grand.childlist.forEach { child ->
-                    DropdownMenuItem1(onClick = { findNavController().navigate(HomeFragmentDirections.actionHomeToSuccessFragment()) }
-                        , modifier = Modifier.drawBehind {
-                        val strokeWidth = 5f
-                        val y = size.height - strokeWidth / 2
-                        drawLine(
-                            color=color,
-                            Offset(60f, y),
-                            Offset(size.width, y),
-                            strokeWidth
-                        )
-                    }) {
-                        Text(
-                            child.cname,
-                            fontSize =14.sp,
-                            fontFamily = FontFamily(Font(R.font.whitneymedium)),
-                            fontWeight = FontWeight.Normal,
-                            color = colorResource(id = R.color.secondary_text)
-                        )
-
-                    }
-                }
-            }
-
-
-        }
-    }
+//    @OptIn(ExperimentalAnimationApi::class)
+//
+//    @Composable
+//    fun catmainbox(listgrand:List<CategoryGrand>) {
+//        var pexpanded by remember { mutableStateOf(false) }
+//        val icon = if (pexpanded)
+//            Icons.Filled.KeyboardArrowUp
+//        else
+//            Icons.Filled.ArrowDropDown
+//
+//        Column() {
+//
+//
+//            OutlinedButton(
+//                onClick = { pexpanded = !pexpanded },
+//                modifier = Modifier.fillMaxWidth(),
+//                border = BorderStroke(1.dp, color = colorResource(id = R.color.primary)),
+//
+//                ) {
+//                Row(
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .padding(3.dp), horizontalArrangement = Arrangement.SpaceBetween,
+//                    verticalAlignment = Alignment.CenterVertically
+//                )
+//                {
+//                    Text(
+//                        "SHOP BY CATEGORY",
+//                        fontSize = 16.sp,
+//                        fontFamily = FontFamily(Font(R.font.whitneymedium)),
+//                        fontWeight = FontWeight.SemiBold,
+//                        color = colorResource(id = R.color.primary)
+//                    )
+//                    Icon(
+//                        imageVector = icon,
+//                        contentDescription = null,
+//                        tint = colorResource(id = R.color.primary)
+//                    )
+//                }
+//
+//            }
+//
+//            AnimatedVisibility(
+//                visible = pexpanded,
+//                enter = fadeIn(
+//                    // Overwrites the initial value of alpha to 0.4f for fade in, 0 by default
+//                    initialAlpha = 0.4f
+//                ),
+//                exit = fadeOut(
+//                    // Overwrites the default animation with tween
+//                    animationSpec = tween(durationMillis = 250)
+//                )
+//            ) {
+//
+//            Row(modifier = Modifier
+//                .padding(start = 5.dp, top = 5.dp, bottom = 20.dp)
+//                .horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(5.dp) ) {
+//                listgrand.forEach(){
+//                    categoryGrand ->  grandtable(grand = categoryGrand)
+//                }
+//
+//            }
+//
+//           }
+//        }
+//    }
+//
+//    @Composable
+//    fun grandtable(grand: CategoryGrand) {
+//        var expanded by remember { mutableStateOf(false) }
+//        val icon = if (expanded)
+//            Icons.Filled.KeyboardArrowUp
+//        else
+//            Icons.Filled.ArrowDropDown
+//            Box(Modifier.wrapContentWidth()) {
+//
+//
+//            Button(
+//                onClick = { expanded = !expanded },colors=ButtonDefaults.buttonColors(
+//                    colorResource(
+//                        id = R.color.primary
+//                    )
+//                ),
+//                modifier = Modifier
+//                    .width(180.dp)
+//                    .height(40.dp),
+//
+//
+//                shape = RoundedCornerShape(8.dp),
+//
+//            ) {
+//
+//                Text(
+//                    grand.gname,
+//                    fontSize = 14.sp,
+//                    fontFamily = FontFamily(Font(R.font.whitneymedium)),
+//                    fontWeight = FontWeight.Bold,
+//                    color = Color.White
+//                )
+//                Icon(
+//                    imageVector = icon,
+//                    contentDescription = null,
+//                    tint = Color.White
+//                )
+//            }
+//
+//            DropdownMenu(
+//                expanded = expanded,
+//                onDismissRequest = { expanded = false },
+//                modifier = Modifier
+//                    .wrapContentWidth()
+//                    .wrapContentHeight()
+//                    .background(Color.White)
+//            ) {
+//                val color = colorResource(id = R.color.primary)
+//                grand.childlist.forEach { child ->
+//                    DropdownMenuItem1(onClick = { findNavController().navigate(HomeFragmentDirections.actionHomeToSuccessFragment()) }
+//                        , modifier = Modifier.drawBehind {
+//                        val strokeWidth = 5f
+//                        val y = size.height - strokeWidth / 2
+//                        drawLine(
+//                            color=color,
+//                            Offset(60f, y),
+//                            Offset(size.width, y),
+//                            strokeWidth
+//                        )
+//                    }) {
+//                        Text(
+//                            child.cname,
+//                            fontSize =14.sp,
+//                            fontFamily = FontFamily(Font(R.font.whitneymedium)),
+//                            fontWeight = FontWeight.Normal,
+//                            color = colorResource(id = R.color.secondary_text)
+//                        )
+//
+//                    }
+//                }
+//            }
+//
+//
+//        }
+//    }
 
     @OptIn(ExperimentalMaterialApi::class)
     @Composable
@@ -504,10 +510,68 @@ class HomeFragment : Fragment(), ICategoryListener {
             }
         }
     }
+    @Preview
+    @Composable
+    fun catbox(grands: List<CategoryGrand>){
+        Card(modifier= Modifier
+            .fillMaxWidth()
+            .wrapContentHeight(),
+            backgroundColor= Color(0x66dddddd),
+            shape = RoundedCornerShape(10.dp), elevation = 0.dp
+
+        ) {
+            Column(modifier = Modifier.padding(10.dp)) {
+                Text(
+                    "SHOP BY CATEGORY",
+                    fontSize = 18.sp,
+                    fontFamily = FontFamily(Font(R.font.whitneymedium)),
+                    fontWeight = FontWeight.Bold,
+                    color = colorResource(id = R.color.primary)
+                )
+                Spacer(modifier = Modifier.height(15.dp))
+                LazyRow(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween,){items(grands){grand->catimgview(grand = grand)}}
+
+            }
+            }
+        }
 
 
 
+    @Composable
+    fun catimgview(grand: CategoryGrand){
+        Column(Modifier.wrapContentSize(), horizontalAlignment = Alignment.CenterHorizontally) {
+
+            CoilImage(
+            imageModel =grand.gimgurl,
+            modifier = Modifier
+                .size(70.dp)
+                .clip(shape = CircleShape)
+                ,
+            contentScale= ContentScale.Crop,alignment=Alignment.Center,
+            // shows a shimmering effect when loading an image.
+            shimmerParams = ShimmerParams(
+                baseColor = Color.White,
+                highlightColor = Color.LightGray,
+                durationMillis = 350,
+                dropOff = 0.65f,
+                tilt = 20f
+            ),
+            // shows an error text message when request failed.
+            failure = {
+                Text(text = "image request failed.")
+            })
+
+        Text(text = grand.gname,
+            color = Color.DarkGray,fontWeight=FontWeight.W400,fontFamily = FontFamily(Font(R.font.whitneymedium)),
+            fontSize = 14.sp)
+        }
+
+    }
 }
+
+
+
+
 
 
 
