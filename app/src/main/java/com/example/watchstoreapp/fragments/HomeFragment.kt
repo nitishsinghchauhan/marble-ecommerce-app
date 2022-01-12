@@ -71,6 +71,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.watchstoreapp.Activities.CategoryActivity
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.android.synthetic.main.fragment_home.*
 
@@ -155,7 +156,8 @@ class HomeFragment : Fragment(), ICategoryListener {
 
             CategoryGrand("Indian Marbles","https://firebasestorage.googleapis.com/v0/b/amazon-1538415571879.appspot.com/o/amazon%2FlandingPage%2F320_use1.jpg?alt=media&token=431d06e1-6b47-4442-918d-f9bdc2e478b9" ),
             CategoryGrand("Indian Marbles","https://firebasestorage.googleapis.com/v0/b/amazon-1538415571879.appspot.com/o/amazon%2FlandingPage%2F320_use1.jpg?alt=media&token=431d06e1-6b47-4442-918d-f9bdc2e478b9" ),
-             CategoryGrand("Indian Marbles","https://firebasestorage.googleapis.com/v0/b/amazon-1538415571879.appspot.com/o/amazon%2FlandingPage%2F320_use1.jpg?alt=media&token=431d06e1-6b47-4442-918d-f9bdc2e478b9" ),
+            CategoryGrand("Indian Marbles","https://firebasestorage.googleapis.com/v0/b/amazon-1538415571879.appspot.com/o/amazon%2FlandingPage%2F320_use1.jpg?alt=media&token=431d06e1-6b47-4442-918d-f9bdc2e478b9" ),
+            CategoryGrand("Indian Marbles","https://firebasestorage.googleapis.com/v0/b/amazon-1538415571879.appspot.com/o/amazon%2FlandingPage%2F320_use1.jpg?alt=media&token=431d06e1-6b47-4442-918d-f9bdc2e478b9" ),
          )
 
 
@@ -539,13 +541,14 @@ class HomeFragment : Fragment(), ICategoryListener {
 
     @Composable
     fun catimgview(grand: CategoryGrand){
+        val intent=Intent(activity,CategoryActivity::class.java).apply { putExtra("grand",grand.gname) }
         Column(Modifier.wrapContentSize(), horizontalAlignment = Alignment.CenterHorizontally) {
 
             CoilImage(
             imageModel =grand.gimgurl,
             modifier = Modifier
                 .size(70.dp)
-                .clip(shape = CircleShape)
+                .clip(shape = CircleShape).clickable {startActivity(intent)}
                 ,
             contentScale= ContentScale.Crop,alignment=Alignment.Center,
             // shows a shimmering effect when loading an image.
@@ -560,10 +563,10 @@ class HomeFragment : Fragment(), ICategoryListener {
             failure = {
                 Text(text = "image request failed.")
             })
-
+        Spacer(modifier = Modifier.height(2.dp))
         Text(text = grand.gname,
             color = Color.DarkGray,fontWeight=FontWeight.W400,fontFamily = FontFamily(Font(R.font.whitneymedium)),
-            fontSize = 14.sp)
+            fontSize = 12.sp)
         }
 
     }
