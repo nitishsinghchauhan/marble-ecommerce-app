@@ -89,6 +89,7 @@ class HomeFragment : Fragment(), ICategoryListener {
     lateinit var iBadgeUpdater: IBadgeUpdater
     lateinit var offerInstance: ProductItem
     private var prodlivelist= MutableLiveData<ArrayList<ProductItem>>()
+    private var categoryTaxonLiveList= MutableLiveData<List<Taxon>>()
     override fun onAttach(activity: Activity) {
         super.onAttach(activity)
         try {
@@ -105,10 +106,12 @@ class HomeFragment : Fragment(), ICategoryListener {
         storeViewModel.getProductByCategory("1")
         GlobalScope.launch(Dispatchers.Main) {
 
-            delay(800)
-            storeViewModel.catList.observe(requireActivity(), Observer { list ->
-                Log.i("list size", list.size.toString())
-//                catAdapter.updateList(list)
+            delay(1000)
+            storeViewModel.catList.observe(requireActivity(), Observer { taxons ->
+                  categoryTaxonLiveList.postValue(taxons)
+                Log.d("catlist", categoryTaxonLiveList.toString())
+
+
             })
             storeViewModel.productList.observe(requireActivity(), Observer { list ->
                 Log.i("product list size", list.size.toString())
@@ -151,14 +154,8 @@ class HomeFragment : Fragment(), ICategoryListener {
 //        storeViewModel.getAllCategories()
 //        storeViewModel.getProductByCategory("1")
 
-//        demo list of category
-        val C1 = listOf<CategoryGrand>(
+//      list of category
 
-            CategoryGrand("Indian Marbles","https://firebasestorage.googleapis.com/v0/b/amazon-1538415571879.appspot.com/o/amazon%2FlandingPage%2F320_use1.jpg?alt=media&token=431d06e1-6b47-4442-918d-f9bdc2e478b9" ),
-            CategoryGrand("Indian Marbles","https://firebasestorage.googleapis.com/v0/b/amazon-1538415571879.appspot.com/o/amazon%2FlandingPage%2F320_use1.jpg?alt=media&token=431d06e1-6b47-4442-918d-f9bdc2e478b9" ),
-            CategoryGrand("Indian Marbles","https://firebasestorage.googleapis.com/v0/b/amazon-1538415571879.appspot.com/o/amazon%2FlandingPage%2F320_use1.jpg?alt=media&token=431d06e1-6b47-4442-918d-f9bdc2e478b9" ),
-            CategoryGrand("Indian Marbles","https://firebasestorage.googleapis.com/v0/b/amazon-1538415571879.appspot.com/o/amazon%2FlandingPage%2F320_use1.jpg?alt=media&token=431d06e1-6b47-4442-918d-f9bdc2e478b9" ),
-         )
 
 
         fun setImageInSlider(images: ArrayList<String>, imageSlider: SliderView) {
@@ -179,9 +176,11 @@ class HomeFragment : Fragment(), ICategoryListener {
 
 
         binding.categoryCv.setContent {
-            val prolist by prodlivelist.observeAsState(emptyList())
+            val prolist by prodlivelist.observeAsState(initial = emptyList())
+            val catlist by categoryTaxonLiveList.observeAsState(initial = emptyList())
             Column {
-               catbox(C1)
+
+                catbox(catlist)
                 Text(text = "New Arrivals", fontSize = 16.sp, fontFamily = FontFamily(Font(R.font.montserrat_medium)), color = Color.Black, fontWeight=FontWeight.Bold,modifier = Modifier.padding(top = 18.dp, bottom = 12.dp))
                 if (prolist.isEmpty()) {
                     Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.TopCenter) {
@@ -512,9 +511,9 @@ class HomeFragment : Fragment(), ICategoryListener {
             }
         }
     }
-    @Preview
+
     @Composable
-    fun catbox(grands: List<CategoryGrand>){
+    fun catbox(grands: List<Taxon>){
         Card(modifier= Modifier
             .fillMaxWidth()
             .wrapContentHeight(),
@@ -531,8 +530,16 @@ class HomeFragment : Fragment(), ICategoryListener {
                     color = colorResource(id = R.color.primary)
                 )
                 Spacer(modifier = Modifier.height(15.dp))
-                LazyRow(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween,){items(grands){grand->catimgview(grand = grand)}}
-
+                if (grands.isEmpty()) {
+                    Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.TopCenter) {
+                        CircularProgressIndicator(color = colorResource(id = R.color.primary))
+                    }
+                } else {
+                    LazyRow(
+                        Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceEvenly,
+                    ) { items(grands) { grand -> catimgview(grand = grand) } }
+                }
             }
             }
         }
@@ -540,15 +547,16 @@ class HomeFragment : Fragment(), ICategoryListener {
 
 
     @Composable
-    fun catimgview(grand: CategoryGrand){
-        val intent=Intent(activity,CategoryActivity::class.java).apply { putExtra("grand",grand.gname) }
+    fun catimgview(grand: Taxon){
+        val intent=Intent(activity,CategoryActivity::class.java).apply { putExtra("taxonParent",grand) }
         Column(Modifier.wrapContentSize(), horizontalAlignment = Alignment.CenterHorizontally) {
 
             CoilImage(
-            imageModel =grand.gimgurl,
+            imageModel =grand.icon,
             modifier = Modifier
                 .size(70.dp)
-                .clip(shape = CircleShape).clickable {startActivity(intent)}
+                .clip(shape = CircleShape)
+                .clickable { startActivity(intent) }
                 ,
             contentScale= ContentScale.Crop,alignment=Alignment.Center,
             // shows a shimmering effect when loading an image.
@@ -564,7 +572,7 @@ class HomeFragment : Fragment(), ICategoryListener {
                 Text(text = "image request failed.")
             })
         Spacer(modifier = Modifier.height(2.dp))
-        Text(text = grand.gname,
+        Text(text = grand.name,
             color = Color.DarkGray,fontWeight=FontWeight.W400,fontFamily = FontFamily(Font(R.font.whitneymedium)),
             fontSize = 12.sp)
         }

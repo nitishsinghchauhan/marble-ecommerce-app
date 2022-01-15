@@ -5,10 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.watchstoreapp.model.*
 //import com.example.watchstoreapp.model.CarttItem
-import com.example.watchstoreapp.model.CategoryItem
-import com.example.watchstoreapp.model.ProductItem
-import com.example.watchstoreapp.model.User
 import com.example.watchstoreapp.repository.StoreRepository
 import com.example.watchstoreapp.utils.Constant
 import com.google.firebase.firestore.FirebaseFirestore
@@ -23,8 +21,8 @@ class StoreViewModel @Inject constructor(private val repository: StoreRepository
 private val db: FirebaseFirestore
 ):ViewModel() {
 
-    private var _catList = MutableLiveData<ArrayList<CategoryItem>>()
-    val catList: LiveData<ArrayList<CategoryItem>> get() = _catList
+    private var _catList = MutableLiveData<List<Taxon>>()
+    val catList: MutableLiveData<List<Taxon>> get() = _catList
 
     private var _productList = MutableLiveData<ArrayList<ProductItem>>()
     val productList: LiveData<ArrayList<ProductItem>> get() = _productList
@@ -41,7 +39,10 @@ private val db: FirebaseFirestore
 
     fun getAllCategories(){
         viewModelScope.launch {
-            _catList.postValue(repository.getAllCategories())
+            var data=repository.getcategorytable()
+            delay(500)
+            _catList.postValue(data)
+            Log.d("viewmodelcat", data.toString())
         }
 
     }

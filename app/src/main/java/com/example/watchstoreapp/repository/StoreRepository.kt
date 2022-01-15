@@ -2,16 +2,18 @@ package com.example.watchstoreapp.repository
 
 import android.annotation.SuppressLint
 import android.util.Log
+import android.widget.Toast
+import androidx.compose.material.TopAppBar
+import com.example.watchstoreapp.model.*
 //import com.example.watchstoreapp.model.CarttItem
-import com.example.watchstoreapp.model.CategoryItem
-import com.example.watchstoreapp.model.ProductItem
-import com.example.watchstoreapp.model.User
 import com.example.watchstoreapp.utils.Constant
 import com.google.android.gms.tasks.Task
+import com.google.api.Context
 import com.google.api.Distribution
 import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.ktx.toObject
 import kotlinx.coroutines.*
 
 import javax.inject.Inject
@@ -133,6 +135,35 @@ class StoreRepository @Inject constructor(private val db:FirebaseFirestore){
 //        }
 //
 //    }
+
+
+    suspend fun getcategorytable(): List<Taxon> {
+         var catdata:MutableList<Taxon> = mutableListOf()
+        db.collection("new").document("category").get().addOnSuccessListener { result ->
+
+            val result=result.toObject(categoryclass::class.java)!!
+
+            result.taxonomiesLandingPage[0].root.taxons.forEach{listdata->catdata.add(listdata)}
+            Log.d("catrepo",catdata.toString())
+
+        }.addOnFailureListener {Log.d("getcategorytable","failed")
+
+        }
+
+        Log.d("catrepo",catdata.toString())
+        return catdata
+    }
+
+
+
+
+
+    suspend fun addrandom(rd:categoryclass){
+        Log.d("random", "addrandom: procss started")
+        withContext(Dispatchers.IO){  db.collection("new").document("category").set(rd).addOnSuccessListener {Log.d("random", "addrandom: procss succeed")}
+            .addOnFailureListener{Log.d("random", "addrandom: procss failed")}
+        }}
+
 
     suspend fun addUser(user: User){
         withContext(Dispatchers.IO){

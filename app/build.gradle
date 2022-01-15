@@ -139,5 +139,7 @@ dependencies {
     implementation "com.github.skydoves:landscapist-coil:1.4.5"
     implementation 'androidx.compose.runtime:runtime-livedata:1.0.5'
 
+    implementation 'com.beust:klaxon:5.5'
+
 
 }

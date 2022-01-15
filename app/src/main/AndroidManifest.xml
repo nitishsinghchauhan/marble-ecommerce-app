@@ -15,9 +15,13 @@
         android:theme="@style/Theme.NavigationDrawerExampleNew">
         <activity
             android:name=".Activities.CategoryActivity"
-            android:exported="false"
-            android:label="@string/title_activity_category"
-            android:theme="@style/Theme.NavigationDrawerExampleNew" />
+            android:exported="true"
+            android:label=""
+            android:theme="@style/Theme.NavigationDrawerExampleNew">
+
+
+
+        </activity>
         <activity
             android:name=".Activities.SignUpActivity"
             android:theme="@style/Theme.NavigationDrawerExampleNew.NoActionBar"></activity>
