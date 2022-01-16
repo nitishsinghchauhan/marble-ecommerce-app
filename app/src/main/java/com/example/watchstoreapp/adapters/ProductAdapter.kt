@@ -34,7 +34,7 @@ class ProductAdapter(private val listener: SuccessFragment):RecyclerView.Adapter
             }
         }
         holder.binding.productImage.setOnClickListener {
-            listener.onProductItemClicked(product)
+//            listener.onProductItemClicked(product)
         }
     }
 

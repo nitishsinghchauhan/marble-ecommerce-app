@@ -16,13 +16,14 @@ import com.example.watchstoreapp.databinding.FragmentSuccessBinding
 import com.example.watchstoreapp.model.ProductItem
 import com.example.watchstoreapp.viewModel.StoreViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.fragment_success.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 //This is basically successfully product fetched fragment after clicking desired category
 @AndroidEntryPoint
-class SuccessFragment : Fragment(), IProductListener {
+class SuccessFragment : Fragment() {
     private val storeViewModel: StoreViewModel by activityViewModels()
 
     lateinit var productAdapter: ProductAdapter
@@ -38,31 +39,41 @@ class SuccessFragment : Fragment(), IProductListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupProductRV()
+
         GlobalScope.launch(Dispatchers.Main) {
             storeViewModel.productList.observe(requireActivity(), Observer { list ->
                 Log.i("product list size", list.size.toString())
 
-                productAdapter.updateList(list)
+                productAdapter.updateList(list) })
+        }
 
+        binding.cvpro.setContent {
 
-            })
 
 
         }
 
 
     }
-    override fun onProductItemClicked(product: ProductItem) {
-        findNavController().navigate(SuccessFragmentDirections.actionSuccessFragmentToDetailsFragment(product))
-    }
+    
 
-    private fun setupProductRV() {
-        productAdapter = ProductAdapter(this)
-        binding.productListRv1.apply {
-            layoutManager = GridLayoutManager(requireActivity(), 2)
-            hasFixedSize()
-            adapter = productAdapter
-        }
-    }
+
+
+
+
+
+
 }
+//    override fun onProductItemClicked(product: ProductItem) {
+//        findNavController().navigate(SuccessFragmentDirections.actionSuccessFragmentToDetailsFragment(product))
+//    }
+
+//    private fun setupProductRV() {
+//        productAdapter = ProductAdapter(this)
+//        binding.productListRv1.apply {
+//            layoutManager = GridLayoutManager(requireActivity(), 2)
+//            hasFixedSize()
+//            adapter = productAdapter
+//        }
+//    }
+//}
