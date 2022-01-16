@@ -1,5 +1,6 @@
 package com.example.watchstoreapp.Activities
 
+import android.content.Intent
 import com.example.watchstoreapp.R
 import android.os.Bundle
 import android.util.Log
@@ -11,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -39,8 +41,12 @@ class DashboardActivity : AppCompatActivity(),INavListener, IBadgeUpdater {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityDashboardBinding
     lateinit var bottomNavView: BottomNavigationView
+    lateinit var navController : NavController
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         binding = ActivityDashboardBinding.inflate(layoutInflater)
@@ -54,7 +60,7 @@ class DashboardActivity : AppCompatActivity(),INavListener, IBadgeUpdater {
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
         bottomNavView = findViewById(R.id.nav_view1)
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
+        navController = findNavController(R.id.nav_host_fragment_content_main)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
@@ -74,6 +80,17 @@ class DashboardActivity : AppCompatActivity(),INavListener, IBadgeUpdater {
         navUsername.text = userData[0]
 //        navUserEmail.text = ""
         navUserMobile.text = userData[1]
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        var id =0L
+        id= data!!.getLongExtra("id",0L)
+        Log.d("onactivityresult",id.toString())
+        if (id != 0L){
+            navController.navigate(R.id.successFragment)
+        }
     }
 
 

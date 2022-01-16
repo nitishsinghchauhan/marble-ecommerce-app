@@ -68,6 +68,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -263,6 +264,10 @@ class HomeFragment : Fragment(), ICategoryListener {
 
 
     }
+
+
+
+
 
 
 //    override fun onResume() {
@@ -554,9 +559,10 @@ class HomeFragment : Fragment(), ICategoryListener {
             CoilImage(
             imageModel =grand.icon,
             modifier = Modifier
-                .size(70.dp)
+                .size(75.dp)
                 .clip(shape = CircleShape)
-                .clickable { startActivity(intent) }
+                .border(2.dp, color = Color.LightGray, CircleShape)
+                .clickable { startActivityForResult(intent,1) }
                 ,
             contentScale= ContentScale.Crop,alignment=Alignment.Center,
             // shows a shimmering effect when loading an image.
@@ -573,7 +579,7 @@ class HomeFragment : Fragment(), ICategoryListener {
             })
         Spacer(modifier = Modifier.height(2.dp))
         Text(text = grand.name,
-            color = Color.DarkGray,fontWeight=FontWeight.W400,fontFamily = FontFamily(Font(R.font.whitneymedium)),
+            color = Color.Gray,fontWeight=FontWeight.W400,fontFamily = FontFamily(Font(R.font.whitneymedium)),
             fontSize = 12.sp)
         }
 

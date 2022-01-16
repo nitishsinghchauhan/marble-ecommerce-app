@@ -98,6 +98,7 @@ private val db: FirebaseFirestore
 //
 //    }
 
+
     fun addUser(user: User){
         viewModelScope.launch(Dispatchers.IO) {
             repository.addUser(user)

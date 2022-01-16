@@ -158,11 +158,26 @@ class StoreRepository @Inject constructor(private val db:FirebaseFirestore){
 
 
 
-    suspend fun addrandom(rd:categoryclass){
-        Log.d("random", "addrandom: procss started")
-        withContext(Dispatchers.IO){  db.collection("new").document("category").set(rd).addOnSuccessListener {Log.d("random", "addrandom: procss succeed")}
-            .addOnFailureListener{Log.d("random", "addrandom: procss failed")}
-        }}
+//    suspend fun addproductscompletedetails(rd:newproductschema){
+//        Log.d("random", "addrandom: procss started")
+//        withContext(Dispatchers.IO){
+//            for((index,data) in rd.newallProductsDetailPage.withIndex()) {
+//
+//                db.collection("allproductsdetails").document(data.attributes.name).set(data)
+//                    .addOnSuccessListener { Log.d("random", "addrandom: procss succeed $index") }
+//                    .addOnFailureListener { Log.d("random", "addrandom: procss failed $index") }
+//            }
+//        }}
+suspend fun addrandom(rd:newproductschema){
+    Log.d("random", "addrandom: procss started")
+    withContext(Dispatchers.IO){
+        for((index,data) in rd.newallProductsDetailPage.withIndex()) {
+
+            db.collection("allproductsdetails").document(data.attributes.name).set(data)
+                .addOnSuccessListener { Log.d("random", "addrandom: procss succeed $index") }
+                .addOnFailureListener { Log.d("random", "addrandom: procss failed $index") }
+        }
+    }}
 
 
     suspend fun addUser(user: User){
