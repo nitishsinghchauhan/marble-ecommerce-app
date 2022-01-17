@@ -98,6 +98,25 @@ class StoreRepository @Inject constructor(private val db:FirebaseFirestore){
     }
 
 
+    suspend fun getProductToprated():ArrayList<ProductsLandingPage>{
+        var list: ArrayList<ProductsLandingPage> = ArrayList()
+        db.collection("topratedproducts").get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    val data = document.toObject(ProductsLandingPage::class.java)
+                    list.add(data)
+                    Log.d("datarepo",document.toString())
+                }
+                //Log.d("main product", list.size.toString())
+            }
+            .addOnFailureListener { exception ->
+                Log.w("main", "Error getting documents top rated products.", exception)
+            }
+
+        return list
+    }
+
+
 
     suspend fun updateFavorite(product:ProductItem){
         val collection = db.collection(Constant.PRODUCT_TABEL)
@@ -160,6 +179,8 @@ class StoreRepository @Inject constructor(private val db:FirebaseFirestore){
 //    }
 
 
+
+
     suspend fun getcategorytable(): List<Taxon> {
          var catdata:MutableList<Taxon> = mutableListOf()
         db.collection("new").document("category").get().addOnSuccessListener { result ->
@@ -191,12 +212,12 @@ class StoreRepository @Inject constructor(private val db:FirebaseFirestore){
 //                    .addOnFailureListener { Log.d("random", "addrandom: procss failed $index") }
 //            }
 //        }}
-suspend fun addrandom(rd:newproductschema){
+suspend fun addrandom(rd:homeproducts){
     Log.d("random", "addrandom: procss started")
     withContext(Dispatchers.IO){
-        for((index,data) in rd.newallProductsDetailPage.withIndex()) {
+        for((index,data) in rd.topRatedProductsLandingPage.withIndex()) {
 
-            db.collection("allproductsdetails").document(data.attributes.name).set(data)
+            db.collection("topratedproducts").document(data.attributes.name).set(data)
                 .addOnSuccessListener { Log.d("random", "addrandom: procss succeed $index") }
                 .addOnFailureListener { Log.d("random", "addrandom: procss failed $index") }
         }

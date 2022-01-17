@@ -69,10 +69,13 @@ import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.watchstoreapp.Activities.CategoryActivity
+import com.gowtham.ratingbar.RatingBar
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.android.synthetic.main.fragment_home.*
 
@@ -89,7 +92,7 @@ class HomeFragment : Fragment(){
     lateinit var rv: View
     lateinit var iBadgeUpdater: IBadgeUpdater
     lateinit var offerInstance: ProductItem
-    private var prodlivelist= MutableLiveData<ArrayList<ProductItem>>()
+    private var prodlivelistToprated= MutableLiveData<ArrayList<ProductsLandingPage>>()
     private var categoryTaxonLiveList= MutableLiveData<List<Taxon>>()
     override fun onAttach(activity: Activity) {
         super.onAttach(activity)
@@ -104,6 +107,7 @@ class HomeFragment : Fragment(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         storeViewModel.getAllCategories()
+        storeViewModel.getTopratedPro()
 //        storeViewModel.getProductByCategory("1")
         GlobalScope.launch(Dispatchers.Main) {
 
@@ -114,9 +118,9 @@ class HomeFragment : Fragment(){
 
 
             })
-            storeViewModel.productList.observe(requireActivity(), Observer { list ->
+            storeViewModel.productListTopRated.observe(requireActivity(), Observer { list ->
                 Log.i("product list size", list.size.toString())
-                prodlivelist.postValue(list)
+                prodlivelistToprated.postValue(list)
 //                productAdapter.updateList(list)
 
             })
@@ -177,7 +181,7 @@ class HomeFragment : Fragment(){
 
 
         binding.categoryCv.setContent {
-            val prolist by prodlivelist.observeAsState(initial = emptyList())
+            val prolist by prodlivelistToprated.observeAsState(initial = emptyList())
             val catlist by categoryTaxonLiveList.observeAsState(initial = emptyList())
             Column {
 
@@ -190,7 +194,7 @@ class HomeFragment : Fragment(){
                 } else {
                     LazyRow(modifier = Modifier
                         .fillMaxWidth()
-                        .wrapContentHeight(), horizontalArrangement = Arrangement.spacedBy(8.dp)){items(prolist){pro->productcard(pro = pro)} }
+                        .wrapContentHeight(), horizontalArrangement = Arrangement.spacedBy(8.dp)){items(prolist){pro->productcardnew(pro = pro)} }
                 }
 
 
@@ -202,7 +206,7 @@ class HomeFragment : Fragment(){
                 } else {
                     LazyRow(modifier = Modifier
                         .fillMaxWidth()
-                        .wrapContentHeight(), horizontalArrangement = Arrangement.spacedBy(8.dp)){items(prolist){pro->productcard(pro = pro)} }
+                        .wrapContentHeight(), horizontalArrangement = Arrangement.spacedBy(8.dp)){items(prolist){pro->productcardnew(pro = pro)} }
                 }
 
 
@@ -213,7 +217,7 @@ class HomeFragment : Fragment(){
                 } else {
                     LazyRow(modifier = Modifier
                         .fillMaxWidth()
-                        .wrapContentHeight(), horizontalArrangement = Arrangement.spacedBy(8.dp)){items(prolist){pro->productcard(pro = pro)} }
+                        .wrapContentHeight(), horizontalArrangement = Arrangement.spacedBy(8.dp)){items(prolist){pro->productcardnew(pro = pro)} }
                 }
                 Spacer(modifier = Modifier.height(10.dp))
 
@@ -574,6 +578,92 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) 
         }
 
     }
+
+
+
+    @OptIn(ExperimentalMaterialApi::class)
+    @Composable
+    fun productcardnew(pro:ProductsLandingPage) {
+
+        Card(
+            modifier = Modifier.clickable {  }
+                .width(170.dp)
+                .wrapContentHeight(),
+            shape = RoundedCornerShape(8.dp),
+            elevation = 5.dp, backgroundColor = Color.White,
+//            onClick = {(findNavController().navigate(SuccessFragmentDirections.actionSuccessFragmentToDetailsFragment()))},
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+
+            ) {
+                CoilImage(
+                    imageModel =pro.attributes.productURL,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .aspectRatio(1f)
+                    ,contentScale= ContentScale.Crop,alignment= Alignment.Center,
+                    // shows a shimmering effect when loading an image.
+                    shimmerParams = ShimmerParams(
+                        baseColor = Color.White,
+                        highlightColor = Color.LightGray,
+                        durationMillis = 350,
+                        dropOff = 0.65f,
+                        tilt = 20f
+                    ),
+
+                    // shows an error text message when request failed.
+                    failure = {
+                        Text(text = "image request failed.")
+                    })
+
+                Box(
+                    modifier = Modifier.background(Color(0x66dddddd))
+                        .fillMaxWidth()
+                        .padding(5.dp), contentAlignment = Alignment.TopCenter
+                ) {
+                    Text(text = pro.attributes.name,
+                        color = colorResource(id = R.color.secondary_text),fontWeight= FontWeight.W400,fontFamily = FontFamily(
+                            Font(
+                                R.font.whitneymedium)
+                        ), maxLines = 2,
+                        fontSize = 16.sp)
+
+                }
+                Row(
+                    Modifier.background(Color(0x66dddddd))
+                        .fillMaxWidth()
+                        .wrapContentHeight()
+                        .padding(start = 10.dp, top = 10.dp, bottom = 5.dp, end = 5.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+                    Row(Modifier.wrapContentWidth()) {
+
+                        Text(
+                            text = "₹${pro.attributes.price}",
+                            fontSize = 16.sp,
+                            fontFamily = FontFamily(Font(R.font.montserrat_bold)),
+                            color = colorResource(id = R.color.primary)
+                        )
+                        Spacer(modifier = Modifier.width(5.dp))
+                        Text(
+                            text = "₹${pro.attributes.price.toInt() * 115 / 100}",
+                            style = TextStyle(textDecoration = TextDecoration.LineThrough),
+                            fontSize = 16.sp,
+                            fontFamily = FontFamily(Font(R.font.montserrat_bold)),
+                            color = colorResource(id = R.color.darker_gray)
+                        )
+                    }
+                    RatingBar( padding = 0.dp, onRatingChanged = {}, inactiveColor = Color.LightGray, size=14.dp,value=pro.attributes.avgRating.toFloat(), isIndicator = true,onValueChange ={}  )
+
+                }
+
+
+            }
+        }
+    }
+
+
 }
 
 

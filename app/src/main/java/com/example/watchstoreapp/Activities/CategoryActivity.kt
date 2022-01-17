@@ -43,10 +43,7 @@ import com.beust.klaxon.Klaxon
 
 import com.example.watchstoreapp.Activities.ui.theme.NavigationDrawerExampleNewTheme
 import com.example.watchstoreapp.R
-import com.example.watchstoreapp.model.Taxon
-import com.example.watchstoreapp.model.categoryclass
-import com.example.watchstoreapp.model.oldtonewclassproduct
-import com.example.watchstoreapp.model.productschema
+import com.example.watchstoreapp.model.*
 import com.example.watchstoreapp.repository.StoreRepository
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.AndroidEntryPoint
@@ -73,6 +70,7 @@ class CategoryActivity : AppCompatActivity() {
         var taxonP=intent.getParcelableExtra<Taxon>("taxonParent")
 
 
+//        val nd= homeproducts.fromJson("""""")
 //        CoroutineScope(Dispatchers.Main).launch {
 //            if (nd != null) {
 //                repository.addrandom(nd)

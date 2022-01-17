@@ -6,15 +6,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.ExperimentalMaterialApi
@@ -50,6 +48,9 @@ import com.example.watchstoreapp.databinding.FragmentSuccessBinding
 import com.example.watchstoreapp.model.ProductItem
 import com.example.watchstoreapp.model.newAllProductsDetailPage
 import com.example.watchstoreapp.viewModel.StoreViewModel
+import com.gowtham.ratingbar.RatingBar
+import com.gowtham.ratingbar.RatingBarStyle
+import com.gowtham.ratingbar.StepSize
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.coil.CoilImage
 import com.squareup.okhttp.internal.framed.Header
@@ -135,7 +136,7 @@ class SuccessFragment : Fragment() {
     fun productcardcat(pro:newAllProductsDetailPage) {
 
         Card(
-            modifier = Modifier
+            modifier = Modifier.clickable { findNavController().navigate(SuccessFragmentDirections.actionSuccessFragmentToDetailsFragment(pro)) }
                 .fillMaxWidth()
                 .wrapContentHeight(),
             shape = RoundedCornerShape(8.dp),
@@ -169,9 +170,9 @@ class SuccessFragment : Fragment() {
                     })
 
                 Box(
-                    modifier = Modifier
+                    modifier = Modifier.background(Color(0x66dddddd))
                         .fillMaxWidth()
-                        .padding(5.dp), contentAlignment = Alignment.TopCenter,
+                        .padding(5.dp), contentAlignment = Alignment.TopCenter
                     ) {
                     Text(text = pro.attributes.name,
                         color = colorResource(id = R.color.secondary_text),fontWeight= FontWeight.W400,fontFamily = FontFamily(
@@ -182,15 +183,29 @@ class SuccessFragment : Fragment() {
 
                 }
                 Row(
-                    Modifier
+                    Modifier.background(Color(0x66dddddd))
                         .fillMaxWidth()
                         .wrapContentHeight()
-                        .padding(start = 10.dp, top = 10.dp, bottom = 5.dp), horizontalArrangement = Arrangement.Start) {
-                    Text(text = "₹${pro.attributes.price}", fontSize = 16.sp, fontFamily = FontFamily(Font(R.font.montserrat_bold)), color = colorResource(id = R.color.secondary_dark) )
-                    Spacer(modifier = Modifier.width(5.dp))
-                    Text(text = "₹${pro.attributes.displayPrice.toInt()*115/100}", style = TextStyle(textDecoration = TextDecoration.LineThrough),fontSize = 16.sp, fontFamily = FontFamily(Font(R.font.montserrat_bold)), color = colorResource(id = R.color.darker_gray))
+                        .padding(start = 10.dp, top = 10.dp, bottom = 5.dp, end = 5.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+                    Row(Modifier.wrapContentWidth()) {
 
-
+                        Text(
+                            text = "₹${pro.attributes.price}",
+                            fontSize = 16.sp,
+                            fontFamily = FontFamily(Font(R.font.montserrat_bold)),
+                            color = colorResource(id = R.color.primary)
+                        )
+                        Spacer(modifier = Modifier.width(5.dp))
+                        Text(
+                            text = "₹${pro.attributes.displayPrice.toInt() * 115 / 100}",
+                            style = TextStyle(textDecoration = TextDecoration.LineThrough),
+                            fontSize = 16.sp,
+                            fontFamily = FontFamily(Font(R.font.montserrat_bold)),
+                            color = colorResource(id = R.color.darker_gray)
+                        )
+                    }
+                    RatingBar( padding = 0.dp, onRatingChanged = {}, inactiveColor = Color.LightGray, size=14.dp,value=pro.attributes.avgRating.toFloat(), isIndicator = true,onValueChange ={}  )
+                    
                 }
 
 

@@ -29,6 +29,9 @@ private val db: FirebaseFirestore
     private var _productListCategorywise = MutableLiveData<ArrayList<newAllProductsDetailPage>>()
     val productListCategorywise: LiveData<ArrayList<newAllProductsDetailPage>> get() = _productListCategorywise
 
+    private var _productListTopRated = MutableLiveData<ArrayList<ProductsLandingPage>>()
+    val productListTopRated: LiveData<ArrayList<ProductsLandingPage>> get() = _productListTopRated
+
 //    private var _cartList = MutableLiveData<ArrayList<CarttItem>>()
 //    val cartList: LiveData<ArrayList<CarttItem>> get() = _cartList
 
@@ -99,6 +102,15 @@ private val db: FirebaseFirestore
 //        }
 //
 //    }
+
+    fun getTopratedPro(){
+        viewModelScope.launch {
+            var data = repository.getProductToprated()
+            delay(500)
+            _productListTopRated.postValue(data!!)
+        }
+    }
+
 
     fun getProductByCategory(catId:Long){
         viewModelScope.launch {
