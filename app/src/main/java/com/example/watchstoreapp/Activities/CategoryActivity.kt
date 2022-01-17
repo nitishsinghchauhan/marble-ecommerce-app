@@ -64,13 +64,14 @@ import javax.inject.Inject as Inject1
 @AndroidEntryPoint
 class CategoryActivity : AppCompatActivity() {
     @javax.inject.Inject lateinit var repository: StoreRepository
-    var taxonP=intent.getParcelableExtra<Taxon>("taxonParent")
 
 
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        var taxonP=intent.getParcelableExtra<Taxon>("taxonParent")
+
 
 //        CoroutineScope(Dispatchers.Main).launch {
 //            if (nd != null) {

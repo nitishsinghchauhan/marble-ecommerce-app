@@ -29,7 +29,9 @@ private val klaxon = Klaxon()
 fun oldtonewclassproduct(productschema1: productschema):newproductschema{
     var newlist=mutableListOf<newAllProductsDetailPage>()
     for(data in productschema1.allProductsDetailPage){
-        newlist.add(newAllProductsDetailPage(data.id,data.taxonIDS[2],data.attributes))
+        var imagelist= mutableListOf<String>()
+        for (image in data.included.master.data.included.images){imagelist.add(image.data.attributes.productURL)}
+        newlist.add(newAllProductsDetailPage(data.id,data.taxonIDS[2],data.attributes,imagelist))
     }
     return newproductschema(newlist)
 }
@@ -54,6 +56,7 @@ data class newAllProductsDetailPage (
 //    val productURL: String,
 
     val attributes: AllProductsDetailPageAttributes,
+    val images: List<String>
 //    val relationships: AllProductsDetailPageRelationships,
 //    val included: AllProductsDetailPageIncluded
 )
@@ -94,7 +97,7 @@ data class AllProductsDetailPage (
 
     val attributes: AllProductsDetailPageAttributes,
 //    val relationships: AllProductsDetailPageRelationships,
-//    val included: AllProductsDetailPageIncluded
+    val included: AllProductsDetailPageIncluded
 )
 
 data class AllProductsDetailPageAttributes (
