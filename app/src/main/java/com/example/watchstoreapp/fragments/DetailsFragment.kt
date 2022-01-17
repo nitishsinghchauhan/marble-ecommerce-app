@@ -5,19 +5,31 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import androidx.activity.OnBackPressedCallback
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.util.lerp
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -26,9 +38,14 @@ import com.example.watchstoreapp.IBadgeUpdater
 import com.example.watchstoreapp.INavListener
 import com.example.watchstoreapp.R
 import com.example.watchstoreapp.databinding.FragmentDetailsBinding
+import com.example.watchstoreapp.model.ProductsLandingPage
+import com.example.watchstoreapp.model.newAllProductsDetailPage
+import com.example.watchstoreapp.model.productschema
 import com.example.watchstoreapp.utils.Constant
 import com.example.watchstoreapp.viewModel.StoreViewModel
 import com.google.accompanist.pager.*
+import com.gowtham.ratingbar.RatingBar
+import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.coil.CoilImage
 import kotlinx.android.synthetic.main.fragment_details.*
 import kotlinx.android.synthetic.main.product_item.*
@@ -82,12 +99,7 @@ class DetailsFragment : Fragment() {
 
 
         binding.cvdetails.setContent {
-            Column(
-                Modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight(), verticalArrangement = Arrangement.Top) {
-                horizontalScroll(imgs = args.productDetails.images)}
-            Spacer(modifier = Modifier.height(100.dp))
+            horizontalScroll(data = args.productDetails)
         }
 
 
@@ -181,19 +193,14 @@ class DetailsFragment : Fragment() {
 
     @OptIn(ExperimentalPagerApi::class)
     @Composable
-    fun horizontalScroll(imgs:List<String>){
+    fun horizontalScroll(data : newAllProductsDetailPage){
 
-        Column(
-            Modifier
-                .fillMaxWidth()
-                .wrapContentHeight(), verticalArrangement = Arrangement.Top) {
+        Column() {
             val pagerState = rememberPagerState()
-
             HorizontalPager(
-                count = imgs.size, modifier = Modifier
+                count = data.images.size, modifier = Modifier
                     .fillMaxWidth()
-                    .wrapContentHeight()
-                , state = pagerState
+                    .height(473.dp), state = pagerState
             ) { page ->
                 Card(
                     Modifier
@@ -208,7 +215,7 @@ class DetailsFragment : Fragment() {
                                 start = 0.85f,
                                 stop = 1f,
                                 fraction = 1f - pageOffset.coerceIn(0f, 1f)
-                            ).also{ scale ->
+                            ).also { scale ->
                                 scaleX = scale
                                 scaleY = scale
                             }
@@ -224,37 +231,131 @@ class DetailsFragment : Fragment() {
                     Box() {
 
                         Card(
-                            modifier = Modifier.width(320.dp),
+                            modifier = Modifier.fillMaxWidth(),
 
                             elevation = 5.dp
                         ) {
-
+                            Box(
+                                modifier = Modifier
+                                    .height(473.dp)
+                                    .fillMaxWidth()
+                            ) {
                                 CoilImage(
-                                    imageModel = imgs[page],
+                                    imageModel = data.images[page],
                                     contentDescription = "artist",
-                                    modifier= Modifier
-                                        .width(320.dp)
-                                        .aspectRatio(1f),
+                                    modifier = Modifier.fillMaxWidth().height(473.dp),
                                     alignment = Alignment.Center,
                                     contentScale = ContentScale.Crop
 
                                 )
+
+                            }
                         }
                     }
                 }
             }
             HorizontalPagerIndicator(
                 pagerState = pagerState,
-                activeColor= colorResource(id = R.color.primary),
+                activeColor = colorResource(id = R.color.primary),
                 inactiveColor = Color.LightGray,
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
-                    .padding(16.dp)
+                    .padding(top = 12.dp, bottom = 20.dp)
             )
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight().background(Color(0x66dddddd)),
+//            onClick = {(findNavController().navigate(SuccessFragmentDirections.actionSuccessFragmentToDetailsFragment()))},
+            ) {
+                Column(
+                    modifier = Modifier.padding(horizontal = 20.dp)
+                        .fillMaxWidth()
+                        .wrapContentHeight()
+
+                ) {
+
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding( vertical = 10.dp), contentAlignment = Alignment.TopStart
+                    ) {
+                        Text(
+                            text = data.attributes.name,
+                            color = colorResource(id = R.color.primary),
+                            fontWeight = FontWeight.Normal,
+                            fontFamily = FontFamily(
+                                Font(
+                                    R.font.whitneymedium
+                                )
+                            ),
+                            maxLines = 2,
+                            fontSize = 18.sp
+                        )
+
+                    }
+
+                    Row(
+                        Modifier
+                            .fillMaxWidth()
+                            .wrapContentHeight()
+                            .padding(start = 0.dp, top = 0.dp, bottom = 5.dp, end = 5.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Row(Modifier.wrapContentWidth()) {
+
+                            Text(
+                                text = "₹${data.attributes.price}",
+                                fontSize = 18.sp,
+                                fontFamily = FontFamily(Font(R.font.montserrat_bold)),
+                                color = colorResource(id = R.color.primary)
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(
+                                text = "₹${data.attributes.displayPrice.toInt() * 115 / 100}",
+                                style = TextStyle(textDecoration = TextDecoration.LineThrough),
+                                fontSize = 18.sp,
+                                fontFamily = FontFamily(Font(R.font.montserrat_bold)),
+                                color = colorResource(id = R.color.darker_gray)
+                            )
+                        }
+                        RatingBar(
+                            padding = 0.dp,
+                            onRatingChanged = {},
+                            inactiveColor = Color.LightGray,
+                            size = 18.dp,
+                            value = data.attributes.avgRating.toFloat(),
+                            isIndicator = true,
+                            onValueChange = {})
+
+                    }
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth(0.8f)
+                            .padding(vertical=5.dp), contentAlignment = Alignment.TopStart
+                    ) {
+                        Text(
+                            text = data.attributes.description,
+                            color = colorResource(id = R.color.secondary_text),
+                            fontWeight = FontWeight.W400,
+                            fontFamily = FontFamily(
+                                Font(
+                                    R.font.whitneymedium
+                                )
+                            ),
+                            fontSize = 16.sp
+                        )
+
+                    }
+
+
+                }
+            }
+
         }
 
     }
-
 
 
 }
