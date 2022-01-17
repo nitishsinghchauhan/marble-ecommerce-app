@@ -82,16 +82,7 @@ class DashboardActivity : AppCompatActivity(),INavListener, IBadgeUpdater {
         navUserMobile.text = userData[1]
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
 
-        var id =0L
-        id= data!!.getLongExtra("id",0L)
-        Log.d("onactivityresult",id.toString())
-        if (id != 0L){
-            navController.navigate(R.id.successFragment)
-        }
-    }
 
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

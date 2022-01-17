@@ -3,7 +3,9 @@ package com.example.watchstoreapp.model
 // To parse the JSON, install Klaxon and do:
 //
 //   val welcome9 = productschema.fromJson(jsonString)
+import android.os.Parcelable
 import com.beust.klaxon.*
+import kotlinx.android.parcel.Parcelize
 
 private fun <T> Klaxon.convert(k: kotlin.reflect.KClass<*>, fromJson: (JsonValue) -> T, toJson: (T) -> String, isUnion: Boolean = false) =
     this.converter(object: Converter {
@@ -39,27 +41,27 @@ data class newproductschema (
     @Json(name = "allProducts_DetailPage")
     val newallProductsDetailPage: List<newAllProductsDetailPage>
 )
-
-data class newAllProductsDetailPage (
-    val id: Long,
-//    val type: AllProductsDetailPageType,
-//    val major: Major,
-//    val minor: String,
-//    val version: String,
-
-    val parentId: Long,
+//@Parcelize
+//data class newAllProductsDetailPage (
+//    val id: Long,
+////    val type: AllProductsDetailPageType,
+////    val major: Major,
+////    val minor: String,
+////    val version: String,
 //
-//    @Json(name = "display_price")
-//    val displayPrice: String,
+//    val parentId: Long,
+////
+////    @Json(name = "display_price")
+////    val displayPrice: String,
+////
+////    @Json(name = "product_url")
+////    val productURL: String,
 //
-//    @Json(name = "product_url")
-//    val productURL: String,
-
-    val attributes: AllProductsDetailPageAttributes,
-    val images: List<String>
-//    val relationships: AllProductsDetailPageRelationships,
-//    val included: AllProductsDetailPageIncluded
-)
+//    val attributes: AllProductsDetailPageAttributes,
+//    val images: List<String>
+////    val relationships: AllProductsDetailPageRelationships,
+////    val included: AllProductsDetailPageIncluded
+//):Parcelable
 
 
 
@@ -99,7 +101,7 @@ data class AllProductsDetailPage (
 //    val relationships: AllProductsDetailPageRelationships,
     val included: AllProductsDetailPageIncluded
 )
-
+@Parcelize
 data class AllProductsDetailPageAttributes (
     val id: Long,
     val name: String,
@@ -151,7 +153,7 @@ data class AllProductsDetailPageAttributes (
 
     @Json(name = "product_url")
     val productURL: String
-)
+): Parcelable
 
 //enum class Currency(val value: String) {
 //    Currency("₹."),

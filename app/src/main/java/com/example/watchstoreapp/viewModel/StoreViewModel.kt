@@ -26,6 +26,8 @@ private val db: FirebaseFirestore
 
     private var _productList = MutableLiveData<ArrayList<ProductItem>>()
     val productList: LiveData<ArrayList<ProductItem>> get() = _productList
+    private var _productListCategorywise = MutableLiveData<ArrayList<newAllProductsDetailPage>>()
+    val productListCategorywise: LiveData<ArrayList<newAllProductsDetailPage>> get() = _productListCategorywise
 
 //    private var _cartList = MutableLiveData<ArrayList<CarttItem>>()
 //    val cartList: LiveData<ArrayList<CarttItem>> get() = _cartList
@@ -47,19 +49,19 @@ private val db: FirebaseFirestore
 
     }
 
-    fun getProductByCategory(catId:String){
-        viewModelScope.launch {
-//            var data:ArrayList<ProductItem>?=null
-//            if(catId=="All"){
-//                data = repository.getProductByCategory("All")
-//            }else{
-//                data = repository.getProductByCategory(catId)
-//            }
-            var data = repository.getProductByCategory(catId)
-            delay(500)
-            _productList.postValue(data!!)
-        }
-    }
+//    fun getProductByCategory(catId:String){
+//        viewModelScope.launch {
+////            var data:ArrayList<ProductItem>?=null
+////            if(catId=="All"){
+////                data = repository.getProductByCategory("All")
+////            }else{
+////                data = repository.getProductByCategory(catId)
+////            }
+//            var data = repository.getProductByCategory(catId)
+//            delay(500)
+//            _productList.postValue(data!!)
+//        }
+//    }
 
     fun updateFav(product:ProductItem){
         viewModelScope.launch {
@@ -97,6 +99,14 @@ private val db: FirebaseFirestore
 //        }
 //
 //    }
+
+    fun getProductByCategory(catId:Long){
+        viewModelScope.launch {
+       var data = repository.getProductByCategorywise(catId)
+            delay(500)
+            _productListCategorywise.postValue(data!!)
+        }
+    }
 
 
     fun addUser(user: User){

@@ -78,7 +78,7 @@ import kotlinx.android.synthetic.main.fragment_home.*
 
 
 @AndroidEntryPoint
-class HomeFragment : Fragment(), ICategoryListener {
+class HomeFragment : Fragment(){
     lateinit var listener: INavListener
     private val storeViewModel: StoreViewModel by activityViewModels()
 
@@ -104,7 +104,7 @@ class HomeFragment : Fragment(), ICategoryListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         storeViewModel.getAllCategories()
-        storeViewModel.getProductByCategory("1")
+//        storeViewModel.getProductByCategory("1")
         GlobalScope.launch(Dispatchers.Main) {
 
             delay(1000)
@@ -240,11 +240,9 @@ class HomeFragment : Fragment(), ICategoryListener {
         iBadgeUpdater.updateBadge()
         createOfferInstance()
         binding.offerButton.setOnClickListener {
-            findNavController().navigate(
-                HomeFragmentDirections.actionHomeToDetailsFragment(
-                    offerInstance
-                )
-            )
+//            findNavController().navigate(
+//                HomeFragmentDirections.actionHomeToDetailsFragment()
+//            )
         }
 //        Log.i("binding.categoryRv.visibility",binding.categoryRv.visibility.toString())
 //        Log.i("binding.productListRv.visibility",binding.productListRv.visibility.toString())
@@ -277,29 +275,22 @@ class HomeFragment : Fragment(), ICategoryListener {
 //        catAdapter.notifyDataSetChanged()
 //        productAdapter.notifyDataSetChanged()
 //    }
+override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    super.onActivityResult(requestCode, resultCode, data)
 
-
-    //    private fun setupCategoryRV() {
-//        catAdapter = CategoryAdapter(this)
-//        binding.categoryRv.apply {
-//            layoutManager = LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
-//            hasFixedSize()
-//            adapter = catAdapter
-//        }
-//    }
-//    private fun setupProductRV() {
-//        productAdapter = ProductAdapter(this)
-//        binding.productListRv.apply {
-//            layoutManager = GridLayoutManager(requireActivity(), 2)
-//            hasFixedSize()
-//            adapter = productAdapter
-//            isNestedScrollingEnabled = false
-//        }
-//    }
-
-    override fun onCategoryClick(category: CategoryItem) {
-        storeViewModel.getProductByCategory(category.id!!)
+    var id =0L
+    id= data!!.getLongExtra("id",0L)
+    Log.d("onactivityresult",id.toString())
+    if (id != 0L){
+        findNavController().navigate(HomeFragmentDirections.actionHomeToSuccessFragment(id))
     }
+}
+
+
+
+//    override fun onCategoryClick(category: CategoryItem) {
+//        storeViewModel.getProductByCategory(category.id!!)
+//    }
 
 //    override fun onProductItemClicked(product: ProductItem) {
 //        findNavController().navigate(HomeFragmentDirections.actionHomeToDetailsFragment(product))
@@ -473,9 +464,8 @@ class HomeFragment : Fragment(), ICategoryListener {
                 .width(150.dp)
                 .wrapContentHeight(),
             shape = RoundedCornerShape(8.dp),
-            elevation = 5.dp, backgroundColor = Color.White, onClick = {(findNavController().navigate(
-                HomeFragmentDirections.actionHomeToDetailsFragment(pro)
-            ))},
+            elevation = 5.dp, backgroundColor = Color.White,
+//            onClick = {(findNavController().navigate(HomeFragmentDirections.actionHomeToDetailsFragment()))},
         ) {
             Column(
                 modifier = Modifier

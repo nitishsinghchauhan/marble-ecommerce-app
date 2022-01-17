@@ -75,6 +75,31 @@ class StoreRepository @Inject constructor(private val db:FirebaseFirestore){
     }
 
 
+    suspend fun getProductByCategorywise(catId:Long):ArrayList<newAllProductsDetailPage>{
+        var list: ArrayList<newAllProductsDetailPage> = ArrayList()
+        val collection = db.collection("allproductsdetails")
+        //Log.i("catId",catId)
+        val task = collection.whereEqualTo("parentId",catId).get()
+
+        task.addOnSuccessListener { result ->
+                for (document in result) {
+                    val data = document.toObject(newAllProductsDetailPage::class.java)
+                    //Log.d("main product", data.toString())
+                    //list.toMutableList().add(data)
+                    list.add(data)
+
+                }
+                //Log.d("main product", list.size.toString())
+            }
+            .addOnFailureListener { exception ->
+                Log.w("main", "Error getting documents.", exception)
+            }
+
+
+        return list
+    }
+
+
 
     suspend fun updateFavorite(product:ProductItem){
         val collection = db.collection(Constant.PRODUCT_TABEL)

@@ -41,7 +41,7 @@
 
     <fragment android:id="@+id/detailsFragment" android:name="com.example.watchstoreapp.fragments.DetailsFragment"
               android:label="" tools:layout="@layout/fragment_details">
-        <argument android:name="productDetails" app:argType="com.example.watchstoreapp.model.ProductItem"/>
+        <argument android:name="productDetails" app:argType="com.example.watchstoreapp.model.newAllProductsDetailPage"/>
         <action android:id="@+id/action_detailsFragment_to_home"
             app:destination="@id/home"
             app:enterAnim="@anim/nav_default_enter_anim"
@@ -59,6 +59,7 @@
         android:id="@+id/successFragment"
         android:name="com.example.watchstoreapp.fragments.SuccessFragment"
         android:label="" >
+        <argument android:name="id" app:argType="long"/>
         <action
             android:id="@+id/action_successFragment_to_detailsFragment"
             app:destination="@id/detailsFragment"

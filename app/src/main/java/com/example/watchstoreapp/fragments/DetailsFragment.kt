@@ -71,7 +71,7 @@ class DetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         onBackPress()
-        var product:ProductItem = args.productDetails
+        var product:ProductItem = ProductItem()
         totalQuantity = product.quantity
         binding.apply {
             title.text = product.name
