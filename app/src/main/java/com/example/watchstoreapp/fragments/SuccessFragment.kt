@@ -7,11 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.ExperimentalMaterialApi
@@ -49,7 +52,9 @@ import com.example.watchstoreapp.model.newAllProductsDetailPage
 import com.example.watchstoreapp.viewModel.StoreViewModel
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.coil.CoilImage
+import com.squareup.okhttp.internal.framed.Header
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.fragment_cart.*
 import kotlinx.android.synthetic.main.fragment_success.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -66,6 +71,7 @@ class SuccessFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         storeViewModel.getProductByCategory(argmnts.id)
+
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -97,7 +103,8 @@ class SuccessFragment : Fragment() {
                 } else {
                     Column(modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 20.dp, vertical = 10.dp)) {
+                        .fillMaxHeight()
+                        .padding(start = 20.dp, end = 20.dp, top = 10.dp) ){
                         Text(
                             "Showing ${prostate.size} Products",
                             fontSize = 18.sp,
@@ -105,9 +112,14 @@ class SuccessFragment : Fragment() {
                             fontWeight = FontWeight.Bold,
                             color = colorResource(id = R.color.primary)
                         )
-                             LazyVerticalGrid(cells = GridCells.Fixed(2)) {
+                        Spacer(modifier = Modifier.height(7.dp))
+                             LazyVerticalGrid( modifier = Modifier
+                                 .fillMaxHeight()
+                                 .fillMaxWidth(), contentPadding = PaddingValues(top=10.dp,bottom = 90.dp),cells = GridCells.Fixed(2), horizontalArrangement = Arrangement.spacedBy(10.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
                                   items(prostate) { pro -> productcardcat(pro = pro) }
                              }
+
+
                          }
                 }
 
@@ -140,7 +152,7 @@ class SuccessFragment : Fragment() {
                     imageModel =pro.attributes.productURL,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .wrapContentHeight()
+                        .aspectRatio(1f)
                         ,contentScale= ContentScale.Crop,alignment= Alignment.Center,
                     // shows a shimmering effect when loading an image.
                     shimmerParams = ShimmerParams(
@@ -150,6 +162,7 @@ class SuccessFragment : Fragment() {
                         dropOff = 0.65f,
                         tilt = 20f
                     ),
+
                     // shows an error text message when request failed.
                     failure = {
                         Text(text = "image request failed.")
@@ -158,14 +171,14 @@ class SuccessFragment : Fragment() {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(5.dp), contentAlignment = Alignment.TopStart,
-                ) {
+                        .padding(5.dp), contentAlignment = Alignment.TopCenter,
+                    ) {
                     Text(text = pro.attributes.name,
-                        color = Color.Black,fontWeight= FontWeight.W400,fontFamily = FontFamily(
+                        color = colorResource(id = R.color.secondary_text),fontWeight= FontWeight.W400,fontFamily = FontFamily(
                             Font(
                                 R.font.whitneymedium)
                         ), maxLines = 2,
-                        fontSize = 14.sp)
+                        fontSize = 16.sp)
 
                 }
                 Row(
@@ -175,7 +188,7 @@ class SuccessFragment : Fragment() {
                         .padding(start = 10.dp, top = 10.dp, bottom = 5.dp), horizontalArrangement = Arrangement.Start) {
                     Text(text = "₹${pro.attributes.price}", fontSize = 16.sp, fontFamily = FontFamily(Font(R.font.montserrat_bold)), color = colorResource(id = R.color.secondary_dark) )
                     Spacer(modifier = Modifier.width(5.dp))
-                    Text(text = "₹${pro.attributes.displayPrice}", style = TextStyle(textDecoration = TextDecoration.LineThrough),fontSize = 16.sp, fontFamily = FontFamily(Font(R.font.montserrat_bold)), color = Color.DarkGray )
+                    Text(text = "₹${pro.attributes.displayPrice.toInt()*115/100}", style = TextStyle(textDecoration = TextDecoration.LineThrough),fontSize = 16.sp, fontFamily = FontFamily(Font(R.font.montserrat_bold)), color = colorResource(id = R.color.darker_gray))
 
 
                 }

@@ -77,16 +77,14 @@ class StoreRepository @Inject constructor(private val db:FirebaseFirestore){
 
     suspend fun getProductByCategorywise(catId:Long):ArrayList<newAllProductsDetailPage>{
         var list: ArrayList<newAllProductsDetailPage> = ArrayList()
-        val collection = db.collection("allproductsdetails")
-        //Log.i("catId",catId)
-        val task = collection.whereEqualTo("parentId",catId).get()
 
-        task.addOnSuccessListener { result ->
+        Log.i("catId",catId.toString())
+        db.collection("allproductsdetails").whereEqualTo("parentId",catId).get()
+          .addOnSuccessListener { result ->
                 for (document in result) {
                     val data = document.toObject(newAllProductsDetailPage::class.java)
-                    //Log.d("main product", data.toString())
-                    //list.toMutableList().add(data)
                     list.add(data)
+                    Log.d("datarepo",document.toString())
 
                 }
                 //Log.d("main product", list.size.toString())

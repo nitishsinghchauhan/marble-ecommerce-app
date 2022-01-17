@@ -13,4 +13,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="shadow_dark">#696969</color>
     <color name="shadow_light">#fffafa</color>
+    <color name="darker_gray">#aaa</color>
 </resources>

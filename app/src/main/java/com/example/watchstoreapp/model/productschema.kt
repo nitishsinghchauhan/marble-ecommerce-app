@@ -103,39 +103,39 @@ data class AllProductsDetailPage (
 )
 @Parcelize
 data class AllProductsDetailPageAttributes (
-    val id: Long,
-    val name: String,
-    val description: String,
-    val price: String,
+    val id: Long=0,
+    val name: String="",
+    val description: String="",
+    val price: String="",
 
     @Json(name = "display_price")
-    val displayPrice: String,
+    val displayPrice: String="",
 
     @Json(name = "available_on")
-    val availableOn: String,
+    val availableOn: String="",
 
-    val slug: String,
+    val slug: String="",
 
     @Json(name = "meta_description")
-    val metaDescription: String,
+    val metaDescription: String="",
 
     @Json(name = "meta_keywords")
-    val metaKeywords: String,
+    val metaKeywords: String="",
 
     @Json(name = "shipping_category_id")
-    val shippingCategoryID: Long,
+    val shippingCategoryID: Long=0,
 
     @Json(name = "taxon_ids")
-    val taxonIDS: List<Long>,
+    val taxonIDS: List<Long> = emptyList(),
 
     @Json(name = "total_on_hand")
-    val totalOnHand: Long,
+    val totalOnHand: Long=0,
 
     @Json(name = "avg_rating")
-    val avgRating: String,
+    val avgRating: String="",
 
     @Json(name = "reviews_count")
-    val reviewsCount: Long,
+    val reviewsCount: Long=0,
 //
 //    val currency: Currency,
 //
@@ -143,16 +143,16 @@ data class AllProductsDetailPageAttributes (
 //    val currencySymbol: Currency,
 
     @Json(name = "has_variants")
-    val hasVariants: Boolean,
+    val hasVariants: Boolean=false,
 
     @Json(name = "cost_price")
-    val costPrice: String,
+    val costPrice: String="",
 
     @Json(name = "is_favorited_by_current_user")
-    val isFavoritedByCurrentUser: Boolean,
+    val isFavoritedByCurrentUser: Boolean=false,
 
     @Json(name = "product_url")
-    val productURL: String
+    val productURL: String=""
 ): Parcelable
 
 //enum class Currency(val value: String) {
