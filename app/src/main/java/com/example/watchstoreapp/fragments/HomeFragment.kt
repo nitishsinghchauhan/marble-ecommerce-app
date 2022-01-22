@@ -69,6 +69,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.LiveData
@@ -194,7 +195,12 @@ class HomeFragment : Fragment(){
 //            .clip(shape = RoundedCornerShape(3.dp)), imageModel = imageBanner1, contentScale = ContentScale.FillWidth) }
         binding.categoryCv.setContent {
             Column {
-                Box(Modifier.fillMaxWidth().wrapContentHeight().padding(10.dp).background(Color.White)) {
+                Box(
+                    Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight()
+                        .padding(10.dp)
+                        .background(Color.White)) {
                 catbox(catlist)}
                 Text(text = "New Arrivals", fontSize = 16.sp, fontFamily = FontFamily(Font(R.font.whitneymedium)), color = Color.Black, fontWeight=FontWeight.Bold,modifier = Modifier.padding(top = 18.dp, bottom = 12.dp, start = 10.dp))
                 if (prolist.isEmpty()) {
@@ -229,7 +235,7 @@ class HomeFragment : Fragment(){
                         .fillMaxWidth()
                         .wrapContentHeight(), horizontalArrangement = Arrangement.spacedBy(8.dp), contentPadding = PaddingValues(start=10.dp)){items(prolist){pro->productcardnew(pro = pro)} }
                 }
-                Spacer(modifier = Modifier.height(10.dp))
+                Spacer(modifier = Modifier.height(30.dp))
 
             }
 
@@ -254,9 +260,12 @@ class HomeFragment : Fragment(){
                     Text(modifier = Modifier.padding(5.dp),text = "Our experts are available 24/7:", fontSize = 15.sp, fontFamily = FontFamily(Font(R.font.whitneymedium)), color = colorResource(id = R.color.secondary_text))
                     Row(modifier= Modifier
                         .wrapContentWidth()
-                        .padding(5.dp).clickable { val intent=Intent(Intent.ACTION_DIAL);
+                        .padding(5.dp)
+                        .clickable {
+                            val intent = Intent(Intent.ACTION_DIAL);
                             intent.data = Uri.parse("tel:9082073532");
-                            startActivity(intent); }
+                            startActivity(intent);
+                        }
                     ) { Icon(
                         Icons.Rounded.Call,
                         contentDescription = null, tint = colorResource(id = R.color.secondary_text), modifier = Modifier.size(18.dp))
@@ -264,28 +273,44 @@ class HomeFragment : Fragment(){
                     }
                     Row(modifier= Modifier
                         .wrapContentWidth()
-                        .padding(5.dp).clickable { val intent=Intent(Intent.ACTION_SENDTO, Uri.fromParts(
-                            "mailto","abc@gmail.com", null));
-                            startActivity(intent);}) { Icon(
+                        .padding(5.dp)
+                        .clickable {
+                            val intent = Intent(
+                                Intent.ACTION_SENDTO, Uri.fromParts(
+                                    "mailto", "abc@gmail.com", null
+                                )
+                            );
+                            startActivity(intent);
+                        }) { Icon(
                         Icons.Rounded.Email,
                         contentDescription = null, tint = colorResource(id = R.color.secondary_text), modifier = Modifier.size(18.dp))
                         Text(text = " Email Us", fontSize = 15.sp, fontFamily = FontFamily(Font(R.font.whitneymedium)), color = colorResource(id = R.color.secondary_text))
                     }
                     Row(modifier= Modifier
                         .wrapContentWidth()
-                        .padding(5.dp).clickable {
+                        .padding(5.dp)
+                        .clickable {
                             val phoneNumber = "+919082073532"
                             val url = "https://api.whatsapp.com/send?phone=$phoneNumber"
-                            try { val sendIntent =Intent(Intent.ACTION_SENDTO,Uri.parse("smsto:"+""+phoneNumber));
+                            try {
+                                val sendIntent = Intent(
+                                    Intent.ACTION_SENDTO,
+                                    Uri.parse("smsto:" + "" + phoneNumber)
+                                );
                                 sendIntent.setPackage("com.whatsapp");
                                 startActivity(sendIntent);
-                            }
-                            catch (e:Exception){
+                            } catch (e: Exception) {
                                 e.printStackTrace();
-                                Toast.makeText(activity,"Unable to fetch Whatsapp",Toast.LENGTH_LONG).show();
+                                Toast
+                                    .makeText(
+                                        activity,
+                                        "Unable to fetch Whatsapp",
+                                        Toast.LENGTH_LONG
+                                    )
+                                    .show();
 
                             }
-                         }) { Icon(
+                        }) { Icon(
                         painterResource(id = R.drawable.ic_icons8_whatsapp),
                         contentDescription = null, tint = colorResource(id = R.color.secondary_text), modifier = Modifier.size(18.dp))
                         Text(text = " Chat On Whatsapp", fontSize = 15.sp, fontFamily = FontFamily(Font(R.font.whitneymedium)), color = colorResource(id = R.color.secondary_text))
@@ -295,23 +320,69 @@ class HomeFragment : Fragment(){
                             "EXA Marble\n" + "Makrana Road, Madanganj - Kishangarh,\n" + "Rajasthan, India, 305801",
                         fontSize = 15.sp, fontFamily = FontFamily(Font(R.font.whitneymedium)), color = colorResource(id = R.color.secondary_text))
 
+                    Spacer(modifier = Modifier.height(25.dp))
+                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+                        Icon(painter = painterResource(id = R.drawable.ic_icons8_instagram), contentDescription = null, tint = Color(0xff6c757d),
+                            modifier = Modifier
+                                .size(40.dp)
+                                .clickable {
+                                    startActivity(
+                                        Intent(Intent.ACTION_VIEW).setData(
+                                            Uri.parse("https://www.instagram.com/examarble/")
+                                        )
+                                    )
+                                })
+                        Spacer(modifier = Modifier.width(10.dp))
+                        Icon(painter = painterResource(id = R.drawable.ic_icons8_facebook), contentDescription = null,tint = Color(0xff6c757d),
+                            modifier = Modifier
+                                .size(40.dp)
+                                .clickable {
+                                    startActivity(
+                                        Intent(Intent.ACTION_VIEW).setData(
+                                            Uri.parse("https://www.facebook.com/EXA-Marble-101644845083761/")
+                                        )
+                                    )
+                                })
+
+                    }
+                    Row(
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(10.dp), horizontalArrangement = Arrangement.Center) {
+                        Text(text = "Privacy \nPolicy ", fontSize = 13.sp, fontFamily = FontFamily(Font(R.font.whitneymedium)), color = colorResource(id = R.color.secondary_text),
+                            modifier = Modifier.width(40.dp).clickable {
+                                startActivity(
+                                    Intent(Intent.ACTION_VIEW).setData(
+                                        Uri.parse("https://examarble.com/info/Privacy%20Policy")
+                                    )
+                                )
+                            }, textAlign = TextAlign.Center)
+                        Spacer(modifier = Modifier.width(10.dp))
+                        Text(text = " About\n Us", fontSize = 12.sp, fontFamily = FontFamily(Font(R.font.whitneymedium)), color = colorResource(id = R.color.secondary_text),
+                            modifier = Modifier.width(40.dp).clickable {
+                                startActivity(
+                                    Intent(Intent.ACTION_VIEW).setData(
+                                        Uri.parse("https://examarble.com/info/About%20Us")
+                                    )
+                                )
+                            }, textAlign = TextAlign.Center)
+                    }
+                    Spacer(modifier = Modifier.height(40.dp))
+
 
                 }
                 
-                
-                
-                
-                
-                
-                
-                
-                CoilImage(modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight()
-                    .clip(shape = RoundedCornerShape(0.dp, 0.dp, 3.dp, 3.dp)), imageModel = imageBanner2, contentScale = ContentScale.FillWidth)
+//                CoilImage(modifier = Modifier
+//                    .fillMaxWidth()
+//                    .wrapContentHeight()
+//                    .clip(shape = RoundedCornerShape(0.dp, 0.dp, 3.dp, 3.dp)), imageModel = imageBanner2, contentScale = ContentScale.FillWidth)
+//
+//
+//              }
 
 
-              }
+
+                }
         }
 
         
