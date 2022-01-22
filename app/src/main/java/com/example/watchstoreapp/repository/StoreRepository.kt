@@ -247,6 +247,28 @@ suspend fun addrandom(rd:homeproducts){
         }
     }
 
+     suspend fun getProductById(Id:Long):newAllProductsDetailPage{
+         var list: ArrayList<newAllProductsDetailPage> = ArrayList()
+
+         Log.i("Id",Id.toString())
+         db.collection("allproductsdetails").whereEqualTo("id",Id).get()
+             .addOnSuccessListener { result ->
+                 for (document in result) {
+                     val data = document.toObject(newAllProductsDetailPage::class.java)
+                     list.add(data)
+                     Log.d("datarepo",document.toString())
+
+                 }
+                 //Log.d("main product", list.size.toString())
+             }
+             .addOnFailureListener { exception ->
+                 Log.w("main", "Error getting documents.", exception)
+             }
+
+        delay(800)
+         return list[0]
+    }
+
 
 
 }

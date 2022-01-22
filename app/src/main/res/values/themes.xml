@@ -22,4 +22,9 @@
     <style name="Theme.NavigationDrawerExampleNew.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark" />
 
     <style name="Theme.NavigationDrawerExampleNew.PopupOverlay" parent="Theme.MaterialComponents.Light" />
+
+    <style name="splash" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_screen</item>
+        <item name="android:statusBarColor">@color/primary</item>
+    </style>
 </resources>

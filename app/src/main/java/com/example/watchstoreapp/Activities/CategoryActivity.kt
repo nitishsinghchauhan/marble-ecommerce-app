@@ -21,6 +21,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.currentCompositionLocalContext
 import androidx.compose.ui.Alignment
@@ -59,8 +61,13 @@ import javax.inject.Inject as Inject1
 
 
 @AndroidEntryPoint
-class CategoryActivity : AppCompatActivity() {
+class CategoryActivity : ComponentActivity() {
     @javax.inject.Inject lateinit var repository: StoreRepository
+
+    override fun onBackPressed() {
+        val intent= Intent(this@CategoryActivity,DashboardActivity::class.java). putExtra("id",0L)
+        setResult(1, intent);finish()
+    }
 
 
 
@@ -96,6 +103,31 @@ class CategoryActivity : AppCompatActivity() {
 
 
         setContent {
+            Column(
+                Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight()) {
+
+
+            TopAppBar(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(0.dp), backgroundColor = colorResource(id = R.color.primary)) {
+
+//
+                Box(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(5.dp), contentAlignment = Alignment.Center) {
+                   Row(Modifier.fillMaxWidth().padding(horizontal = 10.dp)) {
+                       Icon( Icons.Rounded.ArrowBack, contentDescription = null, tint = Color.White,
+                           modifier = Modifier.clickable {
+                               val intent= Intent(this@CategoryActivity,DashboardActivity::class.java). putExtra("id",0L)
+                               setResult(1, intent);finish()})}
+                Image(painter = painterResource(id = R.drawable.logoexamarble), contentDescription =null, )
+//
+                }
+            }
             Column(modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 20.dp, vertical = 10.dp)) {
@@ -114,6 +146,8 @@ class CategoryActivity : AppCompatActivity() {
                     items(taxonP!!.taxons!!){ taxon-> catcard(taxon = taxon,this@CategoryActivity)} }
 
             }
+
+            }
     }
 
 
@@ -126,14 +160,17 @@ class CategoryActivity : AppCompatActivity() {
 
         val intent= Intent(this,DashboardActivity::class.java). putExtra("id",taxon.id)
 
-        Card(modifier= Modifier.clickable { setResult(1,intent);finish() }
+        Card(modifier= Modifier
+            .clickable { setResult(1, intent);finish() }
 
             .fillMaxWidth()
             .height(50.dp),
             backgroundColor= Color(0x66dddddd),
             shape = RoundedCornerShape(8.dp), elevation = 0.dp
         ){
-            Box(modifier = Modifier.fillMaxSize().padding(horizontal = 20.dp), contentAlignment = Alignment.CenterStart) {
+            Box(modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 20.dp), contentAlignment = Alignment.CenterStart) {
                 Text(
                     taxon.name,
                     fontSize = 16.sp,

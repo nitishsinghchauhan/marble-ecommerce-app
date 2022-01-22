@@ -11,9 +11,11 @@ import com.example.watchstoreapp.repository.StoreRepository
 import com.example.watchstoreapp.utils.Constant
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -31,6 +33,9 @@ private val db: FirebaseFirestore
 
     private var _productListTopRated = MutableLiveData<ArrayList<ProductsLandingPage>>()
     val productListTopRated: LiveData<ArrayList<ProductsLandingPage>> get() = _productListTopRated
+
+
+
 
 //    private var _cartList = MutableLiveData<ArrayList<CarttItem>>()
 //    val cartList: LiveData<ArrayList<CarttItem>> get() = _cartList
@@ -119,6 +124,11 @@ private val db: FirebaseFirestore
             _productListCategorywise.postValue(data!!)
         }
     }
+
+
+
+
+
 
 
     fun addUser(user: User){

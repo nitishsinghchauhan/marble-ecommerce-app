@@ -5,9 +5,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import androidx.activity.OnBackPressedCallback
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -195,7 +194,7 @@ class DetailsFragment : Fragment() {
     @Composable
     fun horizontalScroll(data : newAllProductsDetailPage){
 
-        Column() {
+        Column(Modifier.verticalScroll(rememberScrollState())) {
             val pagerState = rememberPagerState()
             HorizontalPager(
                 count = data.images.size, modifier = Modifier
@@ -243,7 +242,9 @@ class DetailsFragment : Fragment() {
                                 CoilImage(
                                     imageModel = data.images[page],
                                     contentDescription = "artist",
-                                    modifier = Modifier.fillMaxWidth().height(473.dp),
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(473.dp),
                                     alignment = Alignment.Center,
                                     contentScale = ContentScale.Crop
 
@@ -265,11 +266,13 @@ class DetailsFragment : Fragment() {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .fillMaxHeight().background(Color(0x66dddddd)),
+                    .fillMaxHeight()
+                    .background(Color(0x66dddddd)),
 //            onClick = {(findNavController().navigate(SuccessFragmentDirections.actionSuccessFragmentToDetailsFragment()))},
             ) {
                 Column(
-                    modifier = Modifier.padding(horizontal = 20.dp)
+                    modifier = Modifier
+                        .padding(horizontal = 20.dp)
                         .fillMaxWidth()
                         .wrapContentHeight()
 
@@ -278,7 +281,7 @@ class DetailsFragment : Fragment() {
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding( vertical = 10.dp), contentAlignment = Alignment.TopStart
+                            .padding(vertical = 10.dp), contentAlignment = Alignment.TopStart
                     ) {
                         Text(
                             text = data.attributes.name,
@@ -313,7 +316,7 @@ class DetailsFragment : Fragment() {
                             )
                             Spacer(modifier = Modifier.width(8.dp))
                             Text(
-                                text = "₹${data.attributes.displayPrice.toInt() * 115 / 100}",
+                                text = "₹${data.attributes.displayPrice}",
                                 style = TextStyle(textDecoration = TextDecoration.LineThrough),
                                 fontSize = 18.sp,
                                 fontFamily = FontFamily(Font(R.font.montserrat_bold)),
@@ -333,10 +336,10 @@ class DetailsFragment : Fragment() {
                     Box(
                         modifier = Modifier
                             .fillMaxWidth(0.8f)
-                            .padding(vertical=5.dp), contentAlignment = Alignment.TopStart
+                            .padding(vertical = 5.dp), contentAlignment = Alignment.TopStart
                     ) {
                         Text(
-                            text = data.attributes.description,
+                            text = data.attributes.description.removePrefix("<p>").removeSuffix("</p>"),
                             color = colorResource(id = R.color.secondary_text),
                             fontWeight = FontWeight.W400,
                             fontFamily = FontFamily(
@@ -348,10 +351,12 @@ class DetailsFragment : Fragment() {
                         )
 
                     }
+                    Spacer(modifier = Modifier.height(100.dp))
 
 
                 }
             }
+            
 
         }
 

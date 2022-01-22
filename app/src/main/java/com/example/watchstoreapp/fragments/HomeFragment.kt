@@ -26,6 +26,8 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.rounded.Call
+import androidx.compose.material.icons.rounded.Email
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -57,10 +59,6 @@ import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.coil.CoilImage
 import com.smarteist.autoimageslider.SliderView
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import androidx.compose.material.DropdownMenuItem as DropdownMenuItem1
 import androidx.compose.ui.res.colorResource as colorResource
 import androidx.compose.runtime.livedata.observeAsState
@@ -69,21 +67,27 @@ import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.watchstoreapp.Activities.CategoryActivity
+import com.example.watchstoreapp.repository.StoreRepository
 import com.gowtham.ratingbar.RatingBar
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.coroutines.*
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(){
     lateinit var listener: INavListener
     private val storeViewModel: StoreViewModel by activityViewModels()
+    @Inject
+    lateinit var repository: StoreRepository
 
 
     //    lateinit var catAdapter: CategoryAdapter
@@ -92,8 +96,8 @@ class HomeFragment : Fragment(){
     lateinit var rv: View
     lateinit var iBadgeUpdater: IBadgeUpdater
     lateinit var offerInstance: ProductItem
-    private var prodlivelistToprated= MutableLiveData<ArrayList<ProductsLandingPage>>()
-    private var categoryTaxonLiveList= MutableLiveData<List<Taxon>>()
+    private var prolist= mutableStateListOf<ProductsLandingPage>()
+    private var catlist= mutableStateListOf<Taxon>()
     override fun onAttach(activity: Activity) {
         super.onAttach(activity)
         try {
@@ -113,17 +117,21 @@ class HomeFragment : Fragment(){
 
             delay(1000)
             storeViewModel.catList.observe(requireActivity(), Observer { taxons ->
-                  categoryTaxonLiveList.postValue(taxons)
-                Log.d("catlist", categoryTaxonLiveList.toString())
+                 for (taxon in taxons){
+                  catlist.add(taxon)}
+//                Log.d("catlist", categoryTaxonLiveList.toString())
 
 
             })
             storeViewModel.productListTopRated.observe(requireActivity(), Observer { list ->
-                Log.i("product list size", list.size.toString())
-                prodlivelistToprated.postValue(list)
+                for (ll in list){
+                    prolist.add(ll)}
+//                Log.i("product list size", list.size.toString())
+//                prodlivelistToprated.postValue(list)
 //                productAdapter.updateList(list)
 
             })
+
 
 
         }
@@ -170,7 +178,8 @@ class HomeFragment : Fragment(){
             imageSlider.isAutoCycle = true
             imageSlider.startAutoCycle()
         }
-
+        val imageBanner1="https://firebasestorage.googleapis.com/v0/b/amazon-1538415571879.appspot.com/o/amazon%2FlandingPage%2FpromoBanner1.png?alt=media&token=7ebf8cc6-ea83-47f7-bfb9-59978f0b5c43"
+        val imageBanner2="https://firebasestorage.googleapis.com/v0/b/amazon-1538415571879.appspot.com/o/amazon%2FlandingPage%2FpromoBanner2.png?alt=media&token=00cf9fe8-b289-4652-a47d-32b88825246a"
         val imageSlider = binding.slider
         val imageList: ArrayList<String> = ArrayList()
         imageList.add("https://firebasestorage.googleapis.com/v0/b/amazon-1538415571879.appspot.com/o/amazon%2FlandingPage%2Fbanner_2.jpg?alt=media&token=682fdc90-3e02-4f7a-a02b-ddecbd8a2671")
@@ -179,14 +188,15 @@ class HomeFragment : Fragment(){
         setImageInSlider(imageList, imageSlider)
 
 
-
+//        binding.banner1.setContent { CoilImage(modifier = Modifier
+//            .fillMaxWidth()
+//            .wrapContentHeight()
+//            .clip(shape = RoundedCornerShape(3.dp)), imageModel = imageBanner1, contentScale = ContentScale.FillWidth) }
         binding.categoryCv.setContent {
-            val prolist by prodlivelistToprated.observeAsState(initial = emptyList())
-            val catlist by categoryTaxonLiveList.observeAsState(initial = emptyList())
             Column {
-
-                catbox(catlist)
-                Text(text = "New Arrivals", fontSize = 16.sp, fontFamily = FontFamily(Font(R.font.montserrat_medium)), color = Color.Black, fontWeight=FontWeight.Bold,modifier = Modifier.padding(top = 18.dp, bottom = 12.dp))
+                Box(Modifier.fillMaxWidth().wrapContentHeight().padding(10.dp).background(Color.White)) {
+                catbox(catlist)}
+                Text(text = "New Arrivals", fontSize = 16.sp, fontFamily = FontFamily(Font(R.font.whitneymedium)), color = Color.Black, fontWeight=FontWeight.Bold,modifier = Modifier.padding(top = 18.dp, bottom = 12.dp, start = 10.dp))
                 if (prolist.isEmpty()) {
                     Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.TopCenter) {
                         CircularProgressIndicator(color = colorResource(id = R.color.primary))
@@ -194,11 +204,11 @@ class HomeFragment : Fragment(){
                 } else {
                     LazyRow(modifier = Modifier
                         .fillMaxWidth()
-                        .wrapContentHeight(), horizontalArrangement = Arrangement.spacedBy(8.dp)){items(prolist){pro->productcardnew(pro = pro)} }
+                        .wrapContentHeight(), horizontalArrangement = Arrangement.spacedBy(8.dp), contentPadding = PaddingValues(start=10.dp)){items(prolist){pro->productcardnew(pro = pro)} }
                 }
 
 
-                Text(text = "Trending Now", fontSize = 16.sp, fontFamily = FontFamily(Font(R.font.montserrat_medium)), color = Color.Black,fontWeight=FontWeight.Bold, modifier = Modifier.padding(top = 28.dp, bottom = 12.dp))
+                Text(text = "Trending Now", fontSize = 16.sp, fontFamily = FontFamily(Font(R.font.whitneymedium)), color = Color.Black,fontWeight=FontWeight.Bold, modifier = Modifier.padding(top = 28.dp, bottom = 12.dp, start = 10.dp))
                 if (prolist.isEmpty()) {
                     Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.TopCenter) {
                         CircularProgressIndicator(color = colorResource(id = R.color.primary))
@@ -206,23 +216,102 @@ class HomeFragment : Fragment(){
                 } else {
                     LazyRow(modifier = Modifier
                         .fillMaxWidth()
-                        .wrapContentHeight(), horizontalArrangement = Arrangement.spacedBy(8.dp)){items(prolist){pro->productcardnew(pro = pro)} }
+                        .wrapContentHeight(), horizontalArrangement = Arrangement.spacedBy(8.dp), contentPadding = PaddingValues(start=10.dp)){items(prolist){pro->productcardnew(pro = pro)} }
                 }
 
 
-                Text(text = "Top Rated Products", fontSize = 16.sp, fontFamily = FontFamily(Font(R.font.montserrat_medium)), color = Color.Black,fontWeight=FontWeight.Bold, modifier = Modifier.padding(top = 28.dp, bottom = 12.dp))
+                Text(text = "Top Rated Products", fontSize = 16.sp, fontFamily = FontFamily(Font(R.font.whitneymedium)), color = Color.Black,fontWeight=FontWeight.Bold, modifier = Modifier.padding(top = 28.dp, bottom = 12.dp, start = 10.dp))
                 if (prolist.isEmpty()) {
                     Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.TopCenter) {
                         CircularProgressIndicator(color = colorResource(id = R.color.primary))}
                 } else {
                     LazyRow(modifier = Modifier
                         .fillMaxWidth()
-                        .wrapContentHeight(), horizontalArrangement = Arrangement.spacedBy(8.dp)){items(prolist){pro->productcardnew(pro = pro)} }
+                        .wrapContentHeight(), horizontalArrangement = Arrangement.spacedBy(8.dp), contentPadding = PaddingValues(start=10.dp)){items(prolist){pro->productcardnew(pro = pro)} }
                 }
                 Spacer(modifier = Modifier.height(10.dp))
 
             }
 
+        }
+
+
+        binding.cvcomp.setContent {
+            Column(
+                Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight()) {
+
+
+                Column(
+                    Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight()
+                        .clip(RoundedCornerShape(3.dp, 3.dp, 0.dp, 0.dp))
+                        .background(Color(0x66dddddd))
+                        .padding(20.dp), horizontalAlignment = Alignment.Start) {
+
+                    Text(modifier = Modifier.padding(5.dp),text = "Our experts are available 24/7:", fontSize = 15.sp, fontFamily = FontFamily(Font(R.font.whitneymedium)), color = colorResource(id = R.color.secondary_text))
+                    Row(modifier= Modifier
+                        .wrapContentWidth()
+                        .padding(5.dp).clickable { val intent=Intent(Intent.ACTION_DIAL);
+                            intent.data = Uri.parse("tel:9082073532");
+                            startActivity(intent); }
+                    ) { Icon(
+                        Icons.Rounded.Call,
+                        contentDescription = null, tint = colorResource(id = R.color.secondary_text), modifier = Modifier.size(18.dp))
+                        Text(text = " 9082073532", fontSize = 15.sp, fontFamily = FontFamily(Font(R.font.whitneymedium)), color = colorResource(id = R.color.secondary_text))
+                    }
+                    Row(modifier= Modifier
+                        .wrapContentWidth()
+                        .padding(5.dp).clickable { val intent=Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                            "mailto","abc@gmail.com", null));
+                            startActivity(intent);}) { Icon(
+                        Icons.Rounded.Email,
+                        contentDescription = null, tint = colorResource(id = R.color.secondary_text), modifier = Modifier.size(18.dp))
+                        Text(text = " Email Us", fontSize = 15.sp, fontFamily = FontFamily(Font(R.font.whitneymedium)), color = colorResource(id = R.color.secondary_text))
+                    }
+                    Row(modifier= Modifier
+                        .wrapContentWidth()
+                        .padding(5.dp).clickable {
+                            val phoneNumber = "+919082073532"
+                            val url = "https://api.whatsapp.com/send?phone=$phoneNumber"
+                            try { val sendIntent =Intent(Intent.ACTION_SENDTO,Uri.parse("smsto:"+""+phoneNumber));
+                                sendIntent.setPackage("com.whatsapp");
+                                startActivity(sendIntent);
+                            }
+                            catch (e:Exception){
+                                e.printStackTrace();
+                                Toast.makeText(activity,"Unable to fetch Whatsapp",Toast.LENGTH_LONG).show();
+
+                            }
+                         }) { Icon(
+                        painterResource(id = R.drawable.ic_icons8_whatsapp),
+                        contentDescription = null, tint = colorResource(id = R.color.secondary_text), modifier = Modifier.size(18.dp))
+                        Text(text = " Chat On Whatsapp", fontSize = 15.sp, fontFamily = FontFamily(Font(R.font.whitneymedium)), color = colorResource(id = R.color.secondary_text))
+                    }
+                    Spacer(modifier = Modifier.height(15.dp))
+                    Text(modifier = Modifier.padding(5.dp),text = "CORPORATE OFFICE:\n" +
+                            "EXA Marble\n" + "Makrana Road, Madanganj - Kishangarh,\n" + "Rajasthan, India, 305801",
+                        fontSize = 15.sp, fontFamily = FontFamily(Font(R.font.whitneymedium)), color = colorResource(id = R.color.secondary_text))
+
+
+                }
+                
+                
+                
+                
+                
+                
+                
+                
+                CoilImage(modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .clip(shape = RoundedCornerShape(0.dp, 0.dp, 3.dp, 3.dp)), imageModel = imageBanner2, contentScale = ContentScale.FillWidth)
+
+
+              }
         }
 
         
@@ -243,11 +332,11 @@ class HomeFragment : Fragment(){
 
         iBadgeUpdater.updateBadge()
         createOfferInstance()
-        binding.offerButton.setOnClickListener {
+//        binding.offerButton.setOnClickListener {
 //            findNavController().navigate(
 //                HomeFragmentDirections.actionHomeToDetailsFragment()
 //            )
-        }
+//        }
 //        Log.i("binding.categoryRv.visibility",binding.categoryRv.visibility.toString())
 //        Log.i("binding.productListRv.visibility",binding.productListRv.visibility.toString())
         fab1.setOnClickListener {
@@ -556,7 +645,7 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) 
                 .size(75.dp)
                 .clip(shape = CircleShape)
                 .border(2.dp, color = Color.LightGray, CircleShape)
-                .clickable { startActivityForResult(intent,1) }
+                .clickable { startActivityForResult(intent, 1) }
                 ,
             contentScale= ContentScale.Crop,alignment=Alignment.Center,
             // shows a shimmering effect when loading an image.
@@ -584,9 +673,23 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) 
     @OptIn(ExperimentalMaterialApi::class)
     @Composable
     fun productcardnew(pro:ProductsLandingPage) {
+        var loader by remember{ mutableStateOf(false)}
 
         Card(
-            modifier = Modifier.clickable {  }
+            modifier = Modifier
+                .clickable {
+                    loader = true; GlobalScope.launch(Dispatchers.Main) {
+                    val prodata = repository.getProductById(pro.id);Log.d(
+                    "datacurrentdetails",
+                    prodata.toString()
+                );loader = false;
+                    findNavController().navigate(
+                        HomeFragmentDirections.actionHomeToDetailsFragment(
+                            prodata
+                        )
+                    )
+                }
+                }
                 .width(170.dp)
                 .wrapContentHeight(),
             shape = RoundedCornerShape(8.dp),
@@ -620,7 +723,8 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) 
                     })
 
                 Box(
-                    modifier = Modifier.background(Color(0x66dddddd))
+                    modifier = Modifier
+                        .background(Color(0x66dddddd))
                         .fillMaxWidth()
                         .padding(5.dp), contentAlignment = Alignment.TopCenter
                 ) {
@@ -630,10 +734,13 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) 
                                 R.font.whitneymedium)
                         ), maxLines = 2,
                         fontSize = 16.sp)
+                    if (loader){
+                    CircularProgressIndicator(modifier = Modifier.size(18.dp),color = colorResource(id = R.color.primary))}
 
                 }
                 Row(
-                    Modifier.background(Color(0x66dddddd))
+                    Modifier
+                        .background(Color(0x66dddddd))
                         .fillMaxWidth()
                         .wrapContentHeight()
                         .padding(start = 10.dp, top = 10.dp, bottom = 5.dp, end = 5.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
@@ -647,7 +754,7 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) 
                         )
                         Spacer(modifier = Modifier.width(5.dp))
                         Text(
-                            text = "₹${pro.attributes.price.toInt() * 115 / 100}",
+                            text = "₹${pro.attributes.price}",
                             style = TextStyle(textDecoration = TextDecoration.LineThrough),
                             fontSize = 16.sp,
                             fontFamily = FontFamily(Font(R.font.montserrat_bold)),

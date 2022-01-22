@@ -20,6 +20,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -85,17 +86,16 @@ class SuccessFragment : Fragment() {
     @OptIn(ExperimentalFoundationApi::class)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val prolist= MutableLiveData <List<newAllProductsDetailPage>>()
+        val prostate= mutableStateListOf<newAllProductsDetailPage>()
 
         GlobalScope.launch(Dispatchers.Main) {
             storeViewModel.productListCategorywise.observe(requireActivity(), Observer { list ->
-                Log.i("product list size", list.size.toString())
-                prolist.postValue(list)
-            })
+//                Log.i("product list size", list.size.toString())
+                for(l in list){
+                prostate.add(l) }})
         }
 
         binding.cvpro.setContent {
-            val prostate by prolist.observeAsState(initial = emptyList())
 
                 if (prostate.isEmpty()) {
                     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -197,7 +197,7 @@ class SuccessFragment : Fragment() {
                         )
                         Spacer(modifier = Modifier.width(5.dp))
                         Text(
-                            text = "₹${pro.attributes.displayPrice.toInt() * 115 / 100}",
+                            text = "₹${pro.attributes.displayPrice}",
                             style = TextStyle(textDecoration = TextDecoration.LineThrough),
                             fontSize = 16.sp,
                             fontFamily = FontFamily(Font(R.font.montserrat_bold)),

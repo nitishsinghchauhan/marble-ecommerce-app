@@ -37,96 +37,115 @@
            app:sliderScrollTimeInSec="2"
            tools:layout="@layout/slider_layout"/>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp"
-        android:layout_marginLeft="@dimen/_10sdp"
-        android:layout_marginRight="@dimen/_10sdp"
-            android:layout_marginBottom="80dp">
+       <TextView
+           android:id="@+id/header"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:fontFamily="@font/whitneymedium"
+           android:gravity="center"
+           android:text="@string/slogan"
+           android:textColor="@color/secondary_text"
+           android:textSize="12sp"
+           app:layout_constraintEnd_toEndOf="parent"
+           app:layout_constraintStart_toStartOf="parent"
+           app:layout_constraintTop_toTopOf="parent"
+           />
+       <androidx.compose.ui.platform.ComposeView
+           android:id="@+id/banner1"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           />
+
+       <androidx.compose.ui.platform.ComposeView
+           android:id="@+id/category_cv"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           >
+       </androidx.compose.ui.platform.ComposeView>
+       <androidx.compose.ui.platform.ComposeView
+           android:id="@+id/cvcomp"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginBottom="80dp">
+       </androidx.compose.ui.platform.ComposeView>
+
+<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="@dimen/_10sdp"-->
+<!--        android:layout_marginLeft="@dimen/_10sdp"-->
+<!--        android:layout_marginRight="@dimen/_10sdp"-->
+<!--            android:layout_marginBottom="80dp">-->
 
 
-        <TextView
-            android:id="@+id/header"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/whitneymedium"
-            android:gravity="center"
-            android:text="@string/slogan"
-            android:textColor="@color/secondary_text"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+<!--       -->
+<!--        <LinearLayout-->
+<!--                android:id="@+id/ll1"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/header"-->
+<!--                android:background="@drawable/rounded_pink_shape"-->
+<!--                android:padding="@dimen/_10sdp"-->
+<!--                android:layout_marginTop="@dimen/_10sdp"-->
+<!--                android:orientation="horizontal"-->
 
-            />
-        <LinearLayout
-                android:id="@+id/ll1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/header"
-                android:background="@drawable/rounded_pink_shape"
-                android:padding="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:orientation="horizontal"
-
-        >
-            <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-            >
-                <TextView
-                        android:id="@+id/offerPercentage"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="40% OFF"
-                        android:textColor="@color/primary"
-                        android:background="@drawable/rounded_white_shape"
-                        android:textSize="@dimen/_22ssp"
-                        android:fontFamily="@font/montserrat_medium"
-                        android:textStyle="bold"
-                        android:padding="@dimen/_10sdp"/>
-                <TextView
-                        android:id="@+id/offerName"
-                        android:layout_width="@dimen/_170sdp"
-                        android:layout_height="wrap_content"
-                        android:text="Golden Watch with Great Discount"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/_16ssp"
-                        android:fontFamily="@font/montserrat_medium"
-                        android:paddingTop="@dimen/_10sdp"
-                        android:paddingBottom="@dimen/_10sdp"
-                        android:ellipsize="none"
-                        android:maxLines="2"
-                />
-                <TextView
-                        android:id="@+id/offerButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/get_now"
-                        android:textColor="@color/white"
-                        android:background="@drawable/textborder2"
-                        android:textSize="@dimen/_18ssp"
-                        android:fontFamily="@font/montserrat_medium"
-                        android:textStyle="bold"
-                        android:padding="@dimen/_10sdp"/>
-            </LinearLayout>
+<!--        >-->
+<!--            <LinearLayout-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="vertical"-->
+<!--            >-->
+<!--                <TextView-->
+<!--                        android:id="@+id/offerPercentage"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="40% OFF"-->
+<!--                        android:textColor="@color/primary"-->
+<!--                        android:background="@drawable/rounded_white_shape"-->
+<!--                        android:textSize="@dimen/_22ssp"-->
+<!--                        android:fontFamily="@font/montserrat_medium"-->
+<!--                        android:textStyle="bold"-->
+<!--                        android:padding="@dimen/_10sdp"/>-->
+<!--                <TextView-->
+<!--                        android:id="@+id/offerName"-->
+<!--                        android:layout_width="@dimen/_170sdp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="Golden Watch with Great Discount"-->
+<!--                        android:textColor="@color/white"-->
+<!--                        android:textSize="@dimen/_16ssp"-->
+<!--                        android:fontFamily="@font/montserrat_medium"-->
+<!--                        android:paddingTop="@dimen/_10sdp"-->
+<!--                        android:paddingBottom="@dimen/_10sdp"-->
+<!--                        android:ellipsize="none"-->
+<!--                        android:maxLines="2"-->
+<!--                />-->
+<!--                <TextView-->
+<!--                        android:id="@+id/offerButton"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="@string/get_now"-->
+<!--                        android:textColor="@color/white"-->
+<!--                        android:background="@drawable/textborder2"-->
+<!--                        android:textSize="@dimen/_18ssp"-->
+<!--                        android:fontFamily="@font/montserrat_medium"-->
+<!--                        android:textStyle="bold"-->
+<!--                        android:padding="@dimen/_10sdp"/>-->
+<!--            </LinearLayout>-->
 
 
 
-                <ImageView
-                    android:layout_width="150dp"
-                    android:layout_height="200dp"
-                    android:paddingRight="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:src="@drawable/offer"
-                    android:scaleType="center"
+<!--                <ImageView-->
+<!--                    android:layout_width="150dp"-->
+<!--                    android:layout_height="200dp"-->
+<!--                    android:paddingRight="10dp"-->
+<!--                    android:layout_marginLeft="10dp"-->
+<!--                    android:src="@drawable/offer"-->
+<!--                    android:scaleType="center"-->
 
 
-                    />
+<!--                    />-->
 
 
 
@@ -134,16 +153,8 @@
 
 
 
-        </LinearLayout>
-        <androidx.compose.ui.platform.ComposeView
-            android:id="@+id/category_cv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ll1"
-            app:layout_constraintRight_toRightOf="parent">
-            </androidx.compose.ui.platform.ComposeView>
+<!--        </LinearLayout>-->
+
 <!--        <androidx.recyclerview.widget.RecyclerView-->
 <!--                android:id="@+id/category_rv"-->
 <!--                android:layout_width="match_parent"-->
@@ -170,7 +181,7 @@
 <!--        />-->
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
    </LinearLayout>
 </ScrollView>
 

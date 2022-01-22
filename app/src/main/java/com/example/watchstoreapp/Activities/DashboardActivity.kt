@@ -46,6 +46,7 @@ class DashboardActivity : AppCompatActivity(),INavListener, IBadgeUpdater {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setTheme(R.style.Theme_NavigationDrawerExampleNew_NoActionBar)
 
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
