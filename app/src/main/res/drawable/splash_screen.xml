@@ -3,7 +3,7 @@
     <item android:drawable="@color/primary"/>
     <item android:drawable="@drawable/logoexamarble"
         android:gravity="center"
-        android:width="80.dp"
-        android:height="80.dp"/>
+        android:width="60.dp"
+        android:height="47.dp"/>
 
 </layer-list>

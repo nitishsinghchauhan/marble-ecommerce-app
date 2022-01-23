@@ -26,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -67,11 +68,14 @@ import kotlinx.coroutines.launch
 class SuccessFragment : Fragment() {
     private val storeViewModel: StoreViewModel by activityViewModels()
     val argmnts : SuccessFragmentArgs by navArgs()
+    val prostate= mutableStateListOf<newAllProductsDetailPage>()
 
 
     lateinit var binding: FragmentSuccessBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        prostate.clear()
+//        Log.d("prolen",prostate.size.toString())
         storeViewModel.getProductByCategory(argmnts.id)
 
     }
@@ -83,13 +87,16 @@ class SuccessFragment : Fragment() {
         return binding.root
     }
 
+
     @OptIn(ExperimentalFoundationApi::class)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val prostate= mutableStateListOf<newAllProductsDetailPage>()
+
+
 
         GlobalScope.launch(Dispatchers.Main) {
             storeViewModel.productListCategorywise.observe(requireActivity(), Observer { list ->
+                prostate.clear()
 //                Log.i("product list size", list.size.toString())
                 for(l in list){
                 prostate.add(l) }})
@@ -166,7 +173,32 @@ class SuccessFragment : Fragment() {
 
                     // shows an error text message when request failed.
                     failure = {
-                        Text(text = "image request failed.")
+                        Box(modifier= Modifier
+                            .fillMaxWidth()
+                            .aspectRatio(1f), contentAlignment = Alignment.Center) {
+                            Column(Modifier.fillMaxWidth().wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally) {
+                                Image(
+                                    modifier = Modifier
+                                        .width(60.dp)
+                                        .height(60.dp),
+                                    painter = painterResource(
+                                        id =R.drawable.ic_sad_svgrepo_com
+                                    ),
+                                    contentDescription = null
+                                )
+                                Spacer(modifier = Modifier.height(10.dp))
+                                Text(
+                                    text = "Image Request Failed",
+                                    style = TextStyle(
+                                        color = Color(0xFF747474),
+                                        fontFamily = FontFamily(Font(R.font.whitneymedium)),
+                                        fontWeight = FontWeight.Normal,
+                                        fontSize = 12.sp
+                                    )
+                                )
+                            }
+                        }
+
                     })
 
                 Box(

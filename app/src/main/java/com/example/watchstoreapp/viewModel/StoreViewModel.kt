@@ -49,10 +49,21 @@ private val db: FirebaseFirestore
 
     fun getAllCategories(){
         viewModelScope.launch {
-            var data=repository.getcategorytable()
-            delay(500)
-            _catList.postValue(data)
-            Log.d("viewmodelcat", data.toString())
+            var data= ArrayList<Taxon>(emptyList())
+            repository.getcategorytable()
+                .get().addOnSuccessListener { result ->
+
+                    val result=result.toObject(categoryclass::class.java)!!
+
+                    result.taxonomiesLandingPage[0].root.taxons.forEach{listdata->data.add(listdata)}
+                    _catList.postValue(data)
+
+                }.addOnFailureListener {Log.d("getcategorytable","failed")
+
+                }
+
+
+//            Log.d("viewmodelcat", data.toString())
         }
 
     }
@@ -110,18 +121,46 @@ private val db: FirebaseFirestore
 
     fun getTopratedPro(){
         viewModelScope.launch {
-            var data = repository.getProductToprated()
-            delay(500)
-            _productListTopRated.postValue(data!!)
+            var list = ArrayList<ProductsLandingPage>(emptyList())
+                repository.getProductToprated().get()
+                .addOnSuccessListener { result ->
+                    for (document in result) {
+                        val data = document.toObject(ProductsLandingPage::class.java)
+                        list.add(data)
+                        Log.d("datarepo",document.toString())
+                    }
+                    _productListTopRated.postValue(list)
+                    //Log.d("main product", list.size.toString())
+                }
+                .addOnFailureListener { exception ->
+                    Log.w("main", "Error getting documents top rated products.", exception)
+                }
+//            delay(500)
+
         }
     }
 
 
     fun getProductByCategory(catId:Long){
         viewModelScope.launch {
-       var data = repository.getProductByCategorywise(catId)
-            delay(500)
-            _productListCategorywise.postValue(data!!)
+            var list= ArrayList<newAllProductsDetailPage>(emptyList())
+        repository.getProductByCategorywise(catId)
+            .get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    val data = document.toObject(newAllProductsDetailPage::class.java)
+                    list.add(data)
+                    Log.d("datarepo",document.toString())
+
+                }
+                _productListCategorywise.postValue(list)
+//                Log.d("products main", _productListCategorywise.toString())
+            }
+            .addOnFailureListener { exception ->
+                Log.w("main", "Error getting documents.", exception)
+            }
+//            delay(500)
+
         }
     }
 

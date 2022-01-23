@@ -1,5 +1,6 @@
 package com.example.watchstoreapp.Activities
 
+import android.app.Fragment
 import android.content.Intent
 import com.example.watchstoreapp.R
 import android.os.Bundle
@@ -46,7 +47,7 @@ class DashboardActivity : AppCompatActivity(),INavListener, IBadgeUpdater {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setTheme(R.style.Theme_NavigationDrawerExampleNew_NoActionBar)
+
 
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
@@ -125,6 +126,12 @@ class DashboardActivity : AppCompatActivity(),INavListener, IBadgeUpdater {
 //            })
 //        }
 
+    }
+
+
+    override fun onAttachFragment(fragment: Fragment?) {
+        super.onAttachFragment(fragment)
+        setTheme(R.style.Theme_NavigationDrawerExampleNew_NoActionBar)
     }
 //    override fun showHideNavigations(flag: Boolean) {
 //        if (flag) {

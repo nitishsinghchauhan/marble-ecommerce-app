@@ -2,6 +2,7 @@ package com.example.watchstoreapp.fragments
 
 import MySliderImageAdapter
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -62,6 +63,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import androidx.compose.material.DropdownMenuItem as DropdownMenuItem1
 import androidx.compose.ui.res.colorResource as colorResource
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
@@ -75,6 +77,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.watchstoreapp.Activities.CategoryActivity
+import com.example.watchstoreapp.Activities.DashboardActivity
 import com.example.watchstoreapp.repository.StoreRepository
 import com.gowtham.ratingbar.RatingBar
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -107,24 +110,22 @@ class HomeFragment : Fragment(){
         } catch (e: ClassCastException) {
             throw ClassCastException(activity.toString() + "error implementing")
         }
-    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        storeViewModel.getAllCategories()
-        storeViewModel.getTopratedPro()
-//        storeViewModel.getProductByCategory("1")
+
+
         GlobalScope.launch(Dispatchers.Main) {
 
-            delay(1000)
+//            delay(1000)
             storeViewModel.catList.observe(requireActivity(), Observer { taxons ->
-                 for (taxon in taxons){
-                  catlist.add(taxon)}
+                catlist.clear()
+                for (taxon in taxons){
+                    catlist.add(taxon)}
 //                Log.d("catlist", categoryTaxonLiveList.toString())
 
 
             })
             storeViewModel.productListTopRated.observe(requireActivity(), Observer { list ->
+                prolist.clear()
                 for (ll in list){
                     prolist.add(ll)}
 //                Log.i("product list size", list.size.toString())
@@ -136,8 +137,17 @@ class HomeFragment : Fragment(){
 
 
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        storeViewModel.getAllCategories()
+        storeViewModel.getTopratedPro()
+//        storeViewModel.getProductByCategory("1")
+
 
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -162,6 +172,7 @@ class HomeFragment : Fragment(){
         }
 
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -277,7 +288,7 @@ class HomeFragment : Fragment(){
                         .clickable {
                             val intent = Intent(
                                 Intent.ACTION_SENDTO, Uri.fromParts(
-                                    "mailto", "abc@gmail.com", null
+                                    "mailto", "examarble@gmail.com", null
                                 )
                             );
                             startActivity(intent);
@@ -349,8 +360,8 @@ class HomeFragment : Fragment(){
                         Modifier
                             .fillMaxWidth()
                             .padding(10.dp), horizontalArrangement = Arrangement.Center) {
-                        Text(text = "Privacy \nPolicy ", fontSize = 13.sp, fontFamily = FontFamily(Font(R.font.whitneymedium)), color = colorResource(id = R.color.secondary_text),
-                            modifier = Modifier.width(40.dp).clickable {
+                        Text(text = "Privacy\nPolicy ", fontSize = 12.sp, fontFamily = FontFamily(Font(R.font.whitneymedium)), color = colorResource(id = R.color.secondary_text),
+                            modifier = Modifier.width(45.dp).clickable {
                                 startActivity(
                                     Intent(Intent.ACTION_VIEW).setData(
                                         Uri.parse("https://examarble.com/info/Privacy%20Policy")
@@ -358,8 +369,8 @@ class HomeFragment : Fragment(){
                                 )
                             }, textAlign = TextAlign.Center)
                         Spacer(modifier = Modifier.width(10.dp))
-                        Text(text = " About\n Us", fontSize = 12.sp, fontFamily = FontFamily(Font(R.font.whitneymedium)), color = colorResource(id = R.color.secondary_text),
-                            modifier = Modifier.width(40.dp).clickable {
+                        Text(text = " About\nUs", fontSize = 12.sp, fontFamily = FontFamily(Font(R.font.whitneymedium)), color = colorResource(id = R.color.secondary_text),
+                            modifier = Modifier.width(45.dp).clickable {
                                 startActivity(
                                     Intent(Intent.ACTION_VIEW).setData(
                                         Uri.parse("https://examarble.com/info/About%20Us")
@@ -729,7 +740,31 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) 
             ),
             // shows an error text message when request failed.
             failure = {
-                Text(text = "image request failed.")
+                Box(modifier= Modifier
+                    .size(75.dp), contentAlignment = Alignment.Center) {
+                    Column(Modifier.fillMaxWidth().wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally) {
+                        Image(
+                            modifier = Modifier
+                                .width(30.dp)
+                                .height(30.dp),
+                            painter = painterResource(
+                                id = R.drawable.ic_sad_svgrepo_com
+                            ),
+                            contentDescription = null
+                        )
+                        Spacer(modifier = Modifier.height(5.dp))
+                        Text(
+                            text = "Image Request Failed",
+                            style = TextStyle(
+                                color = Color(0xFF747474),
+                                fontFamily = FontFamily(Font(R.font.whitneymedium)),
+                                fontWeight = FontWeight.Normal,
+                                fontSize = 8.sp
+                            )
+                        )
+                    }
+                }
+
             })
         Spacer(modifier = Modifier.height(2.dp))
         Text(text = grand.name,
@@ -790,7 +825,32 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) 
 
                     // shows an error text message when request failed.
                     failure = {
-                        Text(text = "image request failed.")
+                        Box(modifier= Modifier
+                            .fillMaxWidth()
+                            .height(170.dp), contentAlignment = Alignment.Center) {
+                            Column(Modifier.fillMaxWidth().wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally) {
+                                Image(
+                                    modifier = Modifier
+                                        .width(60.dp)
+                                        .height(60.dp),
+                                    painter = painterResource(
+                                        id =R.drawable.ic_sad_svgrepo_com
+                                    ),
+                                    contentDescription = null
+                                )
+                                Spacer(modifier = Modifier.height(10.dp))
+                                Text(
+                                    text = "Image Request Failed",
+                                    style = TextStyle(
+                                        color = Color(0xFF747474),
+                                        fontFamily = FontFamily(Font(R.font.whitneymedium)),
+                                        fontWeight = FontWeight.Normal,
+                                        fontSize = 12.sp
+                                    )
+                                )
+                            }
+                        }
+
                     })
 
                 Box(

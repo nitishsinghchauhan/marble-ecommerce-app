@@ -10,9 +10,7 @@ import com.example.watchstoreapp.utils.Constant
 import com.google.android.gms.tasks.Task
 import com.google.api.Context
 import com.google.api.Distribution
-import com.google.firebase.firestore.EventListener
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.toObject
 import kotlinx.coroutines.*
 
@@ -75,45 +73,47 @@ class StoreRepository @Inject constructor(private val db:FirebaseFirestore){
     }
 
 
-    suspend fun getProductByCategorywise(catId:Long):ArrayList<newAllProductsDetailPage>{
+    suspend fun getProductByCategorywise(catId:Long): Query {
         var list: ArrayList<newAllProductsDetailPage> = ArrayList()
 
         Log.i("catId",catId.toString())
-        db.collection("allproductsdetails").whereEqualTo("parentId",catId).get()
-          .addOnSuccessListener { result ->
-                for (document in result) {
-                    val data = document.toObject(newAllProductsDetailPage::class.java)
-                    list.add(data)
-                    Log.d("datarepo",document.toString())
+        return db.collection("allproductsdetails").whereEqualTo("parentId",catId)
+//            .get()
+//          .addOnSuccessListener { result ->
+//                for (document in result) {
+//                    val data = document.toObject(newAllProductsDetailPage::class.java)
+//                    list.add(data)
+//                    Log.d("datarepo",document.toString())
+//
+//                }
+//                //Log.d("main product", list.size.toString())
+//            }
+//            .addOnFailureListener { exception ->
+//                Log.w("main", "Error getting documents.", exception)
+//            }
 
-                }
-                //Log.d("main product", list.size.toString())
-            }
-            .addOnFailureListener { exception ->
-                Log.w("main", "Error getting documents.", exception)
-            }
 
-
-        return list
+//        return list
     }
 
 
-    suspend fun getProductToprated():ArrayList<ProductsLandingPage>{
+    suspend fun getProductToprated(): CollectionReference {
         var list: ArrayList<ProductsLandingPage> = ArrayList()
-        db.collection("topratedproducts").get()
-            .addOnSuccessListener { result ->
-                for (document in result) {
-                    val data = document.toObject(ProductsLandingPage::class.java)
-                    list.add(data)
-                    Log.d("datarepo",document.toString())
-                }
-                //Log.d("main product", list.size.toString())
-            }
-            .addOnFailureListener { exception ->
-                Log.w("main", "Error getting documents top rated products.", exception)
-            }
+         return db.collection("topratedproducts")
+//            .get()
+//            .addOnSuccessListener { result ->
+//                for (document in result) {
+//                    val data = document.toObject(ProductsLandingPage::class.java)
+//                    list.add(data)
+//                    Log.d("datarepo",document.toString())
+//                }
+//                //Log.d("main product", list.size.toString())
+//            }
+//            .addOnFailureListener { exception ->
+//                Log.w("main", "Error getting documents top rated products.", exception)
+//            }
 
-        return list
+//        return list
     }
 
 
@@ -181,21 +181,22 @@ class StoreRepository @Inject constructor(private val db:FirebaseFirestore){
 
 
 
-    suspend fun getcategorytable(): List<Taxon> {
-         var catdata:MutableList<Taxon> = mutableListOf()
-        db.collection("new").document("category").get().addOnSuccessListener { result ->
-
-            val result=result.toObject(categoryclass::class.java)!!
-
-            result.taxonomiesLandingPage[0].root.taxons.forEach{listdata->catdata.add(listdata)}
-            Log.d("catrepo",catdata.toString())
-
-        }.addOnFailureListener {Log.d("getcategorytable","failed")
-
-        }
-
-        Log.d("catrepo",catdata.toString())
-        return catdata
+    suspend fun getcategorytable(): DocumentReference {
+//         var catdata:MutableList<Taxon> = mutableListOf()
+       return db.collection("new").document("category")
+//            .get().addOnSuccessListener { result ->
+//
+//            val result=result.toObject(categoryclass::class.java)!!
+//
+//            result.taxonomiesLandingPage[0].root.taxons.forEach{listdata->catdata.add(listdata)}
+//            Log.d("catrepo",catdata.toString())
+//
+//        }.addOnFailureListener {Log.d("getcategorytable","failed")
+//
+//        }
+//
+//        Log.d("catrepo",catdata.toString())
+//        return catdata
     }
 
 
