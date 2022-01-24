@@ -77,7 +77,7 @@ class StoreRepository @Inject constructor(private val db:FirebaseFirestore){
         var list: ArrayList<newAllProductsDetailPage> = ArrayList()
 
         Log.i("catId",catId.toString())
-        return db.collection("allproductsdetails").whereEqualTo("parentId",catId)
+        return db.collection("allProductsDetails").whereEqualTo("parentId",catId)
 //            .get()
 //          .addOnSuccessListener { result ->
 //                for (document in result) {
@@ -99,7 +99,7 @@ class StoreRepository @Inject constructor(private val db:FirebaseFirestore){
 
     suspend fun getProductToprated(): CollectionReference {
         var list: ArrayList<ProductsLandingPage> = ArrayList()
-         return db.collection("topratedproducts")
+         return db.collection("topRatedProducts")
 //            .get()
 //            .addOnSuccessListener { result ->
 //                for (document in result) {
@@ -181,9 +181,10 @@ class StoreRepository @Inject constructor(private val db:FirebaseFirestore){
 
 
 
+
     suspend fun getcategorytable(): DocumentReference {
 //         var catdata:MutableList<Taxon> = mutableListOf()
-       return db.collection("new").document("category")
+       return db.collection("Category").document("Category")
 //            .get().addOnSuccessListener { result ->
 //
 //            val result=result.toObject(categoryclass::class.java)!!
@@ -202,27 +203,37 @@ class StoreRepository @Inject constructor(private val db:FirebaseFirestore){
 
 
 
-
+//
 //    suspend fun addproductscompletedetails(rd:newproductschema){
 //        Log.d("random", "addrandom: procss started")
 //        withContext(Dispatchers.IO){
 //            for((index,data) in rd.newallProductsDetailPage.withIndex()) {
 //
-//                db.collection("allproductsdetails").document(data.attributes.name).set(data)
+//                db.collection("allProductsDetails").document(data.attributes.name).set(data)
 //                    .addOnSuccessListener { Log.d("random", "addrandom: procss succeed $index") }
 //                    .addOnFailureListener { Log.d("random", "addrandom: procss failed $index") }
 //            }
 //        }}
-suspend fun addrandom(rd:homeproducts){
-    Log.d("random", "addrandom: procss started")
-    withContext(Dispatchers.IO){
-        for((index,data) in rd.topRatedProductsLandingPage.withIndex()) {
+//suspend fun addrandom(rd:homeproducts){
+//    Log.d("random", "addrandom: procss started")
+//    withContext(Dispatchers.IO){
+//        for((index,data) in rd.topRatedProductsLandingPage.withIndex()) {
+//
+//            db.collection("favouritesProducts").document(data.attributes.name).set(data)
+//                .addOnSuccessListener { Log.d("random", "addrandom: procss succeed $index") }
+//                .addOnFailureListener { Log.d("random", "addrandom: procss failed $index") }
+//        }
+//    }}
 
-            db.collection("topratedproducts").document(data.attributes.name).set(data)
-                .addOnSuccessListener { Log.d("random", "addrandom: procss succeed $index") }
-                .addOnFailureListener { Log.d("random", "addrandom: procss failed $index") }
-        }
-    }}
+    suspend fun addcatjson(rd:categoryclass){
+        Log.d("random", "addrandom: procss started")
+        withContext(Dispatchers.IO){
+
+            db.collection("Category").document("Category").set(rd)
+                    .addOnSuccessListener { Log.d("random", "addrandom: procss succeed ") }
+                    .addOnFailureListener { Log.d("random", "addrandom: procss failed ") }
+
+        }}
 
 
     suspend fun addUser(user: User){
@@ -252,7 +263,7 @@ suspend fun addrandom(rd:homeproducts){
          var list: ArrayList<newAllProductsDetailPage> = ArrayList()
 
          Log.i("Id",Id.toString())
-         db.collection("allproductsdetails").whereEqualTo("id",Id).get()
+         db.collection("allProductsDetails").whereEqualTo("id",Id).get()
              .addOnSuccessListener { result ->
                  for (document in result) {
                      val data = document.toObject(newAllProductsDetailPage::class.java)

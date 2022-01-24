@@ -236,15 +236,14 @@ class DetailsFragment : Fragment() {
                         ) {
                             Box(
                                 modifier = Modifier
-                                    .height(473.dp)
-                                    .fillMaxWidth()
+                                    .fillMaxWidth().aspectRatio(1f)
                             ) {
                                 CoilImage(
                                     imageModel = data.images[page],
                                     contentDescription = "artist",
                                     modifier = Modifier
                                         .fillMaxWidth()
-                                        .height(473.dp),
+                                        .aspectRatio(1f),
                                     alignment = Alignment.Center,
                                     contentScale = ContentScale.Crop
 

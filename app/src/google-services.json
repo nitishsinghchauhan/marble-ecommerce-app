@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "713645491179",
+    "firebase_url": "https://examarble-7d5e4-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "examarble-7d5e4",
+    "storage_bucket": "examarble-7d5e4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:713645491179:android:3eef0c3638c0fc5cf80fae",
+        "android_client_info": {
+          "package_name": "com.example.examarble"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "713645491179-p3b8pkp8poftq9rjni9vseflljsj3bhf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqGDv3IODSBFGsO7VeLVVBKv3LeAr1CqA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "713645491179-p3b8pkp8poftq9rjni9vseflljsj3bhf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

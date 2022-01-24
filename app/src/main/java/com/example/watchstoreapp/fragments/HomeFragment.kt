@@ -211,43 +211,117 @@ class HomeFragment : Fragment(){
                         .fillMaxWidth()
                         .wrapContentHeight()
                         .padding(10.dp)
-                        .background(Color.White)) {
-                catbox(catlist)}
-                Text(text = "New Arrivals", fontSize = 16.sp, fontFamily = FontFamily(Font(R.font.whitneymedium)), color = Color.Black, fontWeight=FontWeight.Bold,modifier = Modifier.padding(top = 18.dp, bottom = 12.dp, start = 10.dp))
+                        .background(Color.White)
+                ) {
+                    catbox(catlist)
+                }
+                Box(
+                    modifier = Modifier.fillMaxWidth().wrapContentHeight()
+                        .padding(horizontal = 10.dp, vertical = 5.dp)
+                ) {
+                    CoilImage(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentHeight()
+                            .clip(shape = RoundedCornerShape(5.dp)),
+                        imageModel = imageBanner1,
+                        contentScale = ContentScale.FillWidth
+                    )
+
+                }
+                Text(
+                    text = "New Arrivals",
+                    fontSize = 16.sp,
+                    fontFamily = FontFamily(Font(R.font.whitneymedium)),
+                    color = Color.Black,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(top = 10.dp, bottom = 12.dp, start = 10.dp)
+                )
                 if (prolist.isEmpty()) {
-                    Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.TopCenter) {
+                    Box(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentAlignment = Alignment.TopCenter
+                    ) {
                         CircularProgressIndicator(color = colorResource(id = R.color.primary))
                     }
                 } else {
-                    LazyRow(modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentHeight(), horizontalArrangement = Arrangement.spacedBy(8.dp), contentPadding = PaddingValues(start=10.dp)){items(prolist){pro->productcardnew(pro = pro)} }
+                    LazyRow(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentHeight(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        contentPadding = PaddingValues(start = 10.dp)
+                    ) { items(prolist) { pro -> productcardnew(pro = pro) } }
                 }
 
 
-                Text(text = "Trending Now", fontSize = 16.sp, fontFamily = FontFamily(Font(R.font.whitneymedium)), color = Color.Black,fontWeight=FontWeight.Bold, modifier = Modifier.padding(top = 28.dp, bottom = 12.dp, start = 10.dp))
+                Text(
+                    text = "Trending Now",
+                    fontSize = 16.sp,
+                    fontFamily = FontFamily(Font(R.font.whitneymedium)),
+                    color = Color.Black,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(top = 28.dp, bottom = 12.dp, start = 10.dp)
+                )
                 if (prolist.isEmpty()) {
-                    Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.TopCenter) {
+                    Box(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentAlignment = Alignment.TopCenter
+                    ) {
                         CircularProgressIndicator(color = colorResource(id = R.color.primary))
                     }
                 } else {
-                    LazyRow(modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentHeight(), horizontalArrangement = Arrangement.spacedBy(8.dp), contentPadding = PaddingValues(start=10.dp)){items(prolist){pro->productcardnew(pro = pro)} }
+                    LazyRow(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentHeight(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        contentPadding = PaddingValues(start = 10.dp)
+                    ) { items(prolist) { pro -> productcardnew(pro = pro) } }
                 }
 
 
-                Text(text = "Top Rated Products", fontSize = 16.sp, fontFamily = FontFamily(Font(R.font.whitneymedium)), color = Color.Black,fontWeight=FontWeight.Bold, modifier = Modifier.padding(top = 28.dp, bottom = 12.dp, start = 10.dp))
+                Text(
+                    text = "Top Rated Products",
+                    fontSize = 16.sp,
+                    fontFamily = FontFamily(Font(R.font.whitneymedium)),
+                    color = Color.Black,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(top = 28.dp, bottom = 12.dp, start = 10.dp)
+                )
                 if (prolist.isEmpty()) {
-                    Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.TopCenter) {
-                        CircularProgressIndicator(color = colorResource(id = R.color.primary))}
+                    Box(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentAlignment = Alignment.TopCenter
+                    ) {
+                        CircularProgressIndicator(color = colorResource(id = R.color.primary))
+                    }
                 } else {
-                    LazyRow(modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentHeight(), horizontalArrangement = Arrangement.spacedBy(8.dp), contentPadding = PaddingValues(start=10.dp)){items(prolist){pro->productcardnew(pro = pro)} }
+                    LazyRow(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentHeight(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        contentPadding = PaddingValues(start = 10.dp)
+                    ) { items(prolist) { pro -> productcardnew(pro = pro) } }
                 }
                 Spacer(modifier = Modifier.height(30.dp))
 
+
+                Box(
+                    modifier = Modifier.fillMaxWidth().wrapContentHeight()
+                        .padding(horizontal = 10.dp, vertical = 5.dp)
+                ) {
+                    CoilImage(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentHeight()
+                            .clip(shape = RoundedCornerShape(5.dp)),
+                        imageModel = imageBanner2,
+                        contentScale = ContentScale.FillWidth
+                    )
+
+                }
             }
 
         }
@@ -361,22 +435,26 @@ class HomeFragment : Fragment(){
                             .fillMaxWidth()
                             .padding(10.dp), horizontalArrangement = Arrangement.Center) {
                         Text(text = "Privacy\nPolicy ", fontSize = 12.sp, fontFamily = FontFamily(Font(R.font.whitneymedium)), color = colorResource(id = R.color.secondary_text),
-                            modifier = Modifier.width(45.dp).clickable {
-                                startActivity(
-                                    Intent(Intent.ACTION_VIEW).setData(
-                                        Uri.parse("https://examarble.com/info/Privacy%20Policy")
+                            modifier = Modifier
+                                .width(45.dp)
+                                .clickable {
+                                    startActivity(
+                                        Intent(Intent.ACTION_VIEW).setData(
+                                            Uri.parse("https://examarble.com/info/Privacy%20Policy")
+                                        )
                                     )
-                                )
-                            }, textAlign = TextAlign.Center)
+                                }, textAlign = TextAlign.Center)
                         Spacer(modifier = Modifier.width(10.dp))
                         Text(text = " About\nUs", fontSize = 12.sp, fontFamily = FontFamily(Font(R.font.whitneymedium)), color = colorResource(id = R.color.secondary_text),
-                            modifier = Modifier.width(45.dp).clickable {
-                                startActivity(
-                                    Intent(Intent.ACTION_VIEW).setData(
-                                        Uri.parse("https://examarble.com/info/About%20Us")
+                            modifier = Modifier
+                                .width(45.dp)
+                                .clickable {
+                                    startActivity(
+                                        Intent(Intent.ACTION_VIEW).setData(
+                                            Uri.parse("https://examarble.com/info/About%20Us")
+                                        )
                                     )
-                                )
-                            }, textAlign = TextAlign.Center)
+                                }, textAlign = TextAlign.Center)
                     }
                     Spacer(modifier = Modifier.height(40.dp))
 
@@ -742,7 +820,10 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) 
             failure = {
                 Box(modifier= Modifier
                     .size(75.dp), contentAlignment = Alignment.Center) {
-                    Column(Modifier.fillMaxWidth().wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally) {
+                    Column(
+                        Modifier
+                            .fillMaxWidth()
+                            .wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally) {
                         Image(
                             modifier = Modifier
                                 .width(30.dp)
@@ -828,7 +909,10 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) 
                         Box(modifier= Modifier
                             .fillMaxWidth()
                             .height(170.dp), contentAlignment = Alignment.Center) {
-                            Column(Modifier.fillMaxWidth().wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally) {
+                            Column(
+                                Modifier
+                                    .fillMaxWidth()
+                                    .wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally) {
                                 Image(
                                     modifier = Modifier
                                         .width(60.dp)
@@ -857,7 +941,7 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) 
                     modifier = Modifier
                         .background(Color(0x66dddddd))
                         .fillMaxWidth()
-                        .padding(5.dp), contentAlignment = Alignment.TopCenter
+                        .padding(8.dp), contentAlignment = Alignment.TopCenter
                 ) {
                     Text(text = pro.attributes.name,
                         color = colorResource(id = R.color.secondary_text),fontWeight= FontWeight.W400,fontFamily = FontFamily(
@@ -869,32 +953,32 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) 
                     CircularProgressIndicator(modifier = Modifier.size(18.dp),color = colorResource(id = R.color.primary))}
 
                 }
-                Row(
-                    Modifier
-                        .background(Color(0x66dddddd))
-                        .fillMaxWidth()
-                        .wrapContentHeight()
-                        .padding(start = 10.dp, top = 10.dp, bottom = 5.dp, end = 5.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-                    Row(Modifier.wrapContentWidth()) {
-
-                        Text(
-                            text = "₹${pro.attributes.price}",
-                            fontSize = 16.sp,
-                            fontFamily = FontFamily(Font(R.font.montserrat_bold)),
-                            color = colorResource(id = R.color.primary)
-                        )
-                        Spacer(modifier = Modifier.width(5.dp))
-                        Text(
-                            text = "₹${pro.attributes.price}",
-                            style = TextStyle(textDecoration = TextDecoration.LineThrough),
-                            fontSize = 16.sp,
-                            fontFamily = FontFamily(Font(R.font.montserrat_bold)),
-                            color = colorResource(id = R.color.darker_gray)
-                        )
-                    }
-                    RatingBar( padding = 0.dp, onRatingChanged = {}, inactiveColor = Color.LightGray, size=14.dp,value=pro.attributes.avgRating.toFloat(), isIndicator = true,onValueChange ={}  )
-
-                }
+//                Row(
+//                    Modifier
+//                        .background(Color(0x66dddddd))
+//                        .fillMaxWidth()
+//                        .wrapContentHeight()
+//                        .padding(start = 10.dp, top = 10.dp, bottom = 5.dp, end = 5.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+//                    Row(Modifier.wrapContentWidth()) {
+//
+//                        Text(
+//                            text = "₹${pro.attributes.price}",
+//                            fontSize = 16.sp,
+//                            fontFamily = FontFamily(Font(R.font.montserrat_bold)),
+//                            color = colorResource(id = R.color.primary)
+//                        )
+//                        Spacer(modifier = Modifier.width(5.dp))
+//                        Text(
+//                            text = "₹${pro.attributes.price}",
+//                            style = TextStyle(textDecoration = TextDecoration.LineThrough),
+//                            fontSize = 16.sp,
+//                            fontFamily = FontFamily(Font(R.font.montserrat_bold)),
+//                            color = colorResource(id = R.color.darker_gray)
+//                        )
+//                    }
+//                    RatingBar( padding = 0.dp, onRatingChanged = {}, inactiveColor = Color.LightGray, size=14.dp,value=pro.attributes.avgRating.toFloat(), isIndicator = true,onValueChange ={}  )
+//
+//                }
 
 
             }
